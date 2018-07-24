@@ -1,0 +1,345 @@
+#!/usr/bin/env python
+
+## qc - a compiler for Qu-Prolog
+## Copyright (C) 2000-Wednesday 16 May  13:50:25 AEST 2018 
+##
+## This program is free software; you can redistribute it and/or
+## modify it under the terms of the GNU General Public License
+## as published by the Free Software Foundation; either version 2
+## of the License, or (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with this program; if not, write to the Free Software
+## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+## 02110-1301, USA.
+
+import sys
+import getopt
+import subprocess
+import shutil
+import os
+import stat
+
+##############################
+
+preprocess='/home/pjr/research/qp_dev/rel/qp10.1/bin/qppp'
+expand='/home/pjr/research/qp_dev/rel/qp10.1/bin/qg'
+qpcompile='/home/pjr/research/qp_dev/rel/qp10.1/bin/qc1'
+compversion='qup'
+assemble='/home/pjr/research/qp_dev/rel/qp10.1/bin/qa'
+link='/home/pjr/research/qp_dev/rel/qp10.1/bin/ql'
+execute='/home/pjr/research/qp_dev/rel/qp10.1/bin/qem'
+libqofiles="/home/pjr/research/qp_dev/rel/qp10.1/prolog/compiler/*.qo /home/pjr/research/qp_dev/rel/qp10.1/prolog/library/*.qo"
+
+##############################
+
+
+options = 'Zd:p:rs:u:a:B:O:I:n:i:C:e:h:T:H:GD:ER:Sco:vX'
+
+version3 = sys.version.startswith('3')
+
+version3_print = """
+def printit(text):
+    print(text)
+"""
+version2_print = """
+def printit(text):
+    print text
+"""
+if version3:
+    exec(version3_print)
+else:
+    exec(version2_print)
+
+def usage():
+    printit("Usage: qc [%s] file.q[ligso] ... [-- options for Qu-Prolog programs]" % options)
+ 
+def verbose(flag, text):
+    if flag:
+        printit(text)
+
+def shcall(call):
+    retcode = subprocess.call(call, shell=True)
+    if retcode != 0:
+        printit("Error in %s" % ' '.join(call))
+        sys.exit()  
+
+def wrapq(filename):
+    return '"'+filename+'"'
+
+def main():
+    args = sys.argv[1:]
+    qlfiles = []
+    qlefiles=[]
+    qifiles=[]
+    qgfiles=[]
+    qgefiles=[]
+    qsfiles=[]
+    qofiles=[]
+    
+    newqifiles=[]
+    newqgfiles=[]
+    newqgefiles=[]
+    newqsfiles=[]
+    newqofiles=[]
+
+    eflag = False
+    gflag = False
+    sflag = False
+    cflag = False
+    vflag = False
+    rlflag = False
+
+    Goptions = []
+    Poptions = []
+    Coptions = []
+    Aoptions = []
+    Loptions = []
+    Eoptions = []
+    exfile = 'a.out'
+    compversion = 'qup'
+
+    try:
+        optlist, args = getopt.getopt(args, options)
+    except:
+        usage()
+        sys.exit()
+    
+    for (option, arg) in optlist:
+        option = option[1:]
+        if option == 'Z':
+            compversion = 'boot'
+        elif option == 'E':
+            eflag = True
+        elif option == 'G':
+            gflag = True
+        elif option == 'S':
+            sflag = True
+        elif option == 'c':
+            cflag = True
+        elif option == 'v':
+            vflag = True
+        elif option == 'r':
+            rlflag = True
+        elif option == 'o':
+            exfile = arg
+            if arg == '':
+                printit('qc: null output file name')
+                sys.exit()
+            elif arg.endswith('.qg') or  arg.endswith('.ql') or  arg.endswith('.qs'):
+                printit('qc: dangerous output file name: %s' % arg)
+                sys.exit()
+            elif arg.endswith('.qge') or  arg.endswith('.qle') or  arg.endswith('.qse'):
+                printit('qc: dangerous output file name: %s' % arg)
+                sys.exit()
+        elif option == 'D':
+            if arg.startswith('-'):
+                usage()
+                sys.exit()
+            Poptions.append("-%s%s" % (option, arg))
+        elif option == 'R':
+            if arg.startswith('-'):
+                usage()
+                sys.exit()
+            Goptions.append("-%s %s" % (option, arg))
+        elif option in list('dpa'):
+            Loptions.append("-%s %s" % (option, arg))
+            Eoptions.append("-%s %s" % (option, arg))
+        elif option in list('su'):
+            Coptions.append("-%s %s" % (option, arg))
+            Loptions.append("-%s %s" % (option, arg))
+            Eoptions.append("-%s %s" % (option, arg))            
+        elif option in list('BOICehTHni'):
+            Coptions.append("-%s %s" % (option, arg))
+        elif option == 'X':
+            Eoptions.append("-%s %s" % (option, arg)) 
+        else:
+            usage()
+            sys.exit()
+
+    otherargs = []
+    for i, arg in enumerate(args):
+        if arg.endswith('.ql'):
+            qlfiles.append(arg)
+        elif arg.endswith('.pl'):
+            qlfiles.append(arg)
+        elif arg.endswith('.qle'):
+            qlefiles.append(arg)
+        elif arg.endswith('.qi'):
+            qifiles.append(arg)
+        elif arg.endswith('.qg'):
+            qgfiles.append(arg)
+        elif arg.endswith('.qge'):
+            qgefiles.append(arg)
+        elif arg.endswith('.qs'):
+            qsfiles.append(arg)
+        elif arg.endswith('.qo'):
+            qofiles.append(arg)
+        else:
+            if arg == '--': continue
+            otherargs.append(arg)
+
+
+    allfiles = qlfiles + qlefiles + qifiles + qgfiles + qgefiles + qsfiles + qofiles
+    if allfiles == []:
+        usage()
+        sys.exit()
+
+    verbose(vflag, "preprocessing ...")
+
+    for arg in qlfiles:
+        verbose(vflag, "      %s" % arg)
+        stem = arg.rsplit('.', 1)[0]
+        newfile = stem+'.qi'
+        try:
+            fp = open(arg, 'U')
+        except:
+            printit("Can't open %s" % arg)
+            sys.exit()
+        p = subprocess.Popen([preprocess]+Poptions, stdin=fp, stdout=subprocess.PIPE)
+        try:
+            ofp = open(newfile, 'w')
+        except:
+            printit("Can't open %s" % newfile)
+            sys.exit()
+        text = p.communicate()[0]
+        ofp.write(text.decode())
+        fp.close()
+        ofp.close()
+        newqifiles.append(newfile)
+
+    if eflag: return
+ 
+    #
+    # first pass for encoded files: expand (.qle -> .qge)
+    #
+
+    verbose(vflag, "expanding encoded ...")
+    
+    for arg in qlefiles:
+        verbose(vflag, "      %s" % arg)
+        stem = arg.rsplit('.', 1)[0]
+        call = [expand]+Coptions+['--']+Goptions+[stem+'.qle']
+        shcall(call)
+        newqgefiles.append(stem+'.qge')
+
+    #
+    # second pass: expand (.qi -> .qg)
+    #
+    verbose(vflag, "expanding ...")
+    for arg in qifiles+newqifiles:
+        verbose(vflag, "      %s" % arg)
+        stem = arg.rsplit('.', 1)[0]
+        if compversion == 'boot':
+            shutil.copy(arg, stem+'.qg')
+        else:
+            call = [expand]+Coptions+['--']+Goptions+[wrapq(arg)]
+            shcall([' '.join(call)])
+        newqgfiles.append(stem+'.qg')
+       
+    for f in newqifiles:
+        os.remove(f)
+
+    if gflag: return
+
+    #
+    # third pass: compile (.qge -> .qs)
+    #
+    verbose(vflag, "compiling ...")
+    for arg in qgefiles+newqgefiles:
+        verbose(vflag, "      %s" % arg)
+        stem = arg.rsplit('.', 1)[0]
+        call = [qpcompile+'.'+compversion]+Coptions+[wrapq(arg)]
+        shcall([' '.join(call)])
+        newqsfiles=stem+'.qs'
+    #
+    # third pass (unencoded): compile (.qg -> .qs)
+    #
+    for arg in qgfiles+newqgfiles:
+        verbose(vflag, "      %s" % arg)
+        stem = arg.rsplit('.', 1)[0]
+        call = [qpcompile+'.'+compversion]+Coptions+[wrapq(arg)]
+        shcall([' '.join(call)])
+        newqsfiles.append(stem+'.qs')
+
+    for f in newqgfiles:
+        os.remove(f)
+
+    if sflag: return
+
+    #
+    # fourth pass: assemble (.qs -> .qo)
+    #
+    verbose(vflag, "assembling ...")
+    for arg in qsfiles+newqsfiles:
+        verbose(vflag, "      %s" % arg)
+        stem = arg.rsplit('.', 1)[0]
+        outfile = stem+'.qo'
+        if exfile != "a.out" and cflag:
+            call = [assemble]+Aoptions+['-i', wrapq(arg), '-o', 
+                                        wrapq(exfile)]
+        else:
+            call = [assemble]+Aoptions+['-i', wrapq(arg), '-o', 
+                                        wrapq(outfile)]
+        shcall([' '.join(call)])
+        newqofiles.append(stem+'.qo')
+
+    for f in newqsfiles:
+        os.remove(f)
+
+    if cflag: return
+        
+
+    verbose(vflag, "compiling ...")
+    # make an absolute version of exfile
+    exfile = os.path.expandvars(exfile)
+    exfile = os.path.abspath(exfile)
+    savefile = exfile+'.qx'
+    call = [link, '-o', wrapq(savefile)] + Loptions + [libqofiles] + \
+        [wrapq(f) for f in qofiles + newqofiles]
+    shcall([' '.join(call)])
+    parts = os.path.split(exfile)
+    base = parts[0]
+    exname = parts[1]
+    rl_commands_file = os.path.join(base, 'rl_commands')
+
+    for f in newqofiles:
+        os.remove(f)
+
+    fp = open(exfile, 'w')
+    if rlflag:
+        fp.write('if [ "`which rlwrap`" != "" ]; then\n')
+        fp.write("exec rlwrap -b ' ' -C %s -f %s " % (exname, rl_commands_file))
+        fp.write(execute)
+        fp.write(' ')
+        fp.write(' '.join(Eoptions))
+        fp.write(" -Q '"+savefile+"'"+' "$@" -- %s\n' % ' '.join(otherargs))
+        fp.write('else\n')
+        fp.write('exec ')
+        fp.write(execute)
+        fp.write(' ')
+        fp.write(' '.join(Eoptions))
+        fp.write(" -Q '"+savefile+"'"+' "$@" -- %s\n' % ' '.join(otherargs))
+        fp.write('fi\n')
+    else:
+        fp.write('exec ')
+        fp.write(execute)
+        fp.write(' ')
+        fp.write(' '.join(Eoptions))
+        fp.write(" -Q '"+savefile+"'"+' "$@" -- %s\n' % ' '.join(otherargs))
+    fp.close()
+    os.chmod(exfile, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | \
+                 stat.S_IRGRP | stat.S_IXGRP | \
+                 stat.S_IROTH |stat.S_IXOTH) 
+    
+  
+    
+  
+
+if __name__ == '__main__': 
+    main()

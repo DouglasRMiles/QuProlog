@@ -1,0 +1,29 @@
+#
+# Makefile for "qod"
+#
+export COMMAND.qod = qod
+
+export SOURCES.qod = qod.cc
+
+BASES.qod	= $(basename $(SOURCES.qod))
+OBJECTS.qod	= $(addsuffix .o,$(BASES.qod))
+
+export GENERATED.qod =
+
+.PHONY:	all.qod
+all.qod:	$(COMMAND.qod)
+
+$(COMMAND.qod): $(OBJECTS.qod) $(LIBRARY.library) $(LIBRARY.thread)
+	$(CXX) $(LDFLAGS) -o $(COMMAND.qod) $(OBJECTS.qod) @LIBS@ $(LIBRARY.library) $(LIBRARY.thread)
+
+.PHONY: install.qod
+install.qod: @QPHOME@/bin/$(COMMAND.qod)
+
+@QPHOME@/bin/$(COMMAND.qod): $(COMMAND.qod)
+	@INSTALL@ $(COMMAND.qod) @QPHOME@/bin
+
+.PHONY: clean.qod
+clean.qod:
+	$(RM) $(OBJECTS.qod) $(COMMAND.qod) Makefile.qod
+
+

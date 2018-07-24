@@ -1,0 +1,126 @@
+.\" Copyright (c) Software Verification Research Centre - All Rights Reserved.
+.TH qem 1 "1 October 1996" SVRC
+.SH NAME
+qem \- Qu-Prolog emulator
+.SH SYNOPSIS
+.B qem
+[
+.BI \-C size
+]
+[
+.BI \-T size
+]
+[
+.BI \-a size
+]
+[
+.BI \-e size
+]
+[
+.BI \-h size
+]
+[
+.BI \-i size
+]
+[
+.BI \-n size
+]
+[
+.BI \-p size
+]
+[
+.BI \-s size
+]
+[
+.BI \-t size
+]
+.BI \-Q executable
+.B \-\- application_options
+.SH DESCRIPTION
+\f4qem\f1 is the emulator for Qu-Prolog.
+It executes compiled Qu-Prolog programs.
+Any option required by the Qu-Prolog program can be sent via
+\f4application_options\f1 after \f4\-\-\f1.
+.SH OPTIONS
+.TP
+.BI \-Q executable
+Specify the executable data file to be used.
+The file expects to have a \f4.qx\f1 suffix.
+.PP
+The following options alter the size of different data areas.
+.TP
+.BI \-C size
+Set the choice point stack to
+.I size
+K words.
+The default size is 64K words.
+.TP
+.BI \-B size
+Set the binding trail to
+.I size
+K words.
+The default size is 32K words.
+.TP
+.BI \-O size
+Set the other trail to
+.I size
+K words.
+The default size is 32K words.
+.TP
+.BI \-a size
+Set the atom table to
+.I size
+entries.
+The system makes the size of the table the next power of two bigger than twice the supplied size. The default size is 10000. 
+.TP
+.BI \-e size
+Set the environment stack to
+.I size
+K words.
+The default size is 64K words.
+.TP
+.BI \-h size
+Set the heap to
+.I size
+K cells (words).
+The default size is 400K cells (words).
+.TP
+.BI \-i size
+Set the implicit parameter size to
+.I size
+K bytes.
+The system makes the size of the table the next power of two bigger than twice the supplied size. The default size is 10000.
+.TP
+.BI \-n size
+Set the name table to
+.I size
+entries.
+The system makes the size of the table the next power of two bigger than twice the supplied size. The default size is 10000.
+.TP
+.BI \-p size
+Set the predicate table to
+.I size
+entries
+The system makes the size of the table the next power of two bigger than twice the supplied size. The default size is 10000. 
+.TP
+.BI \-s size
+Set the string table to
+.I size
+K bytes.
+The default size is 64K bytes.
+.TP
+.SH FILES
+.PD 0
+.TP 20
+.IB file .qx
+executable data file
+.PD
+.SH SEE ALSO
+.BR cpp (1),
+.BR qa (1),
+.BR qc (1),
+.BR ql (1),
+.BR qp (1).
+.SH COPYRIGHT
+Software Verification Research Centre, Department of Computer Science, The
+University of Queensland, Australia 4072.

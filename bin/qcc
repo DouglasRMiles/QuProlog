@@ -1,0 +1,6 @@
+#! /bin/sh
+#
+# This shell script is for compiling foreign functions.
+#
+
+g++ -fno-strict-aliasing -DNDEBUG -Wall -fPIC -D_GNU_SOURCE=1 -D_THREAD_SAFE=1 -D_REENTRANT=1 -Wno-uninitialized -c -g -O2 -I/home/pjr/research/qp_dev/rel/qp10.1/src  $*

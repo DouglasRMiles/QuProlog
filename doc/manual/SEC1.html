@@ -1,0 +1,418 @@
+<HTML>
+<HEAD>
+<!-- Created by texi2html 1.56k from main.tex on 30 November 1999 -->
+<!-- Edited by Michael Walters on 30 Novemeber 1999 -->
+
+<TITLE>Qu-Prolog 10.1 Reference Manual - Getting Started</TITLE>
+</HEAD>
+
+<BODY>
+
+<!-- Section 1 -->
+<H1><A NAME="Section1" >1 Getting Started</A></H1>
+
+<P>This section describes how to set up the required environment variables and briefly describes how to run the interpreter and compiler.
+
+
+<!-- Section 1.1 -->
+
+<H2><A NAME="Section1.1">1.1 Environment Variables</A></H2>
+
+<P> The root directory of the Qu-Prolog tree contains the files
+<KBD>PROFILE_CMDS</KBD> and <KBD>LOGIN_CMDS</KBD> that can be used
+to define the required environment variables.
+
+<!-- Section 1.2 -->
+<H2><A NAME="Section1.2">1.2 Data Areas</A></H2>
+
+<P>Qu-Prolog contains several data areas that store execution state 
+information.  
+The sizes of these areas can be set at runtime or when new threads are
+created.  The data areas are described below.
+
+<P> The global stack (sometimes called the heap).
+
+<BLOCKQUOTE>
+The global stack stores the Qu-Prolog terms build during forward execution.
+</BLOCKQUOTE>
+
+<P> The scratch pad.
+
+<BLOCKQUOTE>
+The scratch pad is used for storing terms temporarily during the execution of
+<KBD>findall</KBD>, <KBD>setof</KBD>
+and <KBD>bagof</KBD> and for simplifying terms involving substitutions.
+</BLOCKQUOTE>
+
+<P> The local stack (environment stack).
+
+<BLOCKQUOTE>
+The local stack contains all the environments for the current execution state.
+</BLOCKQUOTE>
+
+<P> The choice point stack.
+
+<BLOCKQUOTE>
+The choice point stack contains all the choice points for the current execution state.
+</BLOCKQUOTE>
+
+<P> The binding trail.
+
+<BLOCKQUOTE>
+This trail is used to determine which variables should be reset to unbound
+on backtracking.
+</BLOCKQUOTE>
+
+<P> The other trail.
+
+<BLOCKQUOTE>
+Some Qu-Prolog data structures change values during computation and this trail
+is used to reset these data structures to their old values on backtracking.
+Such data structures include the delay list associated with a variable,
+the distinctness information associated with an object variable, the
+names of variables, and implicit parameters.
+It is also used to manage variable tags, reference counts for the dynamic database and <KBD>call_cleanup</KBD>.
+</BLOCKQUOTE>
+
+<P> The code area.
+
+<BLOCKQUOTE>
+The code area is used to store the static (compiled) code. It includes all the
+Qu-Prolog library code.
+</BLOCKQUOTE>
+
+<P> The string table.
+
+<BLOCKQUOTE>
+The string table stores all the strings used as the names of atoms.
+</BLOCKQUOTE>
+
+<P> The name table.
+
+<BLOCKQUOTE>
+The name table is a hash table used to associate variable names with variables.
+</BLOCKQUOTE>
+
+<P> The implicit parameter table.
+
+<BLOCKQUOTE>
+The implicit parameter table is a hash table that stores (pointers to) 
+the current value of
+the implicit parameters.
+</BLOCKQUOTE>
+
+<P> The atom table.
+
+<BLOCKQUOTE>
+The atom table is a hash table that stores information about atoms.
+</BLOCKQUOTE>
+
+<P> The predicate table.
+
+<BLOCKQUOTE>
+The predicate table is a hash table that associates predicates (name and arity)
+with the code for the predicate.
+</BLOCKQUOTE>
+
+<!-- Section 1.3 -->
+
+<H2><A NAME="Section1.3">1.3 Running the Interpreter</A></H2>
+
+<P><KBD>qp</KBD> is the name of the Qu-Prolog interpreter. From a <KBD>Unix</KBD> shell, Qu-Prolog is started by typing:
+
+<P><KBD>qp</KBD>
+
+<P>When the interpreter is ready to accept a query, it will prompt you with
+
+<P><KBD>| ?-</KBD>
+
+<P>When the interpreter displays an answer it is accompanied with any delayed problems (constraints) relevant to the query.  After the interpreter displays an answer to a query it expects input from the user. If the user enters a semi-colon then the interpreter will attempt to find another solution to the query. If the user enters a RETURN then the interpreter will prompt for a new query. If the user enters a comma then the interpreter will enter a new level where the user can extend the current query with more goals. Any variables in the original query and in the displayed answer to that query may be referenced in the extended query. The user may return to the previous level by entering a CONTROL-D at the prompt. The interpreter is able to maintain references to variables by using the variants of <KBD>read</KBD> and <KBD>write</KBD> that remember and generate variable names.
+
+<P>The available switches for the interpreter (and any Qu-Prolog 
+runtime system) are as follows.
+
+<P><KBD>-B size</KBD>
+<BLOCKQUOTE>
+Set the binding trail size to <KBD>size</KBD> K words. The default size is 32K.
+</BLOCKQUOTE>
+
+<P><KBD>-O size</KBD>
+<BLOCKQUOTE>
+Set the other trail size to <KBD>size</KBD> K words. The default size is 32K.
+</BLOCKQUOTE>
+
+<P><KBD>-i size</KBD>
+<BLOCKQUOTE>
+Set the implicit parameter table size to <KBD>size</KBD> entries. 
+The system makes the size of the table the next power of two
+bigger than twice the supplied size.
+The default size is 10000.
+</BLOCKQUOTE>
+
+<P><KBD>-b size</KBD>
+<BLOCKQUOTE>
+Set the recode database to <KBD>size</KBD> K words. 
+The default size is 64K.
+</BLOCKQUOTE>
+
+<P><KBD>-C size</KBD>
+<BLOCKQUOTE>
+Set the choice point stack to <KBD>size</KBD> K words. 
+The default size is 64K.
+</BLOCKQUOTE>
+
+<P><KBD>-e size</KBD>
+<BLOCKQUOTE>
+Set the environment stack to <KBD>size</KBD> K words. 
+The default size is 64K.
+</BLOCKQUOTE>
+
+<P><KBD>-h size</KBD>
+<BLOCKQUOTE>
+Set the heap (global stack) to <KBD>size</KBD> K words. 
+The default size is 400K.
+</BLOCKQUOTE>
+
+<P><KBD>-H size</KBD>
+<BLOCKQUOTE>
+Set the scratch pad to <KBD>size</KBD> K words. 
+The default size is 10K.
+</BLOCKQUOTE>
+
+<P><KBD>-n size</KBD>
+<BLOCKQUOTE>
+Set the name table to <KBD>size</KBD> entries. 
+The system makes the size of the table the next power of two
+bigger than twice the supplied size.
+The default size is 10000.
+</BLOCKQUOTE>
+
+<P><KBD>-z size</KBD>
+<BLOCKQUOTE>
+Set the thread table to <KBD>size</KBD> entries. 
+The default size is 100. This switch determines the maximum number of threads
+that can be running at any time.
+</BLOCKQUOTE>
+
+<P><KBD>-N server-name</KBD>
+<BLOCKQUOTE>
+Set the machine (IP address) on which the Pedro server is running to
+<KBD>server-name</KBD>.
+The default is the current machine (localhost).
+</BLOCKQUOTE>
+
+<P><KBD>-P server-port</KBD>
+<BLOCKQUOTE>
+Set the port on which the Pedro server is listening to
+<KBD>server-port</KBD>. The default is 4550.
+</BLOCKQUOTE>
+
+<P><KBD>-A process-symbol</KBD>
+<BLOCKQUOTE>
+Set the name of this process to
+<KBD>process-symbol</KBD>. 
+</BLOCKQUOTE>
+
+<P><KBD>-l initialization-file</KBD>
+<BLOCKQUOTE>
+Consult <KBD>initialization-file</KBD> before the interpreter starts. 
+</BLOCKQUOTE>
+<P><KBD>-g initial-goal</KBD>
+<BLOCKQUOTE>
+Execute <KBD>initial-goal</KBD> before the interpreter starts but after initialization file is loaded (if any). 
+
+</BLOCKQUOTE>
+
+<P>An online manual <KBD>qp(1)</KBD> is available to explain the options available to the interpreter.
+
+
+<!-- Section 1.4 -->
+
+<H2><A NAME="Section1.4">1.4 Running the Compiler</A></H2>
+
+<P>As well as running programs in interpreted mode, 
+Qu-Prolog programs can be compiled for faster execution. 
+
+<P>Declarations appearing in the source code of the form
+
+<P><KBD>?- Decl.</KBD>
+
+<P>or
+
+<P><KBD>:- Decl.</KBD>
+
+<P>are executed by the compiler and are also compiled for execution at load time.  The exceptions to this are <KBD>index/3</KBD> and <KBD>compile_time_only/1</KBD> declarations which are executed by the compiler only.
+
+<P><KBD>qc</KBD> is an interface to the Qu-Prolog compilation system.
+The system consists of a preprocessor, a term expander,
+a compiler, an assembler, and a linker.
+<KBD>qc</KBD> processes the supplied options and calls each component with the
+appropriate arguments in the sequence given above.
+
+<P>A common usage of <KBD>qc</KBD> is where the user supplies 
+a Qu-Prolog source program.
+<KBD>qc</KBD> compiles the program and generates an executable.
+The executable is stored in two files.
+<KBD>exec_file</KBD> (e.g. <KBD>a.out</KBD>) contains the basic 
+information about the executable
+and <KBD>exec_file.qx</KBD> (e.g. <KBD>a.out.qx</KBD>) 
+has the essential data about the program.
+To run the executable, the user types in <KBD>exec_file</KBD>.
+
+<P><KBD>qc</KBD> accepts several types of filename arguments.
+<P>Files ending with <KBD>.ql</KBD> are Qu-Prolog source programs.
+<P>Files ending with <KBD>.qi</KBD> indicates that the file has been preprocessed.
+<P>Files ending with <KBD>.qg</KBD> are taken to contain 
+clauses after term expansion.
+<P>Files ending with <KBD>.qs</KBD> are Qu-Prolog assembly programs.
+<P>Object files have the suffix <KBD>.qo</KBD>.
+<P>The compiler also accepts byte-encoded files produced by the encoded
+write of Qu-Prolog. Encoded files must have <KBD>.qle</KBD> or <KBD>.qge</KBD>
+extensions and are encoded equivalents of <KBD>.ql</KBD> and <KBD>.qg</KBD>
+files.
+
+<P> The available switches for the compiler are as follows.
+
+<P><KBD>-D macro</KBD>
+<BLOCKQUOTE>
+Define <KBD>macro</KBD> as 1 (one). This is the same as if
+a 
+<BR><KBD>#define macro 1</KBD> 
+<BR>line appeared at the beginning of the 
+<KBD>.ql</KBD> file
+being compiled.
+</BLOCKQUOTE>
+
+<P><KBD>-E</KBD>
+<BLOCKQUOTE>
+Stop after running the preprocessor.
+The output is placed in the corresponding file suffixed <KBD>.qi</KBD>.
+</BLOCKQUOTE>
+
+<P><KBD>-G</KBD>
+<BLOCKQUOTE>
+Stop after running the term expander.
+The output is placed in the corresponding file suffixed <KBD>.qg</KBD>. 
+</BLOCKQUOTE>
+
+<P><KBD>-R file</KBD>
+<BLOCKQUOTE>
+Supply the term expansion rules (in <KBD>file</KBD>) to the term expander.
+</BLOCKQUOTE>
+
+<P><KBD>-S</KBD>
+<BLOCKQUOTE>
+Stop after running the compiler.
+The output is placed in the corresponding file suffixed <KBD>.qs</KBD>.
+</BLOCKQUOTE>
+
+<P><KBD>-c </KBD>
+<BLOCKQUOTE>
+Stop after running the assembler.
+The default output file is the corresponding file suffixed <KBD>.qo</KBD>.
+</BLOCKQUOTE>
+
+<P><KBD>-o exec_file</KBD>
+<BLOCKQUOTE>
+Name the object file if the <KBD>-c </KBD> switch is also supplied.
+Otherwise, name the executable. If <KBD>exec_file</KBD> is not supplied the 
+default name for the executable is <KBD>a.out</KBD>.
+</BLOCKQUOTE>
+
+<P><KBD>-r </KBD>
+<BLOCKQUOTE>
+Add <KBD>rlwrap</KBD> to the runtime system to provide history and command line editing. This is
+used for the interpreter. The runtime system (shell script) may need to be edited if <KBD>rlwrap</KBD> is to behave in a different way.
+</BLOCKQUOTE>
+<P>The <KBD>qp</KBD> switches are used to alter the size of 
+different data areas 
+for the compiler.
+
+<P>The <KBD>ql</KBD> switches (see below) fix the size of some of the 
+data areas in the executable
+being generated.
+
+<P>The Qu-Prolog linker (<KBD>ql</KBD>) links <KBD>.qo</KBD>
+files to produce an executable. 
+<P> The available switches for the linker are as follows.
+
+<P><KBD>-a size</KBD>
+<BLOCKQUOTE>
+Set the size of the atom table to
+<KBD>size</KBD> entries.
+The system makes the size of the table the next power of two
+bigger than twice the supplied size.
+The default size is 10000.
+</BLOCKQUOTE>
+
+<P><KBD>-d size</KBD>
+<BLOCKQUOTE>
+Set the code area to
+<KBD>size</KBD>
+K bytes.
+The default size is 400K bytes.
+</BLOCKQUOTE>
+
+<P><KBD>-p size</KBD>
+<BLOCKQUOTE>
+Set the size of the predicate table to
+<KBD>size</KBD>
+entries
+The system makes the size of the table the next power of two
+bigger than twice the supplied size.
+The default size is 10000.
+</BLOCKQUOTE>
+
+<P><KBD>-s size</KBD>
+<BLOCKQUOTE>
+Set the string table to
+<KBD>size</KBD>
+K bytes.
+The default size is 64K bytes. 
+</BLOCKQUOTE>
+
+
+<P>An online manuals <KBD>qc(1)</KBD> and <KBD>ql(1)</KBD>
+ is available to explain the options 
+available to the compiler and linker.
+
+
+<!-- Section 1.5 -->
+
+<H2><A NAME="Section1.5">1.5 Online Manuals</A></H2>
+
+<P>Included with the Qu-Prolog release is a <KBD>HTML</KBD> 
+version of this manual. 
+To access this version open the file <KBD>$QPHOME/doc/manual/MAIN.html</KBD> in a browser. 
+
+<!-- Section 1.6 -->
+
+<H2><A NAME="Section1.6">1.6 User Guide</A></H2>
+
+<P>The system is supplied with a User Guide (Technical Report 00-20) that introduces the basic concepts of Qu-Prolog and presents some example programs and sessions with the interpreter. 
+
+<P>Example programs are supplied in the <KBD>examples</KBD> directory.
+
+<H2><A NAME="Section1.7">1.7 Windows Users</A></H2>
+
+The Windows installer for Qu-Prolog updates the PATH variable to include the Qu-Prolog executables. All Qu-Prolog programs should be run from a Command Prompt window. In the manual Control-D is used for end-of-file. For Windows users,
+end-of-file is Control-Z followed by a Enter.
+<p>
+If the foreign function interface is required then the mingw compiler needs to be installed to manage the compilation and linking of C code.
+
+
+<HR>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="0">
+<TR>
+<TD width="15%" align="center" valign="top"><a href="TOC.html" target="main">Table of Contents</a></TD>
+<TD width="14%" align="center" valign="top"><a href="SEC1.html" target="main">Getting Started</a></TD>
+<TD width="14%" align="center" valign="top"><a href="SEC2.html" target="main">Syntax</a></TD>
+<TD width="14%" align="center" valign="top"><a href="SEC3.html" target="main">Built-in Predicates</a></TD>
+<TD width="14%" align="center" valign="top"><a href="SEC4.html" target="main">Standard Operators</a></TD>
+<TD width="14%" align="center" valign="top"><a href="SEC5.html" target="main">Notation</a></TD>
+<TD width="15%" align="center" valign="top"><a href="INDEX.html" target="main">Index</a></TD>
+</TR>
+</TABLE>
+
+</BODY>
+</HTML>

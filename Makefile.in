@@ -1,0 +1,59 @@
+#
+# Main makefile
+#
+# Please note that the order in which the targets are evaluated
+# is important. Don't be tempted to reorder or parallelise
+# the makefiles!
+#
+# Richard Hagen
+#
+
+#
+# Nothing else should need attention, but there are some things that
+# are interesting later on, particularly the rules for making Qu-Prolog
+# objects.
+#
+
+export QPBIN	= @QPHOME@/bin
+
+
+export QC		= qc
+export QCFLAGS		= 
+export COMPILE.qc	= $(QPBIN)/$(QC) $(QCFLAGS)
+
+export PROLOG		= prolog
+
+
+
+.PHONY: all
+all:	objects
+
+#export	PARALLEL	= -j 2
+
+.PHONY: objects
+objects:
+	@$(MAKE) -C @QPHOME@/bin	$(PARALLEL) all 
+	@$(MAKE) -C @QPHOME@/src	$(PARALLEL) all
+	@$(MAKE) -C @QPHOME@/src	$(PARALLEL) install
+	@$(MAKE) -C @QPHOME@/prolog	$(PARALLEL) all
+
+
+
+.PHONY: tkICM
+tkICM:
+	@$(MAKE) -C @QPHOME@/src tkICM
+
+.PHONY: xqp
+xqp:
+	cd @QPHOME@/src/xqp;qmake;cd -
+	cd @QPHOME@/src/xqpdebug;qmake;cd -
+	@$(MAKE) -C @QPHOME@/src/xqp
+	@$(MAKE) -C @QPHOME@/src/xqpdebug
+	/usr/bin/install @XQP@ @QPHOME@/bin
+	/usr/bin/install @XQPDEBUG@ @QPHOME@/bin
+
+.PHONY: clean
+clean:
+	@$(MAKE) -C @QPHOME@/bin	$(PARALLEL) clean
+	@$(MAKE) -C @QPHOME@/src	$(PARALLEL) clean
+	@$(MAKE) -C @QPHOME@/prolog	$(PARALLEL) clean

@@ -1,0 +1,371 @@
+<HTML>
+<HEAD>
+<!-- Created by texi2html 1.56k from main.tex on 30 November 1999 -->
+
+<TITLE>Qu-Prolog 10.1 Reference Manual - Syntax</TITLE>
+</HEAD>
+<BODY>
+
+<H1><A NAME="Section2" >2 Syntax</A></H1>
+
+<P>This section describes the concrete syntax of Qu-Prolog 10.1
+
+<H2><A NAME="Section2.1">2.1 Constants</A></H2>
+
+<H3><A NAME="Section2.1.1">2.1.1 Atoms</A></H3>
+
+<P>There are four syntactic forms for atoms.
+
+<OL>
+<LI>
+A lower case letter followed by any sequence consisting of "<KBD>_</KBD>" and alphanumeric characters.
+<BR>For example:
+<BR><KBD>true</KBD>
+<BR><KBD>semester_1</KBD>
+
+<LI>
+Any combination of the following set of graphic characters.
+<BR><KBD>|-/+*&#60;=&#62;#@$\^&#38;~`:.?</KBD>
+<BR>For example:
+<BR><KBD>@&#60;=</KBD>
+<BR><KBD>?=</KBD>
+
+
+<BR><b>Note:</b> This is a non-standard use of '<KBD>|</KBD>', 
+which is usually reserved exclusively for list construction. 
+A consequence is that extra spaces or brackets may
+be needed when constructing lists whose elements contain graphic characters.
+<BR>For example:
+<BR><KBD>[+ |X]</KBD>
+
+<LI>
+Any sequence of characters enclosed by "<KBD>'</KBD>" (single quote).  
+Single quote can be included in the sequence by writing the quote twice. 
+"<KBD>\</KBD>" indicates an escape sequence, 
+where the escape characters are case insensitive. 
+The possible escape characters are:
+
+<TABLE border="0" cellspacing="0" cellpadding="10">
+
+<TR>
+<TD><KBD>newline</KBD></TD>
+<TD>Meaning: Continuation.</TD>
+</TR>
+<TR>
+<TD><KBD>^</KBD></TD>
+<TD>Meaning: Same as <KBD>d</KBD>.</TD>
+</TR>
+<TR>
+<TD><KBD>^character</KBD></TD>
+<TD>Meaning: Control character.</TD>
+</TR>
+<TR>
+<TD><KBD>dd</KBD></TD>
+<TD>Meaning: A two digit octal number.</TD>
+</TR>
+<TR>
+<TD><KBD>a</KBD></TD>
+<TD>Meaning: Alarm (<KBD>ASCII = 7</KBD>).</TD>
+</TR>
+<TR>
+<TD><KBD>b</KBD></TD>
+<TD>Meaning: Backspace (<KBD>ASCII = 8</KBD>).</TD>
+</TR>
+<TR>
+<TD><KBD>c</KBD></TD>
+<TD>Meaning: Continuation.</TD>
+</TR>
+<TR>
+<TD><KBD>d</KBD></TD>
+<TD>Meaning: Delete (<KBD>ASCII = 127</KBD>).</TD>
+</TR>
+<TR>
+<TD><KBD>e</KBD></TD>
+<TD>Meaning: Escape (<KBD>ASCII = 27</KBD>).</TD>
+</TR>
+<TR>
+<TD><KBD>f</KBD></TD>
+<TD>Meaning: Formfeed (<KBD>ASCII = 12</KBD>).</TD>
+</TR>
+<TR>
+<TD><KBD>n</KBD></TD>
+<TD>Meaning: Newline (<KBD>ASCII = 10</KBD>).</TD>
+</TR>
+<TR>
+<TD><KBD>odd</KBD></TD>
+<TD>Meaning: A two digits octal number.</TD>
+</TR>
+<TR>
+<TD><KBD>r</KBD></TD>
+<TD>Meaning: Return (<KBD>ASCII = 13</KBD>)</TD>
+</TR>
+<TR>
+<TD><KBD>s</KBD></TD>
+<TD>Meaning: Space (<KBD>ASCII = 32</KBD>).</TD>
+</TR>
+<TR>
+<TD><KBD>t</KBD></TD>
+<TD>Meaning: Horizontal tab (<KBD>ASCII = 9</KBD>).</TD>
+</TR>
+<TR>
+<TD><KBD>v</KBD></TD>
+<TD>Meaning: Vertical tab (<KBD>ASCII = 11</KBD>).</TD>
+</TR>
+<TR>
+<TD><KBD>xdd</KBD></TD>
+<TD>Meaning: A two digit hexadecimal number.</TD>
+</TR>
+</TABLE>
+
+<P>Here are a few examples of quoted atoms.
+
+<BR><KBD>'hi!'</KBD>
+<BR><KBD>'they''re'</KBD>
+<BR><KBD>'\n'</KBD>
+
+<LI>
+One of the following.
+<BR><KBD>!</KBD>
+<BR><KBD>;</KBD>
+<BR><KBD>[]</KBD>
+<BR><KBD>{}</KBD>
+
+</OL>
+
+
+<!-- Section 2.1.2 -->
+<H3><A NAME="Section2.1.2">2.1.2 Numbers</A></H3>
+
+<P>The available range of integers is <KBD>-(2^31-1)</KBD> to <KBD>2^31-1</KBD>
+on a 32 bit machine and <KBD>-(2^63-1)</KBD> to <KBD>2^63-1</KBD> on a 64 bit machine.  Integers can be represented in any of the following ways.
+
+<OL>
+<LI>
+Any sequence of numeric characters.  This method denotes the number in decimal, or base 10.  
+<BR>For example:
+<BR><KBD>123</KBD>
+
+<LI>
+<KBD>Base</KBD>'<KBD>Number</KBD>, where <KBD>Base</KBD> ranges from 2 to 36 and <KBD>Number</KBD> can have any sequence of alphanumeric characters. Both upper and lower case alphabetic characters in <KBD>Number</KBD> are used to represent the appropriate digit when <KBD>Base</KBD> is greater than 10.  
+<BR>For example, integer value 10 can be written as:
+<BR><KBD>2'1010</KBD>
+<BR><KBD>16'A</KBD>
+<BR><KBD>16'a</KBD>
+
+<LI> Binary numbers can also be represented in the form <KBD>0b</KBD> followed
+by binary digits. Similarly octal and hexadecimal numbers can be represented
+by <KBD>0o</KBD> or <KBD>0x</KBD> followed by digits.
+<BR> For example
+<BR><KBD>0b1011</KBD>
+<BR><KBD>0o3170</KBD>
+<BR><KBD>0x3afd</KBD>
+<LI>
+0'<KBD>Character</KBD> gives the character code of <KBD>Character</KBD>.
+<BR>For example,
+<BR><KBD>0'A</KBD>
+<BR>gives the ASCII character code 65.
+</OL>
+
+Double precision floating point numbers are also available and are represented
+using either a decimal point or scientific notation.
+
+<!-- Section 2.2 -->
+<H2><A NAME="Section2.2">2.2 Variables</A></H2>
+
+
+<!-- Section 2.2.1 -->
+<H3><A NAME="Section2.2.1">2.2.1 Meta Variables</A></H3>
+
+<P>Meta variables are available in three syntactic forms.
+
+<OL>
+<LI>
+An upper case letter followed by any sequence consisting of "<KBD>_</KBD>" and alphanumeric characters.
+<BR>For example:
+<BR><KBD>VarList</KBD>
+<BR><KBD>Term1</KBD>
+
+<LI>
+"<KBD>_</KBD>", followed by an upper case letter, and then any sequence consisting of "<KBD>_</KBD>" and alphanumeric characters.
+<BR>For example:
+<BR><KBD>_Dictionary</KBD>
+<BR><KBD>_X_1</KBD>
+
+<LI>
+"<KBD>_</KBD>" alone denotes an anonymous variable.
+
+</OL>
+
+
+<!-- Section 2.2.2 -->
+<H3><A NAME="Section2.2.2">2.2.2 Object Variables</A></H3>
+
+<P>Object variable names adhere to the following EBNF grammar:
+
+
+<BLOCKQUOTE>
+<KBD>
+<BR>obvar-name &nbsp;&nbsp;---&#62; ['!']['_'] obvar-prefix obvar-suffix
+<BR>obvar-prefix ---&#62; (lower-case-letter)+
+<BR>obvar-suffix ---&#62; (letter | digit | '_')*
+</KBD>
+</BLOCKQUOTE>
+
+<P>Notes:
+
+<OL>
+<LI>
+When the '<KBD>!</KBD>' is omitted, the <EM>object-variable-prefix</EM> must have been previously declared with the predicates <KBD>obvar_prefix/[1,2]</KBD>.
+
+<LI>
+When the '<KBD>_</KBD>' is used, the object variable is said to be <EM>anonymous</EM>.
+</OL>
+
+<P>Examples (where <KBD>x</KBD> is predeclared as an object-variable-prefix):
+<BR><KBD>x</KBD>
+<BR><KBD>x0</KBD>
+<BR><KBD>!_y</KBD> (anonymous)
+<BR><KBD>!y_0_1</KBD>
+
+
+<!-- Section 2.3 -->
+<H2><A NAME="Section2.3">2.3 Compound Terms</A></H2>
+
+
+<!-- Section 2.3.1 -->
+<H3><A NAME="Section2.3.1">2.3.1 Functional Notation</A></H3>
+
+<P>The compound terms are represented in this notation. A compound term is composed of a functor and a sequence of one or more arguments, which are enclosed in a pair of parenthesis. The functor and each of the arguments can be any term. For example:
+<BR><KBD>sibling(jack, jill)</KBD>
+<BR><KBD>sort(qsort)(InList, OutList)</KBD>
+<BR><KBD>Functor(X, Y, Z)</KBD>
+
+<P>In the first example, <KBD>sibling</KBD> is the functor and the arity, the number of arguments, of the term is 2.  <KBD>sort(qsort)</KBD> is the functor of the second example and the functor itself is a compound term with <KBD>sort</KBD> as the functor.
+
+<P>A compound term has at least one argument.
+
+
+<!-- Section 2.3.2 -->
+<H3><A NAME="Section2.3.2">2.3.2 Expressions</A></H3>
+
+<P>If the functor of a compound term is declared as an operator by <KBD>op/[3,4]</KBD>, terms may be written in the style of an expression. The expression is parsed according to the precedence and associativity of the operators.  For example, <KBD>+</KBD> and <KBD>*</KBD> are infix operators while <KBD>\+</KBD> is a prefix operator.
+<BR><KBD>Number + 2 * 3</KBD>
+<BR><KBD>\+ X</KBD>
+
+
+<!-- Section 2.3.3 -->
+<H3><A NAME="Section2.3.3">2.3.3 Lists</A></H3>
+
+<P>Lists are a special kind of compound term.  Lists have "<KBD>.</KBD>" as the functor and two arguments.  A special list notation is provided where the elements of a list are enclosed by a pair of "<KBD>[</KBD>" "<KBD>]</KBD>" (square brackets).  The elements are separated from each other by a comma.  The tail of the list, which is a term, not a sequence of terms, can be separated from the rest of the list by a "<KBD>|</KBD>".  
+
+<P>For example, the following represent the same list.  
+<BR><KBD>[apple, orange, banana]</KBD>
+<BR><KBD>[apple, orange|[banana]]</KBD>
+<BR><KBD>[apple|[orange|[banana]]]</KBD>
+
+<P>The atom <KBD>[]</KBD> represents the empty list.
+
+<!-- Section 2.3.4 -->
+<H3><A NAME="Section2.3.4">2.3.4 Strings</A></H3>
+
+<P>Any sequence of characters enclosed by "<KBD>"</KBD>"
+<!-- "  -->
+is considered as a 
+strings. Strings are semantically the same as lists of ASCII codes but are
+stored more efficiently. 
+Consequently the empty string (<KBD>""</KBD>) is parsed as the empty list (<KBD>[]</KBD>) 
+and strings can unify with lists.
+<P>Example:
+<KBD>
+<BR>| ?- X = "hello", X = [H|T].
+<BR>
+<BR>X = "hello"
+<BR>H = 104
+<BR>T = [101, 108, 108, 111]
+<BR>
+<BR>| ?- X = "".
+<BR>
+<BR>X = []
+</KBD>
+
+
+<!-- Section 2.3.5 -->
+<H3><A NAME="Section2.3.5">2.3.5 <KBD>{}</KBD>-Lists</A></H3>
+
+<P> A special syntactic form recognized by the Qu-Prolog parser is that of
+<KBD>{}</KBD>-lists. The syntax for a <KBD>{}</KBD>-list is a '<KBD>{</KBD>'
+followed by a collection of terms each terminated by a full stop and white spaces
+followed by '<KBD>}</KBD>'. The full stop and white space after that last term
+is optional. A <KBD>{}</KBD>-list is represented in Qu-Prolog as a compound
+term whose functor is <KBD>{}</KBD> and whose only argument is a "comma pair"
+representing the elements of the <KBD>{}</KBD>-list.
+<P> For example, the following are <KBD>{}</KBD>-lists together with their
+internal representation.
+<BR>
+<BR><KBD>{a. b. }&nbsp;&nbsp;&nbsp;&nbsp;{}((a , b))</KBD>
+<BR><KBD>{a. b. c}&nbsp;&nbsp;&nbsp;{}((a , (b , c)))</KBD>
+<BR><KBD>{a}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{}(a)</KBD>
+
+<P>One use of this notation is for grouping predicate definitions together, 
+for example as class methods, and using term expansion rules to
+transform the resulting <KBD>{}</KBD>-lists into programs.
+
+
+<!-- Section 2.4 -->
+<H2><A NAME="Section2.4">2.4 Quantified Terms</A></H2>
+
+<P>There are two syntactic forms for quantified terms.
+
+<OL>
+<LI>
+Any quantified term can be represented by <KBD>Q BV Body</KBD> provided its quantifier <KBD>Q</KBD> has been declared by <KBD>op/[3,4]</KBD>. <KBD>BV</KBD> is a (possibly open) list of bound object variables, and <KBD>Body</KBD> is the body, which is another term.  Each bound variable can, optionally, be followed by a "<KBD>:</KBD>" and a term.  If there is only one bound variable, the list notation can be dropped.
+<BR>For example:
+<BR><KBD>all x flower(x, red)</KBD>
+<BR><KBD>exist [x:Type] all [lo:int, hi:int] lo &#60; f(x) &#60; hi</KBD>
+
+<LI>
+The escape sequence "<KBD>!!</KBD>" may be used to introduce a quantified term whose quantifier might not have been previously declared or whose quantifier is not an atom.
+<BR>For example,
+<BR><KBD>!!q x A</KBD>
+<BR><KBD>!!Q A B</KBD>
+<BR><KBD>!!integral(A,B) x T</KBD>
+
+</OL>
+
+
+<!-- Section 2.5 -->
+<H2><A NAME="Section2.5">2.5 Substitutions</A></H2>
+
+<P>The general form of a substitution term is
+
+<BR><KBD>[t_1/x_1, ..., t_n/x_n]t_m</KBD>
+
+<P>where <KBD>t_i</KBD> are terms and <KBD>x_i</KBD> are object variables.
+
+<P> The substitution <KBD>[t_1/x_1, ..., t_n/x_n]</KBD> is applied to the term
+<KBD>t_m</KBD>.
+
+<P>For example:
+<BR><KBD>[f(a)/x, t/y]g(X)</KBD>
+<BR><KBD>[[b/z]x/y][t/z]h(A)</KBD>
+
+
+<!-- Section 2.6 -->
+<H2><A NAME="Section2.6">2.6 Programs</A></H2>
+
+<P>A program is composed of a number of predicate definitions.  Each predicate definition is made up of a number of clauses.  Each clause has a head and an optional body.  The head is either an atom or a compound term whose functor is an atom, and the body may be an atom, a meta variable or a compound term.  The head and the body are connected together by "<KBD>:-</KBD>".
+<HR>
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="0">
+<TR>
+<TD width="15%" align="center" valign="top"><a href="TOC.html" target="main">Table of Contents</a></TD>
+<TD width="14%" align="center" valign="top"><a href="SEC1.html" target="main">Getting Started</a></TD>
+<TD width="14%" align="center" valign="top"><a href="SEC2.html" target="main">Syntax</a></TD>
+<TD width="14%" align="center" valign="top"><a href="SEC3.html" target="main">Built-in Predicates</a></TD>
+<TD width="14%" align="center" valign="top"><a href="SEC4.html" target="main">Standard Operators</a></TD>
+<TD width="14%" align="center" valign="top"><a href="SEC5.html" target="main">Notation</a></TD>
+<TD width="15%" align="center" valign="top"><a href="INDEX.html" target="main">Index</a></TD>
+</TR>
+</TABLE>
+
+</BODY>
+</HTML>

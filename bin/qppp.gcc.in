@@ -1,0 +1,47 @@
+#! @PERL@
+
+# A front end to use gcc as a substitute for cpp. Normally, the -E
+# flag of gcc causes only preprocessing to be performed.
+#
+# Notes:
+#
+# The -E option on egcs won't touch files that don't end
+# in appropriate C (C++, Fortran, ...) suffixes.
+# This is a *very good* design choice. Unfortunately, the people
+# who made the decision to use cpp as a preprocessor for QP
+# overlooked this possibility, so we have to go round the houses
+# to create a file with an appropriate suffix.
+# I'm using ln -s but any other method would do.
+#
+# Using g++ -E with the ``standard'' gcc works without
+# this rigmarole, but so does this, and I don't want the configure.in
+# script getting much more complicated.
+#
+# Problems:
+#
+# The symbolic links aren't tidied up on failure
+#
+# Richard Hagen 3/May/1998
+
+$program = "qppp";
+
+@ARGV == 1 or
+	die "usage: $program input-file\n";
+
+$file = $ARGV[0];
+
+$file ~= /^(.*).ql$/ or
+	die "$program: Input file name must end in .ql\n";
+
+$symlink = $1."c";
+
+system("ln -sf $file $symlink") or
+	die "$program: Couldn't create symbolic link $symlink\n";
+
+system("@CC@ -DQuAM=1 -E $symlink 2> /dev/null") or
+	die "$program: Couldn't preprocess file\n";
+
+system("rm -f $symlink") or
+	die "$program: Couldn't remove symbolic link $symlink\n";
+
+exit 0;

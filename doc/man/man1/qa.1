@@ -1,0 +1,42 @@
+.\" Copyright (c) Software Verification Research Centre - All Rights Reserved.
+.TH qa 1 "1 March 2000" SVRC
+.SH NAME
+qa \- Qu-Prolog assembler
+.SH SYNOPSIS
+.B qa
+[
+.BI \-i input
+]
+[
+.BI \-o output
+]
+.SH DESCRIPTION
+\f4qa\f1 is the Qu-Prolog assembler, which is part of the Qu-Prolog
+compilation system.
+It reads the Qu-Prolog assembly code from \f4input\f1 and writes the object
+code to \f4output\f1.
+.SH OPTIONS
+.TP
+.BI \-i input
+Input file for the assembler.
+\f4input\f1 must have the suffix \f4.qs\f1.
+.TP
+.BI \-o output
+Output file for the assembler.
+\f4output\f1 requires the suffix \f4.qo\f1.
+.SH FILES
+.PD 0
+.TP 20
+.IB file .qs
+assembly file
+.TP
+.IB file .qo
+object file
+.PD
+.SH SEE ALSO
+.BR cpp (1),
+.BR qc (1),
+.BR ql (1).
+.SH COPYRIGHT
+Software Verification Research Centre, The
+University of Queensland, Australia 4072.

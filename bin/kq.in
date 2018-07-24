@@ -1,0 +1,21 @@
+#! @PERL@
+
+open(INPUT, "/bin/ps h|") or die "Couldn't run ps\n";
+
+while (<INPUT>)
+{
+	if (/qem/)
+	{
+		/\s*(\d+)\s*/;
+		$kill=$kill." ".$1;
+	}
+}
+
+close INPUT;
+
+if (defined $kill)
+{
+	print "Killing $kill\n";
+
+	system("kill -9 $kill");
+}

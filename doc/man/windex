@@ -1,0 +1,6 @@
+qa		qa (1)		- Qu-Prolog assembler
+qc		qc (1)		- Qu-Prolog compiler
+qecat		qecat (1)	- Qu-Prolog decoder
+qem		qem (1)		- Qu-Prolog emulator
+ql		ql (1)		- Qu-Prolog linker
+qp		qp (1)		- Qu-Prolog interpreter

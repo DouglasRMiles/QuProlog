@@ -1,0 +1,28 @@
+This directory contains several examples that exercise different features of
+Qu-Prolog.
+
+Examples featuring the extended data structures:
+
+lambda.ql, lambda2.ql, lambda_type.ql - 
+     lambda term processors.
+natural_deduction.ql -  
+     a simple interactive prover.
+incomplete_unify.ql -
+     a heuristic unifier for finding unifiers of delayed unification problems.
+
+Examples featuring communication and threads:
+
+http_connect.ql -
+	An example using TCP/IP
+tcp_server.ql, tcp_client.ql - 
+	A simple TCP/IP server/client example
+linda_server.ql, linda_client.ql -
+    A multi-threaded implementaion of the Linda model 
+db.ql -
+	a simple database server
+producer.ql, consumer.ql -
+	A simple producer-consumer example using Pedro communication
+router_monitor.ql -
+	A simple monitor for Pedro messages
+
+

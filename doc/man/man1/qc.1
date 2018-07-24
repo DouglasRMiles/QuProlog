@@ -1,0 +1,160 @@
+.\" Copyright (c) Software Verification Research Centre - All Rights Reserved.
+.TH qc 1 "1 March 2000" SVRC
+.SH NAME
+qc \- Qu-Prolog compiler
+.SH SYNOPSIS
+.B qc 
+[
+.B \-EGScv
+]
+[
+.BI \-D macro
+]
+[
+qp size options
+]
+[
+ql size options
+]
+[
+.BI \-o output
+]
+.RI "file .\|.\|."
+.SH DESCRIPTION
+.PP
+\f4qc\f1 is an interface to the Qu-Prolog compilation system.
+The system consists of a preprocessor, a term expander,
+a compiler, an assembler, and a linker.
+\f4qc\f1 processes the supplied options and calls each component with the
+appropriate arguments in the sequence given above.
+.PP
+A common usage of \f4qc\f1 is where the user supplies a Qu-Prolog source
+program.
+\f4qc\f1 compiles the program and generates an executable.
+The executable is stored in two files.
+\f4output\f1 (e.g. a.out) contains the basic information about the executable
+and \f4output.qx\f1 (e.g. a.out.qx) has the essential data about the program.
+To run the executable, the user types in \f4output\f1.
+.PP
+\f4qc\f1 accepts several types of filename arguments. 
+Files with the \f4.ql\f1 suffix are Qu-Prolog source programs.
+Suffix \f4.qi\f1 indicates that the file has been preprocessed.
+Files ending in \f4.qg\f1 are taken to contain clauses after term expansion.
+Files with the \f4.qs\f1 suffix are Qu-Prolog assembly programs.
+Object files have the suffix \f4.qo\f1.
+The compiler also accepts byte-encoded files produced by the encoded
+write of Qu-Prolog. Encoded files must have \f4.qle\f1 or \f4.qge\f1
+extensions and are encoded equivalents of \f4.ql\f1 and \f4.qg\f1
+files.
+.SH OPTIONS
+.PP
+The following options alter the default behaviour.
+.TP
+.BI \-D macro
+Define
+.I macro
+as 1 (one).
+This is the same as if a
+.RS
+.IP
+#define name 1
+.RE
+.IP
+line.
+.TP
+.B \-E
+Stop after running the preprocessor.
+The output is placed in the corresponding file suffixed \f4.qi\f1.
+.TP
+.B \-G
+Stop after running the term expander.
+The output is placed in the corresponding file suffixed \f4.qge\f1.
+.TP
+.BI \-R file
+Supply the term expansion rules to the term expander.
+.TP
+.B \-S
+Stop after running the compiler.
+The output is placed in the corresponding file suffixed \f4.qs\f1.
+.TP
+.B \-c
+Stop after running the assembler.
+The default output file is the corresponding file suffixed \f4.qo\f1.
+The output file can be modified by
+.B \-o.
+.TP
+.BI \-o output
+Name the object file if
+.B \-c
+is given.
+Otherwise, name the executable.
+The default name for the executable is \f4a.out\f1.
+.TP
+.B \-v
+Verbose mode.
+.PP
+The qp options alter the size of different data areas in the compiler.
+.PP
+The ql options alter the size of different data areas in the executable
+being generated.
+.SH STATUS
+.BR cpp (1)
+is used as the preprocessor.
+.SH ENVIRONMENT
+.TP 10
+.B QPPATH
+Specify where the Qu-Prolog compilation system are held.
+e.g.  /home/qp/qp4.2/bin.
+.SH FILES
+.PD 0
+.TP 20
+.B a.out
+executable output file
+.TP
+.IB file .ql
+Qu-Prolog source file
+.TP
+.IB file .qi
+preprocessed source file
+.TP
+.IB file .qg
+term-expanded source file
+.TP
+.IB file .qs
+assembly file
+.TP
+.IB file .qo
+object file
+.TP
+.IB file .qx
+executable data file
+.TP
+.B cpp
+preprocessor
+.TP
+.B qc1
+compiler
+.TP
+.B qa
+assembler
+.TP
+.B ql
+linker
+.TP
+.B qem
+emulator
+.PD
+.SH SEE ALSO
+.BR cpp (1),
+.BR qa (1),
+.BR qecat (1),
+.BR qem (1),
+.BR ql (1),
+.BR qp (1).
+.SH BUGS
+If -o is specified with -c, then if there is more than one .ql
+file, then the object code for all .ql files will be
+written to the same output file.
+.SH COPYRIGHT
+Software Verification Research Centre, The
+University of Queensland, Australia 4072.

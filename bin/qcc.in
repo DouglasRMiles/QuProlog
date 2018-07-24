@@ -1,0 +1,6 @@
+#! /bin/sh
+#
+# This shell script is for compiling foreign functions.
+#
+
+@CXX@ -fno-strict-aliasing -DNDEBUG -Wall -fPIC -D_GNU_SOURCE=1 -D_THREAD_SAFE=1 -D_REENTRANT=1 -Wno-uninitialized -c @CXXFLAGS@ -I@QPHOME@/src  @GCCINCLUDES@$*

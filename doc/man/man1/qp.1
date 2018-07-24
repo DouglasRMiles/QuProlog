@@ -1,0 +1,150 @@
+.\" Copyright (c) Software Verification Research Centre - All Rights Reserved.
+.TH qp 1 "1 March 2000" SVRC
+.SH NAME
+qp \- Qu-Prolog interpreter
+.SH SYNOPSIS
+.B qp
+[
+\-B size
+]
+[
+\-O size
+]
+[
+\-i size
+]
+[
+\-C size
+]
+[
+\-e size
+]
+[
+\-h size
+]
+[
+\-H size
+]
+[
+\-n size
+]
+[
+\-z size
+]
+[
+\-N server-name
+]
+[
+\-P server-port
+]
+[
+\-A process-symbol
+]
+[
+\-g initial-goal
+]
+[
+\-l initialization-file
+]
+.SH DESCRIPTION
+\f4qp\f1 is the Qu-Prolog interpreter.
+It repeatedly prompts for and solves queries.
+.SH OPTIONS
+.TP
+\-B size
+Set the binding trail size to
+.I size
+K words.
+The default size is 32K words.
+.TP
+\-O size
+Set the other trail size to
+.I size
+K words.
+The default size is 32K words.
+.TP
+\-i size
+Set the implicit parameter table size to
+.I size
+entries. The system makes the size of the table the next power of two
+bigger than twice the supplied size.
+The default size is 10000.
+.TP
+\-C size
+Set the choice point stack to
+.I size
+K words.
+The default size is 64K words.
+.TP
+\-e size
+Set the environment stack to
+.I size
+K words.
+The default size is 64K words.
+.TP
+\-h size
+Set the heap (global stack) to
+.I size
+K cells (words).
+The default size is 400K words.
+.TP
+\-H size
+Set the scratch pad to
+.I size
+K cells (words).
+The default size is 10K words.
+.TP
+\-n size
+Set the name table to
+.I size
+entries. The system makes the size of the table the next power of two
+bigger than twice the supplied size.
+The default size is 10000.
+.TP
+\-z size
+Set the thread table to
+.I size
+entries.
+The default size is 100 entries.
+.TP
+\-N server-name
+Set the machine (IP adress) on which the Pedro server is running to
+.I server-name.
+The default is the current machine.
+.TP
+\-P server-port
+Set the port on which the Pedro server is listining to
+.I server-port.
+.TP
+\-A process-symbol
+Set the name of this process to
+.I process-symbol.
+If the name is supplied then the qp GUI will start unless
+[
+dumb 
+]
+appears as the last switch.
+.TP
+\-g initial-goal
+.I initial-goal
+will be executed at the start of the interpreter
+.TP
+\-l initialialization-file
+.I initialization-file
+will be loaded before the start of the interpreter
+
+.SH ENVIRONMENT
+.TP 10
+.B QPLIBPATH
+Specify where the Qu-Prolog libraries are held.
+.SH FILES
+.PD 0
+.TP 20
+.B qp.qx
+executable data file
+.PD
+.SH SEE ALSO
+.BR qc (1).
+.SH COPYRIGHT
+Software Verification Research Centre, The
+University of Queensland, Australia 4072.

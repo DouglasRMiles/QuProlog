@@ -1,0 +1,53 @@
+Installing Qu-Prolog 10.1
+
+Execute the following
+
+./configure
+source PROFILE_CMDS
+make
+
+This should have build the system.
+
+The config files have been pre-built using LINUX Ubuntu and
+so you may need to run autoconf before configure if you are using
+different versions of LINUX or UNIX.
+
+If you have any problems please let us know.
+
+Look in PROFILE_CMDS or LOGIN_CMDS to see how to set up your environment.
+
+NOTES
+-----
+
+Command editing, completion and history can be used if rlwrap is installed.
+You may need at least version 0.37.
+
+If configure does not find some files then paths may need to be changed.
+Changing PATH or LD_LIBRARY_PATH may be enough. 
+
+On some machines the paths for the includes for the STL libraries are 
+not automatically set by gcc. If you get a compiler error saying that it 
+can't find sstream then try
+locate sstream
+to find the path to the STL include directory.
+Then try
+./configure --with-gcclib=PATH
+where PATH is the path to the STL library includes.
+
+
+QT GUI
+------
+If you have the QT libraries and qmake then you can build a qt interface to
+the qp interpreter (xqp) and for the debugger (xqpdebug) by executing the
+following
+
+make xqp
+
+Before doing this you should check that the environment variable QTDIR is
+set to the QT home.
+
+Installing on MacOSX
+--------------------
+The system should install on MacOSX without problems.
+
+

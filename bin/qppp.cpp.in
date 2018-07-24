@@ -1,0 +1,3 @@
+#! /bin/sh
+
+@QPPP@ -DQuAM=1 -C -P -Wno-trigraphs -xassembler-with-cpp @QPPP_TRADITIONAL@ $*

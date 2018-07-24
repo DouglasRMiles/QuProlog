@@ -1,0 +1,516 @@
+dnl Process this file with autoconf to produce a configure script.
+
+# Check this is the right package
+AC_INIT(src/qem.h)
+
+#
+# Ensure that all messages are saved to a file `configure.log' by
+# invoking ourself recursively without output piped into `tee configure.log'.
+# The environment variable `SUPPRESS_LOG_FILE_RECURSION' is used to prevent
+# infinite recursion.
+#
+#if test "$SUPPRESS_LOG_FILE_RECURSION" != "yes"; then
+#        SUPPRESS_LOG_FILE_RECURSION=yes
+#        export SUPPRESS_LOG_FILE_RECURSION
+#        trap 0 1 2 3 13 15
+#        case $# in
+#                0) exec ${CONFIG_SHELL-/bin/sh} "$0"      ;;
+#                *) exec ${CONFIG_SHELL-/bin/sh} "$0" "$@" ;;
+#        esac | exec tee configure.log
+#        exit
+#fi
+
+#
+# Check for addtional command line options.
+#
+
+AC_ARG_ENABLE(debug, [ --enable-debug        Turn on debugging])
+if test "$enable_debug" = yes; then
+	DEBUGGING=
+else
+	DEBUGGING=" -DNDEBUG "
+fi
+
+AC_SUBST(DEBUGGING)
+
+
+# Single versus multiple thread configuraation.
+AC_ARG_ENABLE(multiple-threads, [ --disable-multiple-threads     Single Prolog thread per process ])
+
+if test "$enable_multiple_threads" != no; then
+	# Multiple threads is the default.
+	AC_DEFINE(MULTIPLE_THREADS)
+else
+	AC_MSG_WARN(Configuring for single Prolog thread per process)
+fi
+
+AC_LANG_CPLUSPLUS
+AC_CONFIG_HEADER(config.h)
+
+dnl Which os are we on?
+AC_CANONICAL_HOST
+FULLARCH="$host"
+
+dnl Which directory are we in?
+QPHOME=`pwd`
+AC_SUBST(QPHOME)
+
+case "$host" in
+arm*-*-linux*) AC_DEFINE(LINUX)
+        AC_DEFINE(ARM)
+        OS=LINUX
+        ;;
+*-*-linux*) AC_DEFINE(LINUX)
+	OS=LINUX
+	;;
+*-*-solaris*) AC_DEFINE(SOLARIS)
+	OS=SOLARIS
+	;;
+*-*-freebsd*) AC_DEFINE(FREEBSD)
+	OS=FREEBSD
+	;;
+*-*-darwin*) AC_DEFINE(MACOSX)
+	OS=MACOSX
+	;;
+*) AC_DEFINE(FREEBSD)
+	OS=FREEBSD
+	;;
+esac
+
+dnl Checks for programs.
+AC_PROG_CC
+AC_PROG_CXX
+AC_PROG_INSTALL
+AC_PROG_LEX
+AC_PROG_LN_S
+AC_PROG_RANLIB
+AC_PROG_YACC
+
+AC_PATH_PROG(CMP, cmp, /usr/bin/cmp, $PATH:/bin:/usr/bin:/usr/local/bin)
+
+AC_PATH_PROG(QPPP, cpp, NO_CPP,\
+	$PATH:/lib:/usr/lib:/usr/local/lib:\
+	/ccs/lib:/usr/ccs/lib:/usr/local/ccs/lib)
+
+if
+	 test $QPPP = NO_CPP
+then
+	AC_MSG_WARN(No cpp per se, I'll try to use gcc -E)
+	QPPP=$QPHOME/bin/qppp
+	cp $QPHOME/bin/qppp.gcc.in $QPPP.in
+else
+	cp $QPHOME/bin/qppp.cpp.in $QPHOME/bin/qppp.in
+	AC_MSG_CHECKING(whether cpp needs -traditional flag for QP chars)
+	cat > conftest.ql << EOF
+0'x
+EOF
+	if
+		echo $QPPP conftest.ql >&AC_FD_CC 2>&1 &&
+		$QPPP conftest.ql >&AC_FD_CC 2>&1
+	then
+		QPPP_TRADITIONAL=
+		result=no
+	else
+		if
+			echo "$QPPP -traditional" >&AC_FD_CC 2>&1 &&
+			$QPPP -traditional conftest.ql >&AC_FD_CC 2>&1
+		then
+			QPPP_TRADITIONAL=-traditional
+			result=yes
+		else
+			AC_MSG_ERROR(can't compile QP on this system!)
+		fi
+	fi
+	AC_MSG_RESULT($result)
+	AC_SUBST(QPPP_TRADITIONAL)
+fi
+
+AC_PATH_PROG(PERL, perl, NO_PERL,\
+	$PATH:/bin:/usr/bin:/usr/local/bin:/usr/local/perl/bin)
+
+if test "$PERL" = NO_PERL; then
+	AC_MSG_ERROR(perl is required to compile QP)
+fi
+
+
+GCCINCLUDES=
+AC_ARG_WITH(gcclib,
+[--with-gcclib   Indicate location of gcc STL includes],
+[GCCINCLUDES=-I${withval}],
+[GCCINCLUDES= ])
+AC_SUBST(GCCINCLUDES)
+
+
+if test "$OS" = MACOSX; then
+XQP=$QPHOME/src/xqp/xqp.app/Contents/MacOS/xqp
+XQPDEBUG=$QPHOME/src/xqpdebug/xqpdebug.app/Contents/MacOS/xqpdebug
+else
+XQP=$QPHOME/src/xqp/xqp
+XQPDEBUG=$QPHOME/src/xqpdebug/xqpdebug
+fi
+AC_SUBST(XQP)
+AC_SUBST(XQPDEBUG)
+
+
+
+AC_PATH_PROG(PRINTF, printf, NO_PRINTF,\
+	$PATH:/bin:/usr/bin:/usr/local/bin:$HOME/bin)
+
+if test "$PRINTF" = NO_PRINTF; then
+	AC_MSG_ERROR(The program printf is required to compile QP)
+fi
+
+dnl Checks for libraries.
+AC_CHECK_LIB(dl, dlopen)
+AC_CHECK_LIB(nsl, main)
+AC_CHECK_LIB(posix4, main)
+AC_CHECK_LIB(socket, socket)
+
+dnl Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADERS(\
+		 arpa/inet.h \
+		 fcntl.h \
+		 limits.h \
+		 malloc.h \
+		 netinet/in.h \
+		 sys/file.h \
+		 sys/ioctl.h \
+		 sys/time.h \
+		 sys/filio.h \
+		 sys/sockio.h \
+		 unistd.h \
+		)
+
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+#AC_C_CONST
+#AC_C_INLINE
+AC_TYPE_MODE_T
+AC_TYPE_PID_T
+AC_TYPE_SIZE_T
+AC_HEADER_TIME
+
+dnl Checks for library functions.
+AC_FUNC_ALLOCA
+AC_FUNC_MEMCMP
+AC_TYPE_SIGNAL
+AC_CHECK_FUNCS( \
+		gethostname \
+		gethostbyname \
+		poll \
+		putenv \
+		select \
+		sigwait \
+		sigtimedwait \
+		socket \
+		strerror \
+		strstr \
+		uname \
+		)
+
+#----------------------------------------------------------------------------
+dnl Check for CPP version
+AC_MSG_CHECKING([for GCC version])
+qp_cpp_ver=[`gcc --version 2>/dev/null | head -1 | sed -e 's/^[^[:digit:]]*\([[:digit:]][^[:space:]]*\).*$/\1/'`]
+if test -n "$qp_cpp_ver"; then
+    AC_MSG_RESULT($qp_cpp_ver)
+    case "$qp_cpp_ver" in
+      2.*)
+        AC_DEFINE(GCC_VERSION_2, 1, [Whether or not the GCC is gcc 2])
+        ;;
+    esac
+else
+    AC_MSG_RESULT(not found)
+    AC_MSG_ERROR(Could not determine GCC version)
+fi
+
+#-----------------------------------------------------------------------------
+dnl Check for -fno-strict-aliasing
+AC_MSG_CHECKING([for -fno-strict-aliasing])
+echo "int i;" > aliasing_test.cc
+qp_alias=[`gcc -fno-strict-aliasing -c aliasing_test.cc`]
+rm aliasing_test.*
+if test -n "$qp_alias"; then
+    AC_MSG_RESULT(not found)
+    GCC_ALIAS_FLAG=
+else
+    AC_MSG_RESULT(found)
+    GCC_ALIAS_FLAG="-fno-strict-aliasing"
+fi
+AC_SUBST(GCC_ALIAS_FLAG)
+
+#-----------------------------------------------------------------------------
+AC_MSG_CHECKING(for an integer type with at least 16 bits)
+AC_CACHE_VAL(qp_cv_short_type,
+	AC_TRY_RUN([
+	#include <stdio.h>
+	#include <stdlib.h>
+	int main() {
+		FILE *fp;
+
+		fp = fopen("conftest.short", "w");
+		if (fp == NULL)
+			exit(1);
+
+		if (sizeof(short) >= 2)
+		{
+			fprintf(fp, "short\n");
+			exit(0);
+		}
+
+		if (sizeof(int) >= 2)
+		{
+			fprintf(fp, "int\n");
+			exit(0);
+		}
+
+		if (sizeof(long) >= 2)
+		{
+			fprintf(fp, "long\n");
+			exit(0);
+		}
+
+		fprintf(fp, "unknown\n");
+		exit(1);
+	}],
+	[qp_cv_short_type=`cat conftest.short`],
+	[qp_cv_short_type=unknown],
+	[qp_cv_short_type=unknown])
+)
+if test "$qp_cv_short_type" = unknown; then
+	AC_TRY_RUN([
+	#include <stdio.h>
+	#include <stdlib.h>
+	int main() {
+		FILE *fp;
+
+		fp = fopen("conftest.short", "w");
+		if (fp == NULL)
+			exit(1);
+
+		if (sizeof(long long) >= 2)
+		{
+			fprintf(fp, "long long\n");
+			exit(0);
+		}
+
+		fprintf(fp, "unknown\n");
+		exit(1);
+	}],
+	[qp_cv_short_type=`cat conftest.short`],
+	[qp_cv_short_type=unknown],
+	[qp_cv_short_type=unknown])
+fi
+AC_MSG_RESULT($qp_cv_short_type)
+AC_DEFINE_UNQUOTED(SHORT_TYPE, $qp_cv_short_type)
+SHORT_TYPE=$qp_cv_short_type
+AC_SUBST(SHORT_TYPE)
+#------------------------------------------------------------------------------
+AC_MSG_CHECKING(for an integer type with at least 32 bits)
+AC_CACHE_VAL(qp_cv_int_type,
+	AC_TRY_RUN([
+	#include <stdio.h>
+	#include <stdlib.h>
+	int main() {
+		FILE *fp;
+
+		fp = fopen("conftest.int", "w");
+		if (fp == NULL)
+			exit(1);
+
+		if (sizeof(short int) >= 4)
+		{
+			fprintf(fp, "short int\n");
+			exit(0);
+		}
+
+		if (sizeof(int) >= 4)
+		{
+			fprintf(fp, "int\n");
+			exit(0);
+		}
+
+		if (sizeof(long) >= 4)
+		{
+			fprintf(fp, "long\n");
+			exit(0);
+		}
+
+		fprintf(fp, "unknown\n");
+		exit(1);
+	}],
+	[qp_cv_int_type=`cat conftest.int`],
+	[qp_cv_int_type=unknown],
+	[qp_cv_int_type=unknown])
+)
+if test "$qp_cv_int_type" = unknown; then
+	AC_TRY_RUN([
+	#include <stdio.h>
+	#include <stdlib.h>
+	int main() {
+		FILE *fp;
+
+		fp = fopen("conftest.int", "w");
+		if (fp == NULL)
+			exit(1);
+
+		if (sizeof(long long) >= 4)
+		{
+			fprintf(fp, "long long\n");
+			exit(0);
+		}
+
+		fprintf(fp, "unknown\n");
+		exit(1);
+	}],
+	[qp_cv_int_type=`cat conftest.int`],
+	[qp_cv_int_type=unknown],
+	[qp_cv_int_type=unknown])
+fi
+AC_MSG_RESULT($qp_cv_int_type)
+AC_DEFINE_UNQUOTED(INT_TYPE, $qp_cv_int_type)
+INT_TYPE=$qp_cv_int_type
+AC_SUBST(INT_TYPE)
+#------------------------------------------------------------------------------
+AC_MSG_CHECKING(the number of bytes per word)
+AC_CACHE_VAL(qp_cv_bytes_per_word,
+	AC_TRY_RUN([
+	#include <stdio.h>
+	#include <stdlib.h>
+	int main() {
+		FILE *fp;
+
+		fp = fopen("conftest.wordbytes", "w");
+		if (fp == NULL)
+			exit(1);
+		fprintf(fp, "%d\n", sizeof(void *));
+
+		exit(0);
+	}],
+	[qp_cv_bytes_per_word=`cat conftest.wordbytes`],
+	[qp_cv_bytes_per_word=0],
+	[qp_cv_bytes_per_word=0])
+)
+AC_MSG_RESULT($qp_cv_bytes_per_word)
+AC_DEFINE_UNQUOTED(BYTES_PER_WORD, $qp_cv_bytes_per_word)
+BYTES_PER_WORD=$qp_cv_bytes_per_word
+AC_SUBST(BYTES_PER_WORD)
+#------------------------------------------------------------------------------
+AC_MSG_CHECKING(the number of bits per word)
+AC_CACHE_VAL(qp_cv_bits_per_word,
+	AC_TRY_RUN([
+	#include <stdio.h>
+	#include <stdlib.h>
+	#include <limits.h>
+	int main() {
+		FILE *fp;
+
+		fp = fopen("conftest.wordbits", "w");
+		if (fp == NULL)
+			exit(1);
+		fprintf(fp, "%d\n", CHAR_BIT * sizeof(void *));
+
+		exit(0);
+	}],
+	[qp_cv_bits_per_word=`cat conftest.wordbits`],
+	[qp_cv_bits_per_word=0],
+	[qp_cv_bits_per_word=0])
+)
+AC_MSG_RESULT($qp_cv_bits_per_word)
+AC_DEFINE_UNQUOTED(BITS_PER_WORD, $qp_cv_bits_per_word)
+BITS_PER_WORD=$qp_cv_bits_per_word
+AC_SUBST(BITS_PER_WORD)
+#------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------#
+AC_MSG_CHECKING(whether we can use gcc labels)
+AC_CACHE_VAL(qp_cv_gcc_labels,
+	AC_TRY_RUN([
+	void *entry_foo_1;
+	void *entry_bar_1;
+	void *succip;
+	int global;
+	foo() {
+		entry_foo_1 = && foo_1;
+		return;
+	foo_1:
+		if (global != 42) exit(1);
+		goto *entry_bar_1;
+	}
+	bar() {
+		entry_bar_1 = && bar_1;
+		return;
+	bar_1:
+		if (global != 42) exit(1);
+		goto *succip;
+	}
+	main() {
+		global = 42;
+		foo();
+		bar();
+		succip = &&last;
+		goto *entry_foo_1;
+		exit(1);
+	last:
+		if (global != 42) exit(1);
+		exit(0);
+	}], [qp_cv_gcc_labels=yes], [qp_cv_gcc_labels=no],
+		[qp_cv_gcc_labels=no])
+)
+AC_MSG_RESULT($qp_cv_gcc_labels)
+if test "$qp_cv_gcc_labels" = yes; then
+	AC_DEFINE(HAVE_GCC_LABELS)
+fi
+AC_MSG_CHECKING(whether pkg-config finds the PCRE library)
+if test x`pkg-config --cflags libpcre` != x; then
+      AC_DEFINE(PCRE)
+else
+     AC_MSG_WARN(The PCRE library was not found using pkg-config)   
+fi
+#------------------------------------------------------------------------------
+
+AC_OUTPUT(LOGIN_CMDS \
+	  Makefile \
+	  PROFILE_CMDS \
+	  bin/Makefile \
+	  bin/kq \
+	  bin/qc \
+	  bin/qc1.boot \
+	  bin/qcc \
+	  bin/qppp \
+	  prolog/Makefile \
+	  prolog/compiler/Makefile \
+	  prolog/library/Makefile \
+	  prolog/qc1/Makefile \
+	  prolog/qecat/Makefile 
+	  prolog/qg/Makefile \
+	  prolog/qp/Makefile \
+	  src/Makefile \
+	  src/Makefile.heap \
+	  src/Makefile.ipc \
+	  src/Makefile.library \
+	  src/Makefile.psi \
+	  src/Makefile.qa \
+	  src/Makefile.qdeal \
+	  src/Makefile.qem \
+	  src/Makefile.ql \
+	  src/Makefile.qod \
+	  src/Makefile.thread \
+          )
+chmod -f a+x bin/kq \
+	  bin/qc \
+	  bin/qc1.boot \
+	  bin/qcc \
+	  bin/qppp \
+
+echo
+echo
+echo
+echo "*********************************************************************"
+echo "Command history/editing/completion can be used if rlwrap is installed"
+echo "*********************************************************************"
+echo 
+echo
+echo
+
+

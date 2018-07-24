@@ -1,0 +1,76 @@
+.\" Copyright (c) Software Verification Research Centre - All Rights Reserved.
+.TH ql 1 "1 March 2000" SVRC
+.SH NAME
+ql \- Qu-Prolog linker
+.SH SYNOPSIS
+.B ql
+[
+.BI \-a size
+]
+[
+.BI \-d size
+]
+[
+.BI \-p size
+]
+[
+.BI \-s size
+]
+.BI \-o executable
+.RI "objectfile .\|.\|."
+.SH DESCRIPTION
+\f4ql\f1 is the Qu-Prolog linker, which is part of the Qu-Prolog
+compilation system.
+It reads the Qu-Prolog object code from \f4objectfile\f1 and saves the
+executable in \f4executable\f1 and \f4executable.qx\f1.
+.SH OPTIONS
+.TP
+.BI \-a size
+Set the size of the atom table to
+.I size
+entries.
+The system makes the size of the table the next power of two
+bigger than twice the supplied size.
+The default size is 10000.
+.TP
+.BI \-d size
+Set the code area to
+.I size
+K bytes.
+The default size is 400K bytes.
+.TP
+.BI \-p size
+Set the size of the predicate table to
+.I size
+entries
+The system makes the size of the table the next power of two
+bigger than twice the supplied size.
+The default size is 10000.
+.TP
+.BI \-s size
+Set the string table to
+.I size
+K bytes.
+The default size is 64K bytes.
+.TP
+.BI \-o executable
+The base name of the output and data file.
+.SH FILES
+.PD 0
+.TP 20
+.IB file .qo
+object file
+.TP
+.IB file
+executable output file
+.TP
+.IB file .qx
+executable data file
+.PD
+.SH SEE ALSO
+.BR cpp (1),
+.BR qa (1),
+.BR qc (1).
+.SH COPYRIGHT
+Software Verification Research Centre,
+The University of Queensland, Australia 4072.

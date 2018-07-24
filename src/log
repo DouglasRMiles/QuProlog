@@ -1,0 +1,14 @@
+make all.qa all.qdeal all.qem all.ql all.qpns
+make[1]: Entering directory `/home/richard/5.0/src'
+flex -olexer.cc qa.l
+bison -y -oqa.cc qa.y
+g++ -ggdb -Wall -DDEBUG=1 -D_GNU_SOURCE=1 -D_THREAD_SAFE=1 -D_REENTRANT=1 -ggdb -Wall -DDEBUG=1 -D_GNU_SOURCE=1 -D_THREAD_SAFE=1 -D_REENTRANT=1   -c qa.cc -o qa.o
+/usr/lib/bison.simple: In function `int yyparse()':
+/usr/lib/bison.simple:387: warning: implicit declaration of function `int yylex(...)'
+g++  -o qa asm_string_table.o code_block.o qa.o qa_options.o -lpthread -lnsl -ldl  qp.a -lfl
+qa.o: In function `yyparse(void)':
+qa.o(.text+0x2ba): undefined reference to `yylex'
+collect2: ld returned 1 exit status
+make[1]: *** [qa] Error 1
+make[1]: Leaving directory `/home/richard/5.0/src'
+make: *** [commands] Error 2
