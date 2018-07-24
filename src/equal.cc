@@ -42,10 +42,10 @@ Thread::equalEqual(PrologValue& term1, PrologValue& term2, int& counter)
   Object* o2 = term2.getTerm();
   
   bool* result = new bool();
-  if(o1->StrictEquals(o2, *result)) {
+  if(o1->StrictEquals(o2, this, *result)) {
     return *result;
   }
-  if(o2->StrictEquals(o1, *result)) {
+  if(o2->StrictEquals(o1, this, *result)) {
     return *result;
   }
 
@@ -53,7 +53,7 @@ Thread::equalEqual(PrologValue& term1, PrologValue& term2, int& counter)
 }
 
 bool
-Object::OverridesStrictEquals(Object* o2, bool &result) 
+Object::OverridesStrictEquals(Object* o2, Thread* ctx, bool &result) 
 {
   result = false;
   return false;

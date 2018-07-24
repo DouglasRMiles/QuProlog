@@ -1868,17 +1868,17 @@ Thread::unify(Object* term1, Object* term2, bool in_quant)
 {
 
   bool* result = new bool();
-  if(term1->Unify(term2, in_quant, *result)) {
+  if(term1->Unify(term2, this, in_quant, *result)) {
     return *result;
   }
-  if(term2->Unify(term1, in_quant, *result)) {
+  if(term2->Unify(term1, this, in_quant, *result)) {
     return *result;
   }
   return unify_Original(term1, term2, in_quant);
 }
 
 bool
-Object::OverridesUnify(Object* o2, bool in_quant, bool &result) 
+Object::OverridesUnify(Object* o2, Thread* ctx, bool in_quant, bool &result) 
 {
   result = false;
   return false;

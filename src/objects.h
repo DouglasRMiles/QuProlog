@@ -158,8 +158,8 @@ public:
 
 #ifdef OBJECT_OVERRIDES
   // For mutiterms
-  virtual bool OverridesStrictEquals(Object* o2, bool &result);
-  virtual bool OverridesUnify(Object* o2, bool in_quant, bool &result); 
+  virtual bool OverridesStrictEquals(Object* o2, Thread* ctx, bool &result);
+  virtual bool OverridesUnify(Object* o2, Thread* ctx, bool in_quant, bool &result); 
 #endif
   
   // Some boolean functions for eliciting the type of Object being
