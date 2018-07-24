@@ -27,14 +27,14 @@ import stat
 
 ##############################
 
-preprocess='/home/pjr/research/qp_dev/rel/qp10.1/bin/qppp'
-expand='/home/pjr/research/qp_dev/rel/qp10.1/bin/qg'
-qpcompile='/home/pjr/research/qp_dev/rel/qp10.1/bin/qc1'
+preprocess='/opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/qppp'
+expand='/opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/qg'
+qpcompile='/opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/qc1'
 compversion='qup'
-assemble='/home/pjr/research/qp_dev/rel/qp10.1/bin/qa'
-link='/home/pjr/research/qp_dev/rel/qp10.1/bin/ql'
-execute='/home/pjr/research/qp_dev/rel/qp10.1/bin/qem'
-libqofiles="/home/pjr/research/qp_dev/rel/qp10.1/prolog/compiler/*.qo /home/pjr/research/qp_dev/rel/qp10.1/prolog/library/*.qo"
+assemble='/opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/qa'
+link='/opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/ql'
+execute='/opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/qem'
+libqofiles="/opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/prolog/compiler/*.qo /opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/prolog/library/*.qo"
 
 ##############################
 

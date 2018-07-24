@@ -1,0 +1,8 @@
+# Add this file to your ~/.profile
+
+QPHOME=/opt/logicmoo_workspace/taupl/qulog0.4/QuProlog
+QPPATH=$QPHOME/bin
+PATH=$QPPATH:$PATH
+MANPATH=$QPHOME/doc/man:$MANPATH
+export QPHOME QPPATH PATH MANPATH
+export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH

@@ -1,0 +1,29 @@
+#
+# Makefile for "qod"
+#
+export COMMAND.qod = qod
+
+export SOURCES.qod = qod.cc
+
+BASES.qod	= $(basename $(SOURCES.qod))
+OBJECTS.qod	= $(addsuffix .o,$(BASES.qod))
+
+export GENERATED.qod =
+
+.PHONY:	all.qod
+all.qod:	$(COMMAND.qod)
+
+$(COMMAND.qod): $(OBJECTS.qod) $(LIBRARY.library) $(LIBRARY.thread)
+	$(CXX) $(LDFLAGS) -o $(COMMAND.qod) $(OBJECTS.qod) -lnsl -ldl  $(LIBRARY.library) $(LIBRARY.thread)
+
+.PHONY: install.qod
+install.qod: /opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/$(COMMAND.qod)
+
+/opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/$(COMMAND.qod): $(COMMAND.qod)
+	/usr/bin/install -c $(COMMAND.qod) /opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin
+
+.PHONY: clean.qod
+clean.qod:
+	$(RM) $(OBJECTS.qod) $(COMMAND.qod) Makefile.qod
+
+

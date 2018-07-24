@@ -1,0 +1,5 @@
+# Add this file to your ~/.login
+setenv QPPATH $QPHOME/bin
+setenv MANPATH ${QPHOME}/doc/man
+setenv PATH ${PATH}:${QPPATH}
+setenv LD_LIBRARY_PATH .:${LD_LIBRARY_PATH}

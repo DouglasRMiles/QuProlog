@@ -1,0 +1,27 @@
+export COMMAND.qem = qem
+
+export SOURCES.qem = \
+	qem.cc \
+	qem_options.cc \
+	scheduler.cc
+
+export BASES.qem	= $(basename $(SOURCES.qem))
+export OBJECTS.qem	= $(addsuffix .o,$(BASES.qem))
+
+.PHONY:	all.qem
+all.qem: $(COMMAND.qem)
+
+$(COMMAND.qem): $(OBJECTS.qem) $(BIG_LIBRARY)
+	$(CXX) $(LDFLAGS) -o $(COMMAND.qem) $(OBJECTS.qem) $(BIG_LIBRARY) -lnsl -ldl   `pkg-config --cflags --libs libpcre` $(BIG_LIBRARY)
+
+.PHONY: install.qem
+install.qem: /opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/$(COMMAND.qem)
+
+/opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/$(COMMAND.qem): $(COMMAND.qem)
+	/usr/bin/install -c $(COMMAND.qem) /opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin
+
+.PHONY:	clean.qem
+clean.qem:
+	$(RM) $(OBJECTS.qem) $(COMMAND.qem) Makefile.qem
+
+

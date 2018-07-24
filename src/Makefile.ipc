@@ -1,0 +1,32 @@
+export LIBRARY.ipc = ipc.a
+
+export SOURCES.ipc = \
+	pedro_env.cc \
+	pedro_token.c \
+	thread_table.cc
+
+export BASES.ipc= $(basename $(SOURCES.ipc))
+export OBJECTS.ipc= $(addsuffix .o,$(BASES.ipc))
+
+.PHONY:	all.ipc
+all.ipc: $(LIBRARY.ipc)
+
+$(LIBRARY.ipc): $(OBJECTS.ipc)
+	$(AR) $(ARFLAGS) $@ $(OBJECTS.ipc)
+	ranlib $@
+
+.PHONY: install.ipc
+install.ipc: all.ipc
+
+
+pedro_token.o : pedro_token.c
+	$(CXX) -fno-strict-aliasing -Wall -D_GNU_SOURCE=1 -O2  -DNDEBUG   -Wno-uninitialized -c -o pedro_token.o pedro_token.c 
+
+pedro_token.c: pedro_token.l
+	flex -opedro_token.c pedro_token.l
+
+.PHONY:	clean.ipc
+clean.ipc:
+	$(RM) $(OBJECTS.ipc)  $(LIBRARY.ipc) Makefile.ipc
+
+
