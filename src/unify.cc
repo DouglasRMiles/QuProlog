@@ -1857,12 +1857,39 @@ Thread::unifyOtherVarTerm(Object* term1, Object* term2, bool in_quant)
 }
 
 
+
 //
 // General unify algorithm. 
 //
 bool
-Thread::unify(Object* term1, Object* term2, bool in_quant)
+Thread::unify(Object* term1, Object* term2, bool in_quant) 
+
+#ifdef OBJECT_OVERRIDES
 {
+
+  bool* result = new bool();
+  if(term1->Unify(term2, in_quant, *result)) {
+    return *result;
+  }
+  if(term2->Unify(term1, in_quant, *result)) {
+    return *result;
+  }
+  return unify_Original(term1, term2, in_quant);
+}
+
+bool
+Object::OverridesUnify(Object* o2, bool in_quant, bool &result) 
+{
+  result = false;
+  return false;
+}
+
+bool
+Thread::unify_Original(Object* term1, Object* term2, bool in_quant) 
+#endif 
+
+{
+  
   //
   // Do the full dereference.
   //

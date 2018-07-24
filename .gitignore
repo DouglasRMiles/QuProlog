@@ -1,0 +1,10 @@
+*.o
+*.qo
+*.a
+bin/q*
+src/qa
+src/qdeal
+src/qem
+src/ql
+
+

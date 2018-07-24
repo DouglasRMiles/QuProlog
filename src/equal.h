@@ -30,6 +30,7 @@ public:
 // C-level implementation of ==
 //
 bool equalEqual(PrologValue&, PrologValue&, int&);
+bool equalEqual_Original(PrologValue& term1, PrologValue& term2, int& counter);
 
 //
 // C-level version of simplify_term
