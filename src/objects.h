@@ -156,6 +156,12 @@ public:
   // Returns the first word of the storage after the tag
   inline heapobject *storage(void);
 
+#ifdef OBJECT_OVERRIDES
+  // For mutiterms
+  virtual bool OverridesStrictEquals(Object* o2, Thread* ctx, bool &result);
+  virtual bool OverridesUnify(Object* o2, Thread* ctx, bool in_quant, bool &result); 
+#endif
+  
   // Some boolean functions for eliciting the type of Object being
   // pointed to.
   

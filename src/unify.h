@@ -152,6 +152,9 @@ inline bool unifyOtherVarTerm(Object* term1, Object* term2, bool in_quant);
 //
 bool unify(Object* term1, Object* term2, bool in_quant = false);
 
+#ifdef OBJECT_OVERRIDES
+bool unify_Original(Object* term1, Object* term2, bool in_quant = false);
+#endif
 //
 // Unify object variables.
 //
