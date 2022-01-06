@@ -613,6 +613,20 @@ end('$is_timeout'/1):
 
 '$mc_inline/2$0'/8:
 
+	switch_on_term(0, $6, $1, $1, $3, $1, $1)
+
+$3:
+	switch_on_structure(0, 4, ['$default':$1, '$'/0:$4, 'timeout'/1:$5])
+
+$4:
+	try(8, $1)
+	trust($2)
+
+$5:
+	try(8, $1)
+	trust($2)
+
+$6:
 	try(8, $1)
 	trust($2)
 
@@ -637,6 +651,8 @@ $1:
 	proceed
 
 $2:
+	get_structure('timeout', 1, 0)
+	unify_x_variable(0)
 	get_structure(',', 2, 1)
 	unify_x_ref(1)
 	unify_x_ref(8)
@@ -740,7 +756,8 @@ $1:
 	unify_x_variable(8)
 	get_structure('timeout', 1, 0)
 	unify_x_variable(0)
-	get_x_value(0, 5)
+	get_structure('timeout', 1, 5)
+	unify_x_value(0)
 	get_x_value(8, 6)
 	put_constant('true', 0)
 	get_x_value(1, 0)
@@ -753,7 +770,8 @@ $2:
 	unify_x_variable(8)
 	get_structure('timeout', 1, 0)
 	unify_x_variable(0)
-	get_x_value(0, 5)
+	get_structure('timeout', 1, 5)
+	unify_x_value(0)
 	get_x_value(8, 6)
 	put_constant('true', 0)
 	get_x_value(1, 0)
@@ -772,7 +790,8 @@ $3:
 	unify_x_variable(9)
 	get_structure('timeout', 1, 8)
 	unify_x_variable(8)
-	get_x_value(8, 5)
+	get_structure('timeout', 1, 5)
+	unify_x_value(8)
 	get_x_value(9, 6)
 	get_x_variable(5, 7)
 	allocate(1)
@@ -792,7 +811,8 @@ $4:
 	unify_x_variable(9)
 	get_structure('timeout', 1, 8)
 	unify_x_variable(8)
-	get_x_value(8, 5)
+	get_structure('timeout', 1, 5)
+	unify_x_value(8)
 	get_x_value(9, 6)
 	get_x_variable(5, 7)
 	allocate(1)
@@ -992,7 +1012,7 @@ end('$mc_get_msg_addr_code'/5):
 
 
 
-'$query_communications1526442632_57/0$0'/0:
+'$query_communications1593041819_604/0$0'/0:
 
 
 $1:
@@ -1005,11 +1025,11 @@ $1:
 	cut(0)
 	deallocate
 	proceed
-end('$query_communications1526442632_57/0$0'/0):
+end('$query_communications1593041819_604/0$0'/0):
 
 
 
-'$query_communications1526442632_57/0$1'/0:
+'$query_communications1593041819_604/0$1'/0:
 
 
 $1:
@@ -1022,11 +1042,11 @@ $1:
 	cut(0)
 	deallocate
 	proceed
-end('$query_communications1526442632_57/0$1'/0):
+end('$query_communications1593041819_604/0$1'/0):
 
 
 
-'$query_communications1526442632_57/0$2'/0:
+'$query_communications1593041819_604/0$2'/0:
 
 
 $1:
@@ -1039,11 +1059,11 @@ $1:
 	cut(0)
 	deallocate
 	proceed
-end('$query_communications1526442632_57/0$2'/0):
+end('$query_communications1593041819_604/0$2'/0):
 
 
 
-'$query_communications1526442632_57/0$3'/0:
+'$query_communications1593041819_604/0$3'/0:
 
 
 $1:
@@ -1056,11 +1076,11 @@ $1:
 	cut(0)
 	deallocate
 	proceed
-end('$query_communications1526442632_57/0$3'/0):
+end('$query_communications1593041819_604/0$3'/0):
 
 
 
-'$query_communications1526442632_57/0$4'/0:
+'$query_communications1593041819_604/0$4'/0:
 
 
 $1:
@@ -1073,11 +1093,11 @@ $1:
 	cut(0)
 	deallocate
 	proceed
-end('$query_communications1526442632_57/0$4'/0):
+end('$query_communications1593041819_604/0$4'/0):
 
 
 
-'$query_communications1526442632_57/0$5'/0:
+'$query_communications1593041819_604/0$5'/0:
 
 
 $1:
@@ -1090,11 +1110,11 @@ $1:
 	cut(0)
 	deallocate
 	proceed
-end('$query_communications1526442632_57/0$5'/0):
+end('$query_communications1593041819_604/0$5'/0):
 
 
 
-'$query_communications1526442632_57/0$6'/0:
+'$query_communications1593041819_604/0$6'/0:
 
 
 $1:
@@ -1107,11 +1127,11 @@ $1:
 	cut(0)
 	deallocate
 	proceed
-end('$query_communications1526442632_57/0$6'/0):
+end('$query_communications1593041819_604/0$6'/0):
 
 
 
-'$query_communications1526442632_57/0$7'/0:
+'$query_communications1593041819_604/0$7'/0:
 
 
 $1:
@@ -1124,11 +1144,11 @@ $1:
 	cut(0)
 	deallocate
 	proceed
-end('$query_communications1526442632_57/0$7'/0):
+end('$query_communications1593041819_604/0$7'/0):
 
 
 
-'$query_communications1526442632_57/0$8'/0:
+'$query_communications1593041819_604/0$8'/0:
 
 
 $1:
@@ -1141,11 +1161,11 @@ $1:
 	cut(0)
 	deallocate
 	proceed
-end('$query_communications1526442632_57/0$8'/0):
+end('$query_communications1593041819_604/0$8'/0):
 
 
 
-'$query_communications1526442632_57/0$9'/0:
+'$query_communications1593041819_604/0$9'/0:
 
 
 $1:
@@ -1158,11 +1178,11 @@ $1:
 	cut(0)
 	deallocate
 	proceed
-end('$query_communications1526442632_57/0$9'/0):
+end('$query_communications1593041819_604/0$9'/0):
 
 
 
-'$query_communications1526442632_57'/0:
+'$query_communications1593041819_604'/0:
 
 	try(0, $1)
 	retry($2)
@@ -1178,57 +1198,57 @@ end('$query_communications1526442632_57/0$9'/0):
 
 $1:
 	allocate(0)
-	call_predicate('$query_communications1526442632_57/0$0', 0, 0)
+	call_predicate('$query_communications1593041819_604/0$0', 0, 0)
 	fail
 
 $2:
 	allocate(0)
-	call_predicate('$query_communications1526442632_57/0$1', 0, 0)
+	call_predicate('$query_communications1593041819_604/0$1', 0, 0)
 	fail
 
 $3:
 	allocate(0)
-	call_predicate('$query_communications1526442632_57/0$2', 0, 0)
+	call_predicate('$query_communications1593041819_604/0$2', 0, 0)
 	fail
 
 $4:
 	allocate(0)
-	call_predicate('$query_communications1526442632_57/0$3', 0, 0)
+	call_predicate('$query_communications1593041819_604/0$3', 0, 0)
 	fail
 
 $5:
 	allocate(0)
-	call_predicate('$query_communications1526442632_57/0$4', 0, 0)
+	call_predicate('$query_communications1593041819_604/0$4', 0, 0)
 	fail
 
 $6:
 	allocate(0)
-	call_predicate('$query_communications1526442632_57/0$5', 0, 0)
+	call_predicate('$query_communications1593041819_604/0$5', 0, 0)
 	fail
 
 $7:
 	allocate(0)
-	call_predicate('$query_communications1526442632_57/0$6', 0, 0)
+	call_predicate('$query_communications1593041819_604/0$6', 0, 0)
 	fail
 
 $8:
 	allocate(0)
-	call_predicate('$query_communications1526442632_57/0$7', 0, 0)
+	call_predicate('$query_communications1593041819_604/0$7', 0, 0)
 	fail
 
 $9:
 	allocate(0)
-	call_predicate('$query_communications1526442632_57/0$8', 0, 0)
+	call_predicate('$query_communications1593041819_604/0$8', 0, 0)
 	fail
 
 $10:
 	allocate(0)
-	call_predicate('$query_communications1526442632_57/0$9', 0, 0)
+	call_predicate('$query_communications1593041819_604/0$9', 0, 0)
 	fail
 
 $11:
 	proceed
-end('$query_communications1526442632_57'/0):
+end('$query_communications1593041819_604'/0):
 
 
 
@@ -1236,7 +1256,7 @@ end('$query_communications1526442632_57'/0):
 
 
 $1:
-	execute_predicate('$query_communications1526442632_57', 0)
+	execute_predicate('$query_communications1593041819_604', 0)
 end('$query'/0):
 
 

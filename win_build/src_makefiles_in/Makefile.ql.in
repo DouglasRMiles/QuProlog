@@ -1,0 +1,27 @@
+export COMMAND.ql = ql
+
+export SOURCES.ql	= \
+	ql.cc \
+	ql_options.cc
+
+export BASES.ql	= $(basename $(SOURCES.ql))
+export OBJECTS.ql = $(addsuffix .o,$(BASES.ql))
+
+.PHONY:	all.ql
+all.ql: $(COMMAND.ql)
+
+$(COMMAND.ql): $(OBJECTS.ql) $(BIG_LIBRARY)
+	$(CXX) $(LDFLAGS) -static-libgcc -static-libstdc++ -o $(COMMAND.ql) $(OBJECTS.ql) @LIBS@ $(BIG_LIBRARY)
+
+.PHONY: install.ql
+install.ql: @QPHOME@/bin/$(COMMAND.ql)
+
+@QPHOME@/bin/$(COMMAND.ql): $(COMMAND.ql)
+	@INSTALL@ $(COMMAND.ql) @QPHOME@/bin
+
+.PHONY:	clean.ql
+clean.ql:
+	$(RM) $(OBJECTS.ql) $(COMMAND.ql) Makefile.ql
+
+
+

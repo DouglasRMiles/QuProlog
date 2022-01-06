@@ -2,7 +2,7 @@
 # Makefile for "qg"
 #
 
-PROGRAM		= /opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/qg
+PROGRAM		= /opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/bin/qg
 
 SOURCES		= qg.ql
 
@@ -22,5 +22,5 @@ clean:
 
 
 %.qo: %.qs
-	$(COMPILE.qc) -c -o $@ $<
+	$(BOOTSTRAP.qc) -c -o $@ $<
 

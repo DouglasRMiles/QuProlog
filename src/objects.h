@@ -61,7 +61,7 @@ class Substitution;
 class SubstitutionBlock;
 
 // Garbage collection bit
-static const heapobject GC_B    = 0x00000001UL;
+static const heapobject GC_B    = 0x00000001ULL;
 
 //////////////////////////////////////////////////////////////////////
 // The Object class specification
@@ -76,34 +76,34 @@ class Object
   
 public:
   // Buckybits for the broadest types in the tag
-  static const heapobject TypeMask     =  0x000000F0UL;
-  static const heapobject TypeVar      =  0x00000000UL;	// variable
-  static const heapobject TypeShort    =  0x00000010UL;	// short
-  static const heapobject TypeLong     =  0x00000030UL;	// long
-  static const heapobject TypeDouble   =  0x00000050UL;	// double
-  static const heapobject TypeAtom     =  0x00000040UL;	// atom
-  static const heapobject TypeString   =  0x00000020UL;	// string
-  static const heapobject TypeStruct   =  0x00000070UL;	// struct
-  static const heapobject TypeCons     =  0x00000060UL;	// Cons (list)
-  static const heapobject TypeObjVar   =  0x00000080UL;	// object variable
-  static const heapobject TypeQuant    =  0x00000090UL;	// quantifier
-  static const heapobject TypeSubst    =  0x000000A0UL;	// substitution
-  static const heapobject TypeSubBlock =  0x000000B0UL; // substitution block
+  static const heapobject TypeMask     =  0x000000F0ULL;
+  static const heapobject TypeVar      =  0x00000000ULL;	// variable
+  static const heapobject TypeShort    =  0x00000010ULL;	// short
+  static const heapobject TypeLong     =  0x00000030ULL;	// long
+  static const heapobject TypeDouble   =  0x00000050ULL;	// double
+  static const heapobject TypeAtom     =  0x00000040ULL;	// atom
+  static const heapobject TypeString   =  0x00000020ULL;	// string
+  static const heapobject TypeStruct   =  0x00000070ULL;	// struct
+  static const heapobject TypeCons     =  0x00000060ULL;	// Cons (list)
+  static const heapobject TypeObjVar   =  0x00000080ULL;	// object variable
+  static const heapobject TypeQuant    =  0x00000090ULL;	// quantifier
+  static const heapobject TypeSubst    =  0x000000A0ULL;	// substitution
+  static const heapobject TypeSubBlock =  0x000000B0ULL; // substitution block
 
   // Types for unification switch
   // number = { short, long, double}
   // other = {sub, subblock, obvar, quant, other-var}
-  static const heapobject UnifyMask    =  0x0000000EUL;
-  static const heapobject UVar         =  0x00000000UL; // variable
-  static const heapobject UVarOC       =  0x00000002UL; // var with OC flag set
-  static const heapobject UNumber      =  0x00000004UL; // number
-  static const heapobject UAtom        =  0x00000006UL; // atom
-  static const heapobject UString      =  0x00000008UL; // string
-  static const heapobject UStruct      =  0x0000000AUL; // structure
-  static const heapobject UCons        =  0x0000000cUL; // cons
-  static const heapobject UOther       =  0x0000000EUL; // other
+  static const heapobject UnifyMask    =  0x0000000EULL;
+  static const heapobject UVar         =  0x00000000ULL; // variable
+  static const heapobject UVarOC       =  0x00000002ULL; // var with OC flag set
+  static const heapobject UNumber      =  0x00000004ULL; // number
+  static const heapobject UAtom        =  0x00000006ULL; // atom
+  static const heapobject UString      =  0x00000008ULL; // string
+  static const heapobject UStruct      =  0x0000000AULL; // structure
+  static const heapobject UCons        =  0x0000000cULL; // cons
+  static const heapobject UOther       =  0x0000000EULL; // other
 
-  static const heapobject TypeTagMask  =  0x000000FFUL;
+  static const heapobject TypeTagMask  =  0x000000FFULL;
   static const heapobject VarTag       =  GC_B | UVar      | TypeVar;
   static const heapobject VarOCTag     =  GC_B | UVarOC    | TypeVar;
   static const heapobject VarOtherTag  =  GC_B | UOther    | TypeVar;
@@ -119,8 +119,8 @@ public:
   static const heapobject SubstTag     =  GC_B | UOther    | TypeSubst;
   static const heapobject SubBlockTag  =  GC_B | UOther    | TypeSubBlock;
 
-  static const heapobject NumberTag        =  0x00000015UL;
-  static const heapobject DerefMask        =  0x00000070UL;
+  static const heapobject NumberTag        =  0x00000015ULL;
+  static const heapobject DerefMask        =  0x00000070ULL;
 
 
   static const heapobject tVar         =  TypeVar >> 4;
@@ -142,11 +142,11 @@ protected:			// contents of structure
 
 public:
   // For masking the top bits
-  static const heapobject TopMask   =    -256L;          // fff..fff00UL
-  static const heapobject TopSBMask =    -4096L;         // fff..ff000UL
+  static const heapobject TopMask   =    -256LL;          // fff..fff00ULL
+  static const heapobject TopSBMask =    -4096LL;         // fff..ff000ULL
 
   // Special tag for unify_x_ref instruction
-  static const heapobject RefTag = 0x000000FEUL;
+  static const heapobject RefTag = 0x000000FEULL;
 
   inline u_int tTag() const;
   inline heapobject getTag() const;
@@ -156,12 +156,6 @@ public:
   // Returns the first word of the storage after the tag
   inline heapobject *storage(void);
 
-#ifdef OBJECT_OVERRIDES
-  // For mutiterms
-  virtual bool OverridesStrictEquals(Object* o2, Thread* ctx, bool &result);
-  virtual bool OverridesUnify(Object* o2, Thread* ctx, bool in_quant, bool &result); 
-#endif
-  
   // Some boolean functions for eliciting the type of Object being
   // pointed to.
   
@@ -199,7 +193,7 @@ public:
   inline bool isSubstitutionBlock(void) const;
   
   // Returns the value of a Short or Long.
-  inline long getInteger(void);
+  inline qint64 getInteger(void);
   inline double getDouble(void);
 
   inline heapobject* last(void);
@@ -316,10 +310,10 @@ protected:
 
 public:
   // Buckybits 
-  static const heapobject AssociatedMask =	0x00000300UL;
-  static const heapobject AssociatedNone =	0x00000000UL;
-  static const heapobject AssociatedInteger =	0x00000100UL;
-  static const heapobject AssociatedAtom =	0x00000200UL;
+  static const heapobject AssociatedMask =	0x00000300ULL;
+  static const heapobject AssociatedNone =	0x00000000ULL;
+  static const heapobject AssociatedInteger =	0x00000100ULL;
+  static const heapobject AssociatedAtom =	0x00000200ULL;
   
   typedef heapobject AssociatedItem;
 
@@ -349,10 +343,10 @@ public:
   inline bool hasAssociatedAtom(void) const;
   inline bool hasAssociatedInteger(void) const;
 
-  inline void associateInteger(const long val);
+  inline void associateInteger(const qint64 val);
   inline void associateAtom(Atom *atm);
   inline Atom *getAssociatedAtom(void) const;
-  inline long getAssociatedInteger(void) const;
+  inline qint64 getAssociatedInteger(void) const;
 
 
 public:
@@ -375,7 +369,7 @@ protected:
 public:
   static const heapobject Zero    = ShortTag;
   // Accessors and mutators
-  inline long getValue(void) const;
+  inline qint64 getValue(void) const;
   
 public:
   static inline size_t size(void);
@@ -424,7 +418,7 @@ protected:
   
 public:
   // Accessor (no mutator)
-  inline long getValue(void) const;
+  inline qint64 getValue(void) const;
   
 public:
   static inline size_t size(void);
@@ -495,17 +489,17 @@ protected:
   Object *tail;
 
 public:
-  static const heapobject FlagTypeMask =		0x00000c00UL;
+  static const heapobject FlagTypeMask =		0x00000c00ULL;
 
-  static const heapobject FlagAnyList =			0x00000000UL;
-  static const heapobject FlagObjectVariableList = 	0x00000400UL;
-  static const heapobject FlagSubstitutionBlockList =	0x00000800UL;
-  static const heapobject FlagDelayedProblemList =	0x00000c00UL;
+  static const heapobject FlagAnyList =			0x00000000ULL;
+  static const heapobject FlagObjectVariableList = 	0x00000400ULL;
+  static const heapobject FlagSubstitutionBlockList =	0x00000800ULL;
+  static const heapobject FlagDelayedProblemList =	0x00000c00ULL;
 
-  static const heapobject FlagInvertibleMask =		0x00000200UL;
+  static const heapobject FlagInvertibleMask =		0x00000200ULL;
   
-  static const heapobject FlagNotInvertible =		0x00000000UL;
-  static const heapobject FlagInvertible =		0x00000200UL;
+  static const heapobject FlagNotInvertible =		0x00000000ULL;
+  static const heapobject FlagInvertible =		0x00000200ULL;
   static const u_int TailOffset = 2;
 
 public:
@@ -611,13 +605,13 @@ protected:
 
 public:
   // Buckybits
-  static const heapobject InvertibleMask =      0x00000200UL;
-  static const heapobject FlagInvertible =	0x00000200UL;
-  static const heapobject FlagNotInvertible =	0x00000000UL;
+  static const heapobject InvertibleMask =      0x00000200ULL;
+  static const heapobject FlagInvertible =	0x00000200ULL;
+  static const heapobject FlagNotInvertible =	0x00000000ULL;
 
   // Accessor type for Invertible
   enum Invertible {
-    NotInvertible = 0UL,
+    NotInvertible = 0ULL,
     IsInvertible = FlagInvertible
   };
 
@@ -680,13 +674,13 @@ public:
   static const u_int NameOffset = 2;
   static const u_int DelaysOffset = 3;
   // Buckybits
-  static const heapobject FlagExtraMask = 	0x00000F00UL;
+  static const heapobject FlagExtraMask = 	0x00000F00ULL;
 
-  static const heapobject FlagOccurs =		0x00000100UL;
-  static const heapobject FlagExtraInfo =	0x00000200UL;
-  static const heapobject FlagTemperature =	0x00000400UL;
-  static const heapobject FlagCollected =       0x00001000UL;
-  static const heapobject FlagPerm =            0x00002000UL;
+  static const heapobject FlagOccurs =		0x00000100ULL;
+  static const heapobject FlagExtraInfo =	0x00000200ULL;
+  static const heapobject FlagTemperature =	0x00000400ULL;
+  static const heapobject FlagCollected =       0x00001000ULL;
+  static const heapobject FlagPerm =            0x00002000ULL;
 
 
   // Accessors and mutators
@@ -772,9 +766,9 @@ class ObjectVariable: public Reference
 {
 public:
   static const u_int DistinctnessOffset = 4;
-  static const heapobject FlagLocalMask = 	0x00000800UL;
+  static const heapobject FlagLocalMask = 	0x00000800ULL;
 
-  static const heapobject FlagLocal =		0x00000800UL;
+  static const heapobject FlagLocal =		0x00000800ULL;
 
   // Temperature operations
   inline void freeze(void);
@@ -1176,7 +1170,7 @@ Atom::hasAssociatedInteger(void) const
   return (tag & AssociatedMask) == AssociatedInteger;
 }
 
-inline void Atom::associateInteger(const long val)
+inline void Atom::associateInteger(const qint64 val)
 {
   tag = (tag & ~AssociatedMask) | AssociatedInteger;
   associatedval = val;
@@ -1196,7 +1190,7 @@ inline Atom *Atom::getAssociatedAtom(void) const
   return reinterpret_cast<Atom *>(associatedval);
 }
 
-inline long Atom::getAssociatedInteger (void) const
+inline qint64 Atom::getAssociatedInteger (void) const
 {
   assert(sizeof(void *) == sizeof(heapobject));
   assert(hasAssociatedInteger());
@@ -1235,11 +1229,11 @@ inline void Atom::printMe(AtomTable& atoms, bool)
 //////////////////////////////////////////////////////////////////////
 // Inline functions for the Short class
 
-inline long Short::getValue(void) const
+inline qint64 Short::getValue(void) const
 {
   // N.B. The alternative of using >> 8 is apparently not portable
   // in the case of signed quantities.
-  return (long)((long)(tag & TopMask) / 256);
+  return (qint64)((qint64)(tag & TopMask) / 256);
 }
 
 inline size_t Short::size(void)
@@ -1295,11 +1289,11 @@ inline wordlong Double::hashFn(void) const
 //////////////////////////////////////////////////////////////////////
 // Inline functions for the Long class
 
-inline long Long::getValue(void) const
+inline qint64 Long::getValue(void) const
 {
-  assert(sizeof(long) == sizeof(heapobject));
+  assert(sizeof(qint64) == sizeof(heapobject));
 
-  return (long)value;
+  return (qint64)value;
 }
 
 inline size_t Long::size(void)
@@ -2089,7 +2083,7 @@ inline void ObjectVariable::makeLocalObjectVariable(void)
 /////////////////////////////////////////////////////////
 // Other methods
 
-inline long Object::getInteger(void)
+inline qint64 Object::getInteger(void)
 {
   assert(isShort() || isLong());
 
@@ -2156,7 +2150,7 @@ Object::variableDereference()
   //
   assert(o != NULL);
 #ifdef QP_DEBUG
-  if (!o->check_object()) cerr << "object error " << hex << (u_long)o << " -> " << (u_long)(*((heapobject*)o)) << dec << endl;
+  if (!o->check_object()) cerr << "object error " << hex << (wordlong)o << " -> " << (wordlong)(*((heapobject*)o)) << dec << endl;
   assert(o->check_object());
 
 #endif
@@ -2274,7 +2268,7 @@ public:
   { 
     assert(i >= 0); 
     assert((i / bitsPerWord) < size);
-    bits[i / bitsPerWord] |= 1 << (bitMask & i);
+    bits[i / bitsPerWord] |= 1 << (i % bitsPerWord);
   }
 
   void setWord(int i, u_int v)
@@ -2288,7 +2282,7 @@ public:
   { 
     assert(i >= 0); 
     assert((i / bitsPerWord) < size);
-    return ((bits[i / bitsPerWord] & (1 << (bitMask & i))) != 0);
+    return ((bits[i / bitsPerWord] & (1 << (i % bitsPerWord))) != 0);
   }
 
   u_int* getBitsPtr() { return bits; }

@@ -210,11 +210,11 @@ void build_lifetime(WordArray&, xreglife&, WordArray&);
 
 void updateLife(WordArray&, Object*);
 
-bool is_xreg(Object*, long&);
+bool is_xreg(Object*, qint64&);
 
 bool is_yreg(Object*);
 
-long yreg_num(Object*);
+qint64 yreg_num(Object*);
 
 bool equal_regs(Object*, Object*);
 
@@ -233,7 +233,7 @@ bool any_assoc_putset(Object*, int, WordArray&);
 
 bool alloc_needed(Object*);
 
-long psi_reg(Object*);
+qint64 psi_reg(Object*);
 
 void writeCAtom(char*, QPStream*);
 

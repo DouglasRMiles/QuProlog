@@ -39,7 +39,7 @@ class ForeignInterfaceBase
   virtual ~ForeignInterfaceBase() {}
   virtual Object* getXReg(int i) = 0;
   virtual Object* makeAtom(const char* s) = 0;
-  virtual Object* makeInteger(const long i) = 0;
+  virtual Object* makeInteger(const qint64 i) = 0;
   virtual Object* makeString(const char* s) = 0;
   virtual Object* makeDouble(const double d) = 0;
   virtual Structure* makeStructure(const int n) = 0;
@@ -57,7 +57,7 @@ class ForeignInterface : public ForeignInterfaceBase
     
     Object* getXReg(int i); 
     Object* makeAtom(const char* s); 
-    Object* makeInteger(const long i); 
+    Object* makeInteger(const qint64 i); 
     Object* makeString(const char* s); 
     Object* makeDouble(const double d);
     Structure* makeStructure(const int n);

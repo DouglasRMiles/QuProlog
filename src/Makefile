@@ -40,7 +40,7 @@ export OPTIMISATION=-O2
 
 #export DEBUGGING=
 
-export CXXFLAGS = -fno-strict-aliasing -Wall -D_GNU_SOURCE=1 $(OPTIMISATION)   -Wno-uninitialized `pkg-config --cflags libpcre`
+export CXXFLAGS = -std=c++11 -fno-strict-aliasing -Wall -D_GNU_SOURCE=1 $(OPTIMISATION)   -Wno-uninitialized `pkg-config --cflags libpcre`
 export QACXXFLAGS = -Wall -D_GNU_SOURCE=1   -Wno-uninitialized
 
 .PHONY: all

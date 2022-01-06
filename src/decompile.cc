@@ -1411,7 +1411,7 @@ Thread::next_instr(CodeLoc programCounter, Object* head, Object* &first,
 	case OPCODE(UNIFY_STRING, ARGS()):
           {
 	    first = heap.newInteger(
-                         reinterpret_cast<long>(programCounter - Code::SIZE_OF_INSTRUCTION));
+                         reinterpret_cast<qint64>(programCounter - Code::SIZE_OF_INSTRUCTION));
              return(RV_SUCCESS);
           }
         break;
@@ -1439,14 +1439,14 @@ Thread::next_instr(CodeLoc programCounter, Object* head, Object* &first,
 	  {
              getNumber(programCounter);
              const word32 label = getOffset(programCounter);
-	     next = heap.newInteger(reinterpret_cast<long>(programCounter + label));
+	     next = heap.newInteger(reinterpret_cast<qint64>(programCounter + label));
 	  }
 	break; 
 	  
 	case OPCODE(RETRY_ME_ELSE, ARGS(offset)):
 	  {
              const word32 label = getOffset(programCounter);
-	     next = heap.newInteger(reinterpret_cast<long>(programCounter + label));
+	     next = heap.newInteger(reinterpret_cast<qint64>(programCounter + label));
 	  }
 	break;
 
@@ -1459,7 +1459,7 @@ Thread::next_instr(CodeLoc programCounter, Object* head, Object* &first,
 	  {
              getNumber(programCounter);
              const word32 label = getOffset(programCounter);
-	     next = heap.newInteger(reinterpret_cast<long>(programCounter));
+	     next = heap.newInteger(reinterpret_cast<qint64>(programCounter));
              programCounter += label;
 	  }
 	break; 
@@ -1467,7 +1467,7 @@ Thread::next_instr(CodeLoc programCounter, Object* head, Object* &first,
 	case OPCODE(RETRY, ARGS(offset)):
 	  {
             const word32 label = getOffset(programCounter);
-	    next = heap.newInteger(reinterpret_cast<long>(programCounter));
+	    next = heap.newInteger(reinterpret_cast<qint64>(programCounter));
             programCounter += label;
 	  }
 	break; 

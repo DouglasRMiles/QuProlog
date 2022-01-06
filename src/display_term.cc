@@ -169,7 +169,7 @@ Heap::display_term(ostream& ostrm, AtomTable& atoms, Object* term,
       display_term(ostrm, atoms, 
 		   OBJECT_CAST(Structure*, term)->getFunctor(), depth+1);
 
-      for (u_long i = 1; i <= OBJECT_CAST(Structure*, term)->getArity(); i++)
+      for (wordlong i = 1; i <= OBJECT_CAST(Structure*, term)->getArity(); i++)
 	{
 	  display_term(ostrm, atoms,
 		       OBJECT_CAST(Structure*, term)->getArgument(i), depth+1);
@@ -247,7 +247,7 @@ Heap::quick_display_term(ostream& ostrm, AtomTable& atoms, Object* term)
 	{
 	  ostrm << "(";
 	  
-	  for (u_long i = 1; i <= OBJECT_CAST(Structure*, term)->getArity(); i++)
+	  for (wordlong i = 1; i <= OBJECT_CAST(Structure*, term)->getArity(); i++)
 	    {
 	      quick_display_term(ostrm, atoms,
 				 OBJECT_CAST(Structure*, term)->getArgument(i));

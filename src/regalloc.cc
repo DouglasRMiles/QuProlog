@@ -92,7 +92,7 @@ Heap::excess_realloc_reg(Object* reg, int& currY,
   Object* result = reg;
   if (reg->isStructure())
     {
-      long r;
+      qint64 r;
       if (OBJECT_CAST(Structure*, reg)->getFunctor() == AtomTable::unify_ref)
         {
           Structure* tstruct = OBJECT_CAST(Structure*, reg);
@@ -582,7 +582,7 @@ Heap::assn_elim(WordArray& ecode, WordArray& acode)
 	      Object* arg4 = tstruct->getArgument(4)->variableDereference();
 	      assert(arg3->isStructure());
 	      assert(arg4->isStructure());
-	      long regno;
+	      qint64 regno;
 	      if (is_xreg(arg4, regno) && regno != NUMBER_X_REGISTERS-1 &&
 		  is_yreg(arg3))
 		{
@@ -670,7 +670,7 @@ Heap::assn_elim(WordArray& ecode, WordArray& acode)
 	      
 	      assert(arg3->isStructure());
 	      assert(arg4->isStructure());
-	      long reg;
+	      qint64 reg;
 	      if (is_xreg(arg4, reg) && is_yreg(arg3) &&
 		  is_live(arg4, arg3, xreg_life))
 		{
@@ -718,7 +718,7 @@ Heap::assn_elim(WordArray& ecode, WordArray& acode)
 	      tstruct->getArgument(2) == AtomTable::variable)
 	    {
 	      Object* arg3 = tstruct->getArgument(3)->variableDereference();
-	      long reg;
+	      qint64 reg;
 	      if (is_xreg(arg3, reg))
 		{
 		  Structure* other = newStructure(1);
@@ -741,7 +741,7 @@ Heap::assn_elim(WordArray& ecode, WordArray& acode)
 	{
 	  Object* arg1 = tstruct->getArgument(1)->variableDereference();
 	  Object* arg2 = tstruct->getArgument(2)->variableDereference();
-	  long reg;
+	  qint64 reg;
 	  if (arg1 == AtomTable::meta &&
 	      arg2 == AtomTable::value &&
 	      is_xreg(tstruct->getArgument(3)->variableDereference(), reg))
@@ -1004,7 +1004,7 @@ Heap::peephole(WordArray& acode, WordArray& final, int esize, bool isCompiled)
 	      equal_regs(reg1, reg2) && i+1 < acode.lastEntry())
 	    {
 	      Structure* gstruct = OBJECT_CAST(Structure*, reinterpret_cast<Object*>(acode.Entries()[i+1]));
-	      long reg;
+	      qint64 reg;
 	      Object* nt1 = gstruct->getArgument(1)->variableDereference();
 	      if (gstruct->getFunctor() == AtomTable::get &&
                   gstruct->getArgument(1)->variableDereference() 
@@ -1074,7 +1074,7 @@ Heap::peephole(WordArray& acode, WordArray& final, int esize, bool isCompiled)
 	  Object* t2 = tstruct->getArgument(2)->variableDereference();
 	  Object* arg1 = tstruct->getArgument(3)->variableDereference();
 	  Object* arg2 = tstruct->getArgument(4)->variableDereference();
-	  long reg;
+	  qint64 reg;
 	  if ((t2 == AtomTable::value && equal_regs(arg1, arg2)) ||
 	      (t1 == AtomTable::meta && t2 == AtomTable::variable &&
 	      equal_regs(arg1, arg2) && is_xreg(arg1, reg)))

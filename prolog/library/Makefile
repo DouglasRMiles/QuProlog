@@ -1,7 +1,7 @@
 #
 # Makefile for "prolog/library"
 #
-QPOBJDIR= /opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/prolog_object/library
+QPOBJDIR= /opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/prolog_object/library
 
 SOURCES	= \
 	arithmetic.ql \

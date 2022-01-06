@@ -38,6 +38,7 @@ typedef u_int suseconds_t;
 #endif
 
 #include <iostream>
+using namespace std;
 
 #include "errors.h"
 
@@ -90,11 +91,11 @@ public:
       else
         {
           gettimeofday(&tv, NULL);
-          long s = (long)floor(d);
-          long m = (long)floor((d-s)*1000000);
-          long ms = tv.tv_usec + m;
-          long secs = tv.tv_sec + s + ms / 1000000;
-          long usecs = ms % 1000000;
+          qint64 s = (qint64)floor(d);
+          qint64 m = (qint64)floor((d-s)*1000000);
+          qint64 ms = tv.tv_usec + m;
+          qint64 secs = tv.tv_sec + s + ms / 1000000;
+          qint64 usecs = ms % 1000000;
           tv.tv_sec = (time_t)secs;
           tv.tv_usec = (suseconds_t)usecs;
         }
@@ -118,11 +119,17 @@ public:
     }
   bool operator==(const Timeval& t) const
     {
-      return timercmp(&tv, &t.tv, ==);
+      if (tv.tv_sec < t.tv.tv_sec) return false;
+      if (tv.tv_sec > t.tv.tv_sec) return false;
+      // tv.tv_sec == t.tv.tv_sec
+      return tv.tv_usec == t.tv.tv_usec;
     }
   bool operator!=(const Timeval& t) const
     {
-      return timercmp(&tv, &t.tv, !=);
+      if (tv.tv_sec < t.tv.tv_sec) return true;
+      if (tv.tv_sec > t.tv.tv_sec) return true;
+      // tv.tv_sec == t.tv.tv_sec
+      return tv.tv_usec != t.tv.tv_usec;
     }
   bool operator<(const Timeval& t) const
     {
@@ -136,7 +143,10 @@ public:
 	}
       else
 	{
-	  return timercmp(&tv, &t.tv, <);
+          if (tv.tv_sec < t.tv.tv_sec) return true;
+          if (tv.tv_sec > t.tv.tv_sec) return false;
+          // tv.tv_sec == t.tv.tv_sec
+          return tv.tv_usec < t.tv.tv_usec;
 	}
     }
   bool operator<=(const Timeval& t) const
@@ -151,7 +161,10 @@ public:
 	}
       else
 	{
-	  return timercmp(&tv, &t.tv, <=);
+          if (tv.tv_sec < t.tv.tv_sec) return true;
+          if (tv.tv_sec > t.tv.tv_sec) return false;
+          // tv.tv_sec == t.tv.tv_sec
+          return tv.tv_usec <= t.tv.tv_usec;
 	}
     }
 /*

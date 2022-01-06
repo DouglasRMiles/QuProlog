@@ -38,7 +38,7 @@ Heap::decode_stream(IOManager& iom,
 		    QPStream **stream_handle,
 		    const IODirection dir)
 {
-  assert(dir == INPUT || dir == OUTPUT);
+  assert(dir == QP_INPUT || dir == QP_OUTPUT);
 
   QPStream *strmptr = NULL;
 
@@ -62,7 +62,7 @@ Heap::decode_stream(IOManager& iom,
 	  stream_cell == AtomTable::stream_user ||
 	  stream_cell == AtomTable::stream_user_input)
 	{
-	  if (dir == INPUT)
+	  if (dir == QP_INPUT)
 	    {
 	      strmptr = iom.StdIn();
 	    }
@@ -75,7 +75,7 @@ Heap::decode_stream(IOManager& iom,
 	       stream_cell == AtomTable::stream_user ||
 	       stream_cell == AtomTable::stream_user_output)
 	{
-	  if (dir == OUTPUT)
+	  if (dir == QP_OUTPUT)
 	    {
 	      strmptr = iom.StdOut();
 	    }
@@ -87,7 +87,7 @@ Heap::decode_stream(IOManager& iom,
       else if (stream_cell == AtomTable::stream_stderr ||
 	       stream_cell == AtomTable::stream_user_error)
 	{
-	  if (dir == OUTPUT)
+	  if (dir == QP_OUTPUT)
 	    {
 	     strmptr = iom.StdErr();
 	    }
@@ -129,10 +129,10 @@ Heap::decode_stream_output(IOManager& iom,
 			   Object* stream_cell,
 			   QPStream **stream_handle)
 {
-  const ErrorValue ev = decode_stream(iom, stream_cell, stream_handle, OUTPUT);
+  const ErrorValue ev = decode_stream(iom, stream_cell, stream_handle, QP_OUTPUT);
   if (ev == EV_NO_ERROR)
     {
-      if ((*stream_handle)->getDirection() != INPUT)
+      if ((*stream_handle)->getDirection() != QP_INPUT)
 	{
 	  return EV_NO_ERROR;
 	}
@@ -152,10 +152,10 @@ Heap::decode_stream_input(IOManager& iom,
 			  Object* stream_cell,
 			  QPStream **stream_handle)
 {
-  const ErrorValue ev = decode_stream(iom, stream_cell, stream_handle, INPUT);
+  const ErrorValue ev = decode_stream(iom, stream_cell, stream_handle, QP_INPUT);
   if (ev == EV_NO_ERROR)
     {
-      if ((*stream_handle)->getDirection() != OUTPUT)
+      if ((*stream_handle)->getDirection() != QP_OUTPUT)
 	{
 	  return EV_NO_ERROR;
 	}

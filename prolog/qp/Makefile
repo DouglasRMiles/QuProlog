@@ -1,7 +1,7 @@
 #
 # Makefile for "qp"
 #
-PROGRAM		= /opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/qp
+PROGRAM		= /opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/bin/qp
 
 SOURCES		= qp.ql
 

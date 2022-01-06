@@ -1,0 +1,60 @@
+export LIBRARY.library = library.a
+
+export SOURCES.library	= \
+	atom_table.cc \
+	block.cc \
+	code.cc \
+	compiler_support.cc \
+	dynamic_code.cc \
+	encode.cc \
+	errors.cc \
+	executable.cc \
+	gc.cc \
+	hash.cc \
+	hostname.cc \
+	name_table.cc \
+	obj_index.cc \
+	pred_table.cc \
+	signal.cc \
+	string.cc \
+	string_map.cc \
+	string_table.cc \
+	system_support.cc \
+	timer.cc \
+	tcp.cc \
+	write_support.cc
+
+export BASES.library	= $(basename $(SOURCES.library))
+export OBJECTS.library = $(addsuffix .o,$(BASES.library))
+
+.PHONY: all.library
+all.library: $(LIBRARY.library)
+
+$(LIBRARY.library): $(OBJECTS.library)
+	$(AR) $(ARFLAGS) $@ $(OBJECTS.library)
+	ranlib $@
+
+.PHONY: install.library
+install.library: all.library
+
+.PHONY:	clean.library
+clean.library:
+	$(RM) $(OBJECTS.library) $(LIBRARY.library) Makefile.library
+
+##BLOCK##
+.PHONY:	clobber.library
+clobber.library: clean.library
+	$(RM) $(LIBRARY.library) $(GENERATED.library)
+
+.PHONY: distclean.library
+distclean.library: clobber.library
+	$(RM) Makefile.library
+
+.PHONY: depend.library
+depend.library: $(SOURCES.library) $(GENERATED.library)
+	$(CXX) $(CPPFLAGS) -MM $(SOURCES.library) > Dependencies.library
+
+include Dependencies.library
+##ENDBLOCK##
+
+

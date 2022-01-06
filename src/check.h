@@ -32,7 +32,7 @@
       (heap).decode_stream_input(iom, cell, &stream);			\
     if (ev_input == EV_NO_ERROR)					\
       {									\
-	dir = INPUT;							\
+	dir = QP_INPUT;							\
       }									\
     else if (ev_input == EV_NOT_PERMITTED)				\
       {									\
@@ -40,7 +40,7 @@
           (heap).decode_stream_output(iom, cell, &stream);		\
 	if (ev_output == EV_NO_ERROR)					\
 	  {								\
-	    dir = OUTPUT;						\
+	    dir = QP_OUTPUT;						\
 	  }								\
 	else								\
 	  {								\

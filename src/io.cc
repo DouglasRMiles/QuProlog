@@ -527,7 +527,7 @@ QPofdstream::operator<<(const char* s)
 }
 
 void 
-QPofdstream::operator<<(const long n)
+QPofdstream::operator<<(const qint64 n)
 {
   stream << n;
   if (auto_flush) send();
@@ -657,7 +657,7 @@ QPomstream::operator<<(const char* s)
 }
 
 void 
-QPomstream::operator<<(const long n)
+QPomstream::operator<<(const qint64 n)
 {
   stream << n;
   if (auto_flush) send();

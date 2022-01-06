@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.2.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 2000-Wednesday 16 May  13:50:25 AEST 2018 
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0.2"
+#define YYBISON_VERSION "3.0.4"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -65,7 +65,7 @@
 #line 1 "qa.y" /* yacc.c:339  */
 
 /*
- * Copyright (C) 2000-Wednesday 16 May  13:50:25 AEST 2018 
+ * Copyright (C) 2000-Thu 25 Jun 09:36:43 AEST 2020 
  * Department of Computer Science and Electrical Engineering, 
  * The University of Queensland
  */
@@ -337,12 +337,12 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union YYSTYPE YYSTYPE;
+
 union YYSTYPE
 {
 #line 37 "qa.y" /* yacc.c:355  */
 
-  long int_value;
+  qint64 int_value;
   double double_value;
 
   string *label_name;
@@ -354,7 +354,7 @@ union YYSTYPE
   ASMInt<Code::InstructionSizedType> *instruction;
   ASMInt<Code::ConstantSizedType> *constant;
   ASMDouble<double> *double_num;
-  ASMInt<long> *int_num;
+  ASMInt<qint64> *int_num;
   ASMInt<Code::RegisterSizedType> *reg;
   ASMInt<Code::NumberSizedType> *number;
   ASMInt<Code::AddressSizedType> *address;
@@ -370,6 +370,8 @@ union YYSTYPE
 
 #line 372 "qa.cc" /* yacc.c:355  */
 };
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
@@ -383,7 +385,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 387 "qa.cc" /* yacc.c:358  */
+#line 389 "qa.cc" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -1861,7 +1863,7 @@ yyreduce:
 		  delete (yyvsp[-3].constant);
 		  delete (yyvsp[-1].number);
 		}
-#line 1865 "qa.cc" /* yacc.c:1646  */
+#line 1867 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 7:
@@ -1889,7 +1891,7 @@ yyreduce:
 		  delete labels;
 		  labels = NULL;
 		}
-#line 1893 "qa.cc" /* yacc.c:1646  */
+#line 1895 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 12:
@@ -1897,7 +1899,7 @@ yyreduce:
     {
 		  labels->Resolve(*(yyvsp[-1].label_name), *code_block);
 		}
-#line 1901 "qa.cc" /* yacc.c:1646  */
+#line 1903 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 13:
@@ -1907,7 +1909,7 @@ yyreduce:
 		  (yyvsp[-3].reg)->Put(*code_block); delete (yyvsp[-3].reg);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 1911 "qa.cc" /* yacc.c:1646  */
+#line 1913 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 14:
@@ -1917,7 +1919,7 @@ yyreduce:
 		  (yyvsp[-3].reg)->Put(*code_block); delete (yyvsp[-3].reg);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 1921 "qa.cc" /* yacc.c:1646  */
+#line 1923 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 15:
@@ -1927,7 +1929,7 @@ yyreduce:
 		  (yyvsp[-3].reg)->Put(*code_block); delete (yyvsp[-3].reg);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 1931 "qa.cc" /* yacc.c:1646  */
+#line 1933 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 16:
@@ -1937,7 +1939,7 @@ yyreduce:
 		  (yyvsp[-3].reg)->Put(*code_block); delete (yyvsp[-3].reg);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 1941 "qa.cc" /* yacc.c:1646  */
+#line 1943 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 17:
@@ -1947,7 +1949,7 @@ yyreduce:
 		  (yyvsp[-3].constant)->Put(*code_block); delete (yyvsp[-3].constant);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 1951 "qa.cc" /* yacc.c:1646  */
+#line 1953 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 18:
@@ -1957,7 +1959,7 @@ yyreduce:
 		  (yyvsp[-3].int_num)->Put(*code_block); delete (yyvsp[-3].int_num);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 1961 "qa.cc" /* yacc.c:1646  */
+#line 1963 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 19:
@@ -1967,7 +1969,7 @@ yyreduce:
 		  (yyvsp[-3].double_num)->Put(*code_block); delete (yyvsp[-3].double_num);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 1971 "qa.cc" /* yacc.c:1646  */
+#line 1973 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 20:
@@ -1982,7 +1984,7 @@ yyreduce:
 		  code_block->Put('\0');
 		  delete (yyvsp[-3].string_value);
 		}
-#line 1986 "qa.cc" /* yacc.c:1646  */
+#line 1988 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 21:
@@ -1991,7 +1993,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 1995 "qa.cc" /* yacc.c:1646  */
+#line 1997 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 22:
@@ -2001,7 +2003,7 @@ yyreduce:
 		  (yyvsp[-3].number)->Put(*code_block); delete (yyvsp[-3].number);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2005 "qa.cc" /* yacc.c:1646  */
+#line 2007 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 23:
@@ -2011,7 +2013,7 @@ yyreduce:
 		  (yyvsp[-3].reg)->Put(*code_block); delete (yyvsp[-3].reg);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2015 "qa.cc" /* yacc.c:1646  */
+#line 2017 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 24:
@@ -2021,7 +2023,7 @@ yyreduce:
 		  (yyvsp[-3].reg)->Put(*code_block); delete (yyvsp[-3].reg);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2025 "qa.cc" /* yacc.c:1646  */
+#line 2027 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 25:
@@ -2031,7 +2033,7 @@ yyreduce:
 		   (yyvsp[-3].reg)->Put(*code_block); delete (yyvsp[-3].reg);
 		   (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		 }
-#line 2035 "qa.cc" /* yacc.c:1646  */
+#line 2037 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 26:
@@ -2041,7 +2043,7 @@ yyreduce:
 		  (yyvsp[-3].reg)->Put(*code_block); delete (yyvsp[-3].reg);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2045 "qa.cc" /* yacc.c:1646  */
+#line 2047 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 27:
@@ -2050,7 +2052,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2054 "qa.cc" /* yacc.c:1646  */
+#line 2056 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 28:
@@ -2059,7 +2061,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2063 "qa.cc" /* yacc.c:1646  */
+#line 2065 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 29:
@@ -2069,7 +2071,7 @@ yyreduce:
 		  (yyvsp[-3].number)->Put(*code_block); delete (yyvsp[-3].number);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2073 "qa.cc" /* yacc.c:1646  */
+#line 2075 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 30:
@@ -2079,7 +2081,7 @@ yyreduce:
 		  (yyvsp[-3].reg)->Put(*code_block); delete (yyvsp[-3].reg);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2083 "qa.cc" /* yacc.c:1646  */
+#line 2085 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 31:
@@ -2089,7 +2091,7 @@ yyreduce:
 		  (yyvsp[-3].reg)->Put(*code_block); delete (yyvsp[-3].reg);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2093 "qa.cc" /* yacc.c:1646  */
+#line 2095 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 32:
@@ -2098,7 +2100,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2102 "qa.cc" /* yacc.c:1646  */
+#line 2104 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 33:
@@ -2108,7 +2110,7 @@ yyreduce:
 		  (yyvsp[-3].reg)->Put(*code_block); delete (yyvsp[-3].reg);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2112 "qa.cc" /* yacc.c:1646  */
+#line 2114 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 34:
@@ -2118,7 +2120,7 @@ yyreduce:
 		  (yyvsp[-3].reg)->Put(*code_block); delete (yyvsp[-3].reg);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2122 "qa.cc" /* yacc.c:1646  */
+#line 2124 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 35:
@@ -2128,7 +2130,7 @@ yyreduce:
 		  (yyvsp[-3].reg)->Put(*code_block); delete (yyvsp[-3].reg);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2132 "qa.cc" /* yacc.c:1646  */
+#line 2134 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 36:
@@ -2138,7 +2140,7 @@ yyreduce:
 		  (yyvsp[-3].reg)->Put(*code_block); delete (yyvsp[-3].reg);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2142 "qa.cc" /* yacc.c:1646  */
+#line 2144 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 37:
@@ -2148,7 +2150,7 @@ yyreduce:
 		  (yyvsp[-3].constant)->Put(*code_block); delete (yyvsp[-3].constant);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2152 "qa.cc" /* yacc.c:1646  */
+#line 2154 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 38:
@@ -2158,7 +2160,7 @@ yyreduce:
 		  (yyvsp[-3].int_num)->Put(*code_block); delete (yyvsp[-3].int_num);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2162 "qa.cc" /* yacc.c:1646  */
+#line 2164 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 39:
@@ -2168,7 +2170,7 @@ yyreduce:
 		  (yyvsp[-3].double_num)->Put(*code_block); delete (yyvsp[-3].double_num);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2172 "qa.cc" /* yacc.c:1646  */
+#line 2174 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 40:
@@ -2183,7 +2185,7 @@ yyreduce:
 		  code_block->Put('\0');
 		  delete (yyvsp[-3].string_value);
 		}
-#line 2187 "qa.cc" /* yacc.c:1646  */
+#line 2189 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 41:
@@ -2192,7 +2194,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2196 "qa.cc" /* yacc.c:1646  */
+#line 2198 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 42:
@@ -2203,7 +2205,7 @@ yyreduce:
 		  (yyvsp[-3].number)->Put(*code_block); delete (yyvsp[-3].number);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2207 "qa.cc" /* yacc.c:1646  */
+#line 2209 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 43:
@@ -2213,7 +2215,7 @@ yyreduce:
 		  (yyvsp[-3].number)->Put(*code_block); delete (yyvsp[-3].number);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2217 "qa.cc" /* yacc.c:1646  */
+#line 2219 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 44:
@@ -2223,7 +2225,7 @@ yyreduce:
 		  (yyvsp[-3].reg)->Put(*code_block); delete (yyvsp[-3].reg);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2227 "qa.cc" /* yacc.c:1646  */
+#line 2229 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 45:
@@ -2233,7 +2235,7 @@ yyreduce:
 		  (yyvsp[-3].reg)->Put(*code_block); delete (yyvsp[-3].reg);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2237 "qa.cc" /* yacc.c:1646  */
+#line 2239 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 46:
@@ -2243,7 +2245,7 @@ yyreduce:
 		  (yyvsp[-3].reg)->Put(*code_block); delete (yyvsp[-3].reg);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2247 "qa.cc" /* yacc.c:1646  */
+#line 2249 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 47:
@@ -2253,7 +2255,7 @@ yyreduce:
 		  (yyvsp[-3].reg)->Put(*code_block); delete (yyvsp[-3].reg);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2257 "qa.cc" /* yacc.c:1646  */
+#line 2259 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 48:
@@ -2262,7 +2264,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
         	}
-#line 2266 "qa.cc" /* yacc.c:1646  */
+#line 2268 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 49:
@@ -2271,7 +2273,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
         	}
-#line 2275 "qa.cc" /* yacc.c:1646  */
+#line 2277 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 50:
@@ -2280,7 +2282,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
         	}
-#line 2284 "qa.cc" /* yacc.c:1646  */
+#line 2286 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 51:
@@ -2289,7 +2291,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
         	}
-#line 2293 "qa.cc" /* yacc.c:1646  */
+#line 2295 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 52:
@@ -2298,7 +2300,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].constant)->Put(*code_block); delete (yyvsp[-1].constant);
 		}
-#line 2302 "qa.cc" /* yacc.c:1646  */
+#line 2304 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 53:
@@ -2307,7 +2309,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].int_num)->Put(*code_block); delete (yyvsp[-1].int_num);
 		}
-#line 2311 "qa.cc" /* yacc.c:1646  */
+#line 2313 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 54:
@@ -2316,7 +2318,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].double_num)->Put(*code_block); delete (yyvsp[-1].double_num);
 		}
-#line 2320 "qa.cc" /* yacc.c:1646  */
+#line 2322 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 55:
@@ -2330,7 +2332,7 @@ yyreduce:
 		  code_block->Put('\0');
 		  delete (yyvsp[-1].string_value);
 		}
-#line 2334 "qa.cc" /* yacc.c:1646  */
+#line 2336 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 56:
@@ -2339,7 +2341,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].number)->Put(*code_block); delete (yyvsp[-1].number);
 	        }
-#line 2343 "qa.cc" /* yacc.c:1646  */
+#line 2345 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 57:
@@ -2348,7 +2350,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
         	}
-#line 2352 "qa.cc" /* yacc.c:1646  */
+#line 2354 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 58:
@@ -2357,7 +2359,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
         	}
-#line 2361 "qa.cc" /* yacc.c:1646  */
+#line 2363 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 59:
@@ -2366,7 +2368,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
         	}
-#line 2370 "qa.cc" /* yacc.c:1646  */
+#line 2372 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 60:
@@ -2375,7 +2377,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 	        }
-#line 2379 "qa.cc" /* yacc.c:1646  */
+#line 2381 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 61:
@@ -2384,7 +2386,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
         	}
-#line 2388 "qa.cc" /* yacc.c:1646  */
+#line 2390 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 62:
@@ -2393,7 +2395,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
         	}
-#line 2397 "qa.cc" /* yacc.c:1646  */
+#line 2399 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 63:
@@ -2402,7 +2404,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
         	}
-#line 2406 "qa.cc" /* yacc.c:1646  */
+#line 2408 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 64:
@@ -2411,7 +2413,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
         	}
-#line 2415 "qa.cc" /* yacc.c:1646  */
+#line 2417 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 65:
@@ -2420,7 +2422,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
         	}
-#line 2424 "qa.cc" /* yacc.c:1646  */
+#line 2426 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 66:
@@ -2429,7 +2431,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 	        }
-#line 2433 "qa.cc" /* yacc.c:1646  */
+#line 2435 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 67:
@@ -2438,7 +2440,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].constant)->Put(*code_block); delete (yyvsp[-1].constant);
 		}
-#line 2442 "qa.cc" /* yacc.c:1646  */
+#line 2444 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 68:
@@ -2447,7 +2449,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].int_num)->Put(*code_block); delete (yyvsp[-1].int_num);
 		}
-#line 2451 "qa.cc" /* yacc.c:1646  */
+#line 2453 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 69:
@@ -2456,7 +2458,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].double_num)->Put(*code_block); delete (yyvsp[-1].double_num);
 		}
-#line 2460 "qa.cc" /* yacc.c:1646  */
+#line 2462 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 70:
@@ -2470,7 +2472,7 @@ yyreduce:
 		  code_block->Put('\0');
 		  delete (yyvsp[-1].string_value);
 		}
-#line 2474 "qa.cc" /* yacc.c:1646  */
+#line 2476 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 71:
@@ -2479,7 +2481,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].number)->Put(*code_block); delete (yyvsp[-1].number);
 		}
-#line 2483 "qa.cc" /* yacc.c:1646  */
+#line 2485 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 72:
@@ -2488,7 +2490,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].number)->Put(*code_block); delete (yyvsp[-1].number);
 		}
-#line 2492 "qa.cc" /* yacc.c:1646  */
+#line 2494 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 73:
@@ -2497,7 +2499,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].number)->Put(*code_block); delete (yyvsp[-1].number);
 		}
-#line 2501 "qa.cc" /* yacc.c:1646  */
+#line 2503 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 74:
@@ -2505,7 +2507,7 @@ yyreduce:
     {
 		  (yyvsp[0].instruction)->Put(*code_block); delete (yyvsp[0].instruction);
 		}
-#line 2509 "qa.cc" /* yacc.c:1646  */
+#line 2511 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 75:
@@ -2516,7 +2518,7 @@ yyreduce:
 		  (yyvsp[-3].number)->Put(*code_block); delete (yyvsp[-3].number);
 		  (yyvsp[-1].number)->Put(*code_block); delete (yyvsp[-1].number);
 		}
-#line 2520 "qa.cc" /* yacc.c:1646  */
+#line 2522 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 76:
@@ -2526,7 +2528,7 @@ yyreduce:
 		  (yyvsp[-3].address)->Put(*code_block); delete (yyvsp[-3].address);
 		  (yyvsp[-1].number)->Put(*code_block); delete (yyvsp[-1].number);
 		}
-#line 2530 "qa.cc" /* yacc.c:1646  */
+#line 2532 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 77:
@@ -2536,7 +2538,7 @@ yyreduce:
 		  (yyvsp[-3].address)->Put(*code_block); delete (yyvsp[-3].address);
 		  (yyvsp[-1].number)->Put(*code_block); delete (yyvsp[-1].number);
 		}
-#line 2540 "qa.cc" /* yacc.c:1646  */
+#line 2542 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 78:
@@ -2546,7 +2548,7 @@ yyreduce:
 		  (yyvsp[-3].constant)->Put(*code_block); delete (yyvsp[-3].constant);
 		  (yyvsp[-1].number)->Put(*code_block); delete (yyvsp[-1].number);
 		}
-#line 2550 "qa.cc" /* yacc.c:1646  */
+#line 2552 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 79:
@@ -2555,7 +2557,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].address)->Put(*code_block); delete (yyvsp[-1].address);
 		}
-#line 2559 "qa.cc" /* yacc.c:1646  */
+#line 2561 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 80:
@@ -2564,7 +2566,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].address)->Put(*code_block); delete (yyvsp[-1].address);
 		}
-#line 2568 "qa.cc" /* yacc.c:1646  */
+#line 2570 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 81:
@@ -2572,7 +2574,7 @@ yyreduce:
     {
 		  (yyvsp[0].instruction)->Put(*code_block); delete (yyvsp[0].instruction);
 		}
-#line 2576 "qa.cc" /* yacc.c:1646  */
+#line 2578 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 82:
@@ -2581,7 +2583,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].address)->Put(*code_block); delete (yyvsp[-1].address);
 		}
-#line 2585 "qa.cc" /* yacc.c:1646  */
+#line 2587 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 83:
@@ -2589,7 +2591,7 @@ yyreduce:
     {
 		  (yyvsp[0].instruction)->Put(*code_block); delete (yyvsp[0].instruction);
 		}
-#line 2593 "qa.cc" /* yacc.c:1646  */
+#line 2595 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 84:
@@ -2597,7 +2599,7 @@ yyreduce:
     {
 		  (yyvsp[0].instruction)->Put(*code_block); delete (yyvsp[0].instruction);
 		}
-#line 2601 "qa.cc" /* yacc.c:1646  */
+#line 2603 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 85:
@@ -2605,7 +2607,7 @@ yyreduce:
     {
 		  (yyvsp[0].instruction)->Put(*code_block); delete (yyvsp[0].instruction);
 		}
-#line 2609 "qa.cc" /* yacc.c:1646  */
+#line 2611 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 86:
@@ -2613,7 +2615,7 @@ yyreduce:
     {
 		  (yyvsp[0].instruction)->Put(*code_block); delete (yyvsp[0].instruction);
 		}
-#line 2617 "qa.cc" /* yacc.c:1646  */
+#line 2619 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 87:
@@ -2628,7 +2630,7 @@ yyreduce:
 
 		  labels->AddReference(*(yyvsp[-1].label_name), *code_block, jump_offset_base);
 		}
-#line 2632 "qa.cc" /* yacc.c:1646  */
+#line 2634 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 88:
@@ -2641,7 +2643,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  labels->AddReference(*(yyvsp[-1].label_name), *code_block, jump_offset_base);
 		}
-#line 2645 "qa.cc" /* yacc.c:1646  */
+#line 2647 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 89:
@@ -2649,7 +2651,7 @@ yyreduce:
     {
 		  (yyvsp[0].instruction)->Put(*code_block); delete (yyvsp[0].instruction);
 		}
-#line 2653 "qa.cc" /* yacc.c:1646  */
+#line 2655 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 90:
@@ -2664,7 +2666,7 @@ yyreduce:
 
 		  labels->AddReference(*(yyvsp[-1].label_name), *code_block, jump_offset_base);
 		}
-#line 2668 "qa.cc" /* yacc.c:1646  */
+#line 2670 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 91:
@@ -2677,7 +2679,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  labels->AddReference(*(yyvsp[-1].label_name), *code_block, jump_offset_base);
 		}
-#line 2681 "qa.cc" /* yacc.c:1646  */
+#line 2683 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 92:
@@ -2690,7 +2692,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  labels->AddReference(*(yyvsp[-1].label_name), *code_block, jump_offset_base);
 		}
-#line 2694 "qa.cc" /* yacc.c:1646  */
+#line 2696 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 93:
@@ -2698,7 +2700,7 @@ yyreduce:
     {
 		  (yyvsp[0].instruction)->Put(*code_block); delete (yyvsp[0].instruction);
 		}
-#line 2702 "qa.cc" /* yacc.c:1646  */
+#line 2704 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 94:
@@ -2707,7 +2709,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2711 "qa.cc" /* yacc.c:1646  */
+#line 2713 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 95:
@@ -2716,7 +2718,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2720 "qa.cc" /* yacc.c:1646  */
+#line 2722 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 96:
@@ -2725,7 +2727,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2729 "qa.cc" /* yacc.c:1646  */
+#line 2731 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 97:
@@ -2746,7 +2748,7 @@ yyreduce:
 		  labels->AddReference(*(yyvsp[-3].label_name), *code_block, jump_offset_base);
 		  labels->AddReference(*(yyvsp[-1].label_name), *code_block, jump_offset_base);
 		}
-#line 2750 "qa.cc" /* yacc.c:1646  */
+#line 2752 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 98:
@@ -2776,7 +2778,7 @@ yyreduce:
 		  delete (yyvsp[-3].label_name);
 		  delete (yyvsp[-2].cl_list);
 		}
-#line 2780 "qa.cc" /* yacc.c:1646  */
+#line 2782 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 99:
@@ -2806,7 +2808,7 @@ yyreduce:
 		  delete (yyvsp[-3].label_name);
 		  delete (yyvsp[-2].aal_list);
 		}
-#line 2810 "qa.cc" /* yacc.c:1646  */
+#line 2812 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 100:
@@ -2836,7 +2838,7 @@ yyreduce:
 		  delete (yyvsp[-3].label_name);
 		  delete (yyvsp[-2].aal_list);
 		}
-#line 2840 "qa.cc" /* yacc.c:1646  */
+#line 2842 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 101:
@@ -2845,7 +2847,7 @@ yyreduce:
 		  (yyvsp[-3].instruction)->Put(*code_block); delete (yyvsp[-3].instruction);
 		  (yyvsp[-1].number)->Put(*code_block); delete (yyvsp[-1].number);
 		}
-#line 2849 "qa.cc" /* yacc.c:1646  */
+#line 2851 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 102:
@@ -2855,7 +2857,7 @@ yyreduce:
 		  (yyvsp[-3].number)->Put(*code_block); delete (yyvsp[-3].number);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2859 "qa.cc" /* yacc.c:1646  */
+#line 2861 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 103:
@@ -2866,7 +2868,7 @@ yyreduce:
 		  (yyvsp[-3].reg)->Put(*code_block); delete (yyvsp[-3].reg);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2870 "qa.cc" /* yacc.c:1646  */
+#line 2872 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 104:
@@ -2878,7 +2880,7 @@ yyreduce:
 		  (yyvsp[-3].reg)->Put(*code_block); delete (yyvsp[-3].reg);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2882 "qa.cc" /* yacc.c:1646  */
+#line 2884 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 105:
@@ -2891,7 +2893,7 @@ yyreduce:
 		  (yyvsp[-3].reg)->Put(*code_block); delete (yyvsp[-3].reg);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2895 "qa.cc" /* yacc.c:1646  */
+#line 2897 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 106:
@@ -2905,7 +2907,7 @@ yyreduce:
 		  (yyvsp[-3].reg)->Put(*code_block); delete (yyvsp[-3].reg);
 		  (yyvsp[-1].reg)->Put(*code_block); delete (yyvsp[-1].reg);
 		}
-#line 2909 "qa.cc" /* yacc.c:1646  */
+#line 2911 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 107:
@@ -2913,7 +2915,7 @@ yyreduce:
     {
 		  (yyval.cl_list) = NULL;
 		}
-#line 2917 "qa.cc" /* yacc.c:1646  */
+#line 2919 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 108:
@@ -2921,7 +2923,7 @@ yyreduce:
     {
 		  (yyval.cl_list) = (yyvsp[0].cl_list);
 		}
-#line 2925 "qa.cc" /* yacc.c:1646  */
+#line 2927 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 109:
@@ -2933,7 +2935,7 @@ yyreduce:
 
 		  (yyval.cl_list) = tmp;
 		}
-#line 2937 "qa.cc" /* yacc.c:1646  */
+#line 2939 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 110:
@@ -2943,7 +2945,7 @@ yyreduce:
 
 		  (yyval.cl_list) = (yyvsp[-2].cl_list);
 		}
-#line 2947 "qa.cc" /* yacc.c:1646  */
+#line 2949 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 111:
@@ -2952,7 +2954,7 @@ yyreduce:
 		  (yyval.cl) = new ConstantLabel((yyvsp[-2].constant), (yyvsp[0].label_name));
 		  
 		}
-#line 2956 "qa.cc" /* yacc.c:1646  */
+#line 2958 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 112:
@@ -2960,7 +2962,7 @@ yyreduce:
     {
 		  (yyval.aal_list) = NULL;
 		}
-#line 2964 "qa.cc" /* yacc.c:1646  */
+#line 2966 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 113:
@@ -2968,7 +2970,7 @@ yyreduce:
     {
 		  (yyval.aal_list) = (yyvsp[0].aal_list);
 		}
-#line 2972 "qa.cc" /* yacc.c:1646  */
+#line 2974 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 114:
@@ -2980,7 +2982,7 @@ yyreduce:
 
 		  (yyval.aal_list) = tmp;
 		}
-#line 2984 "qa.cc" /* yacc.c:1646  */
+#line 2986 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 115:
@@ -2989,7 +2991,7 @@ yyreduce:
 		  (yyvsp[-2].aal_list)->push_back((yyvsp[0].aal));
 		  (yyval.aal_list) = (yyvsp[-2].aal_list);
 		}
-#line 2993 "qa.cc" /* yacc.c:1646  */
+#line 2995 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 116:
@@ -3001,12 +3003,12 @@ yyreduce:
 		  ASMInt<Code::ConstantSizedType> *atom = 
 		    new ASMInt<Code::ConstantSizedType>(loc, ConstEntry::ATOM_TYPE);
 
-		  long arity = (yyvsp[-2].number)->Value();
+		  qint64 arity = (yyvsp[-2].number)->Value();
 		  ASMInt<Code::NumberSizedType> *carity = new ASMInt<Code::NumberSizedType>(arity);
 		  (yyval.aal) = new AtomArityLabel(atom, carity, (yyvsp[0].label_name));
 
 		}
-#line 3010 "qa.cc" /* yacc.c:1646  */
+#line 3012 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 117:
@@ -3014,7 +3016,7 @@ yyreduce:
     {
 		  (yyval.aal_list) = NULL;
 		}
-#line 3018 "qa.cc" /* yacc.c:1646  */
+#line 3020 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 118:
@@ -3022,7 +3024,7 @@ yyreduce:
     {
 		  (yyval.aal_list) = (yyvsp[0].aal_list);
 		}
-#line 3026 "qa.cc" /* yacc.c:1646  */
+#line 3028 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 119:
@@ -3034,7 +3036,7 @@ yyreduce:
 
 		  (yyval.aal_list) = tmp;
 		}
-#line 3038 "qa.cc" /* yacc.c:1646  */
+#line 3040 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 120:
@@ -3044,7 +3046,7 @@ yyreduce:
 
 		  (yyval.aal_list) = (yyvsp[-2].aal_list);
 		}
-#line 3048 "qa.cc" /* yacc.c:1646  */
+#line 3050 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 121:
@@ -3056,11 +3058,11 @@ yyreduce:
 		  ASMInt<Code::ConstantSizedType> *atom = 
 		    new ASMInt<Code::ConstantSizedType>(loc, ConstEntry::ATOM_TYPE);
 
-		  long arity = (yyvsp[-2].number)->Value();
+		  qint64 arity = (yyvsp[-2].number)->Value();
 		  ASMInt<Code::NumberSizedType> *carity = new ASMInt<Code::NumberSizedType>(arity);
 		  (yyval.aal) = new AtomArityLabel(atom, carity, (yyvsp[0].label_name));
 		}
-#line 3064 "qa.cc" /* yacc.c:1646  */
+#line 3066 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 123:
@@ -3072,7 +3074,7 @@ yyreduce:
 			     (yyvsp[0].atom_name)->c_str());
 		    }
 		}
-#line 3076 "qa.cc" /* yacc.c:1646  */
+#line 3078 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 124:
@@ -3083,7 +3085,7 @@ yyreduce:
 
 		  (yyval.constant) = new ASMInt<Code::ConstantSizedType>(loc, ConstEntry::ATOM_TYPE);
 		}
-#line 3087 "qa.cc" /* yacc.c:1646  */
+#line 3089 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 125:
@@ -3092,7 +3094,7 @@ yyreduce:
                   (yyval.constant) = new ASMInt<Code::ConstantSizedType>((Code::ConstantSizedType)((yyvsp[0].int_value)), ConstEntry::INTEGER_TYPE);
 
                 }
-#line 3096 "qa.cc" /* yacc.c:1646  */
+#line 3098 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 126:
@@ -3101,7 +3103,7 @@ yyreduce:
                   (yyval.constant) = new ASMInt<Code::ConstantSizedType>((Code::ConstantSizedType)((yyvsp[0].int_value)), ConstEntry::INTEGER_TYPE);
 
                 }
-#line 3105 "qa.cc" /* yacc.c:1646  */
+#line 3107 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 127:
@@ -3110,7 +3112,7 @@ yyreduce:
                   (yyval.constant) = new ASMInt<Code::ConstantSizedType>((Code::ConstantSizedType)(-(yyvsp[0].int_value)), ConstEntry::INTEGER_TYPE);
 
                 }
-#line 3114 "qa.cc" /* yacc.c:1646  */
+#line 3116 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 128:
@@ -3119,34 +3121,34 @@ yyreduce:
 		  (yyval.number) = new ASMInt<Code::NumberSizedType>((yyvsp[0].int_value));
 
                 }
-#line 3123 "qa.cc" /* yacc.c:1646  */
+#line 3125 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 129:
 #line 1176 "qa.y" /* yacc.c:1646  */
     {
-		  (yyval.int_num) = new ASMInt<long>((long)((yyvsp[0].int_value)), ConstEntry::INTEGER_TYPE);
+		  (yyval.int_num) = new ASMInt<qint64>((qint64)((yyvsp[0].int_value)), ConstEntry::INTEGER_TYPE);
 
 		}
-#line 3132 "qa.cc" /* yacc.c:1646  */
+#line 3134 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 130:
 #line 1181 "qa.y" /* yacc.c:1646  */
     {
-		  (yyval.int_num) = new ASMInt<long>((long)((yyvsp[0].int_value)), ConstEntry::INTEGER_TYPE);
+		  (yyval.int_num) = new ASMInt<qint64>((qint64)((yyvsp[0].int_value)), ConstEntry::INTEGER_TYPE);
 
 		}
-#line 3141 "qa.cc" /* yacc.c:1646  */
+#line 3143 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 131:
 #line 1186 "qa.y" /* yacc.c:1646  */
     {
-		  (yyval.int_num) = new ASMInt<long>(-(long)((yyvsp[0].int_value)), ConstEntry::INTEGER_TYPE);
+		  (yyval.int_num) = new ASMInt<qint64>(-(qint64)((yyvsp[0].int_value)), ConstEntry::INTEGER_TYPE);
 
 		}
-#line 3150 "qa.cc" /* yacc.c:1646  */
+#line 3152 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 132:
@@ -3155,7 +3157,7 @@ yyreduce:
 		  (yyval.double_num) = new ASMDouble<double>((double)((yyvsp[0].double_value)), ConstEntry::INTEGER_TYPE);
 
 		}
-#line 3159 "qa.cc" /* yacc.c:1646  */
+#line 3161 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 133:
@@ -3164,7 +3166,7 @@ yyreduce:
 		  (yyval.double_num) = new ASMDouble<double>((double)((yyvsp[0].double_value)), ConstEntry::INTEGER_TYPE);
 
 		}
-#line 3168 "qa.cc" /* yacc.c:1646  */
+#line 3170 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 134:
@@ -3173,7 +3175,7 @@ yyreduce:
 		  (yyval.double_num) = new ASMDouble<double>((double)(-(yyvsp[0].double_value)), ConstEntry::INTEGER_TYPE);
 
 		}
-#line 3177 "qa.cc" /* yacc.c:1646  */
+#line 3179 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 135:
@@ -3182,7 +3184,7 @@ yyreduce:
 		  (yyval.reg) = new ASMInt<Code::RegisterSizedType>((yyvsp[0].int_value));
 		  
 		}
-#line 3186 "qa.cc" /* yacc.c:1646  */
+#line 3188 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 136:
@@ -3191,7 +3193,7 @@ yyreduce:
 		  (yyval.address) = new ASMInt<Code::AddressSizedType>((yyvsp[0].int_value));
 
 		}
-#line 3195 "qa.cc" /* yacc.c:1646  */
+#line 3197 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 137:
@@ -3201,7 +3203,7 @@ yyreduce:
 		  const ASMLoc loc = asm_string_table->lookup(asm_atom);
 		  (yyval.constant) = new ASMInt<Code::PredSizedType>(loc);
 		}
-#line 3205 "qa.cc" /* yacc.c:1646  */
+#line 3207 "qa.cc" /* yacc.c:1646  */
     break;
 
   case 138:
@@ -3210,11 +3212,11 @@ yyreduce:
 		  (yyval.table_size) = new ASMInt<Code::TableSizeSizedType>((yyvsp[0].int_value));
 
 		}
-#line 3214 "qa.cc" /* yacc.c:1646  */
+#line 3216 "qa.cc" /* yacc.c:1646  */
     break;
 
 
-#line 3218 "qa.cc" /* yacc.c:1646  */
+#line 3220 "qa.cc" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

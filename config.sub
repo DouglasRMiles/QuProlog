@@ -1,6 +1,6 @@
 #! /bin/sh
 # Configuration validation subroutine script.
-#   Copyright (C) 2000-Wednesday 16 May  13:50:25 AEST 2018 
+#   Copyright (C) 2000-Thu 25 Jun 09:36:43 AEST 2020 
 #   Free Software Foundation, Inc.
 
 timestamp='2001-06-08'
@@ -69,7 +69,7 @@ Report bugs and patches to <config-patches@gnu.org>."
 version="\
 GNU config.sub ($timestamp)
 
-Copyright (C) 2000-Wednesday 16 May  13:50:25 AEST 2018 
+Copyright (C) 2000-Thu 25 Jun 09:36:43 AEST 2020 
 Free Software Foundation, Inc.
 
 This is free software; see the source for copying conditions.  There is NO

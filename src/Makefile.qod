@@ -17,10 +17,10 @@ $(COMMAND.qod): $(OBJECTS.qod) $(LIBRARY.library) $(LIBRARY.thread)
 	$(CXX) $(LDFLAGS) -o $(COMMAND.qod) $(OBJECTS.qod) -lnsl -ldl  $(LIBRARY.library) $(LIBRARY.thread)
 
 .PHONY: install.qod
-install.qod: /opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/$(COMMAND.qod)
+install.qod: /opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/bin/$(COMMAND.qod)
 
-/opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/$(COMMAND.qod): $(COMMAND.qod)
-	/usr/bin/install -c $(COMMAND.qod) /opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin
+/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/bin/$(COMMAND.qod): $(COMMAND.qod)
+	/usr/bin/install -c $(COMMAND.qod) /opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/bin
 
 .PHONY: clean.qod
 clean.qod:

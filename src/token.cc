@@ -44,7 +44,7 @@ extern Scheduler *scheduler;
 // Maximum sizes:
 //
 static const	word32	ASCII_SIZE 	= 256;
-static const	wordlong	MAX_LONG 	= (1UL << (BITS_PER_WORD-1)) - 1;	// max long
+static const	wordlong	MAX_LONG 	= (1ULL << (BITS_PER_WORD-1)) - 1;	// max long
 static const	wordlong	MAX_LONG_LIMIT	= MAX_LONG / 10;
 static const	word32	MAX_DIGIT_LIMIT	= MAX_LONG % 10;
 
@@ -295,7 +295,7 @@ Thread::IsLayout(const signed char c)
 // Output messages for detected syntax errors. 
 //
 inline void 
-Thread::SyntaxError(long& Integer, const int32 err)
+Thread::SyntaxError(qint64& Integer, const int32 err)
 {
   Integer = err;
 }
@@ -402,7 +402,7 @@ Thread::RecoverQuotedName(QPStream *InStrm, const bool put)
 //      several lines.\n".
 //
 int32
-Thread::ReadCharacter(QPStream *InStrm, const signed char q, long& Integer)
+Thread::ReadCharacter(QPStream *InStrm, const signed char q, qint64& Integer)
 {
   int c = Get(InStrm);
 
@@ -601,11 +601,11 @@ Thread::ReadCharacter(QPStream *InStrm, const signed char q, long& Integer)
     }
 } 
 
-int32 Thread::base_num(QPStream *InStrm, long& Integer, int base)
+int32 Thread::base_num(QPStream *InStrm, qint64& Integer, int base)
 {
   Integer = 0;
-  long BaseMax = MAX_LONG / base;
-  long BaseDigit = MAX_LONG % base;
+  qint64 BaseMax = MAX_LONG / base;
+  qint64 BaseDigit = MAX_LONG % base;
   int c = Get(InStrm);
   int digit = DigVal(c);
   while (digit < base)
@@ -633,10 +633,10 @@ int32 Thread::base_num(QPStream *InStrm, long& Integer, int base)
 
 }
 
-int32 Thread::get_number_token(QPStream *InStrm, char c, long& Integer, double& Double)
+int32 Thread::get_number_token(QPStream *InStrm, char c, qint64& Integer, double& Double)
 {
   int32		digit, base; 
-  long BaseMax, BaseDigit;
+  qint64 BaseMax, BaseDigit;
   char          number[128];
   char*          numptr;
 
@@ -644,8 +644,8 @@ int32 Thread::get_number_token(QPStream *InStrm, char c, long& Integer, double& 
       while (InType(c) == DIGIT)
 	{
 	  digit = DigVal(c);
-	  if ((Integer > (long) MAX_LONG_LIMIT) ||
-	      (Integer == (long) MAX_LONG_LIMIT && digit > (long) MAX_DIGIT_LIMIT))
+	  if ((Integer > (qint64) MAX_LONG_LIMIT) ||
+	      (Integer == (qint64) MAX_LONG_LIMIT && digit > (qint64) MAX_DIGIT_LIMIT))
 	    {
 	      RecoverNumber(InStrm, 10);
 
@@ -666,7 +666,10 @@ int32 Thread::get_number_token(QPStream *InStrm, char c, long& Integer, double& 
       
       if (c == TERMIN)
         {
-	  sprintf(number, "%ld", Integer);
+          stringstream out;
+          out << Integer;
+          strcpy(number, out.str().c_str()); 
+	  //sprintf(number, "%lld", Integer);
 	  size_t len = strlen(number);
 	  numptr = number + len;
 	  *numptr++ = c;
@@ -704,7 +707,10 @@ int32 Thread::get_number_token(QPStream *InStrm, char c, long& Integer, double& 
         }
       if (c == 'e')
         {
-	  sprintf(number, "%ld", Integer);
+          stringstream out;
+          out << Integer;
+          strcpy(number, out.str().c_str()); 
+	  //sprintf(number, "%lld", Integer);
 	  size_t len = strlen(number);
 	  numptr = number + len;
 	  *numptr++ = c;
@@ -776,10 +782,10 @@ int32 Thread::get_number_token(QPStream *InStrm, char c, long& Integer, double& 
 // variables: Integer, Simple, String.
 //
 int32
-Thread::GetToken(QPStream *InStrm, long& Integer, double& Double, char *Simple, Object*& String)
+Thread::GetToken(QPStream *InStrm, qint64& Integer, double& Double, char *Simple, Object*& String)
 {
   int32		digit, base, n, i;
-  long BaseMax, BaseDigit;
+  qint64 BaseMax, BaseDigit;
   int d, e;
   char		*s = Simple;
   char          number[128];
@@ -1175,7 +1181,7 @@ Thread::psi_read_next_token(Object *& stream_arg, Object *& type_arg, Object *& 
 
   errno = 0;
 
-  long	Integer;
+  qint64	Integer;
   Object* String;
   double Double;
 	

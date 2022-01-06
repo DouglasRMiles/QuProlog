@@ -313,7 +313,7 @@ public:
   // Locking
   static Atom *code;
   static Atom *record_db;
-
+  static Atom *a_d_none_;
 
   AtomTable(word32 TableSize,
 	  word32 StringSize,
@@ -520,7 +520,7 @@ public:
 
     code = add("code");
     record_db = add("record_db");
-
+    a_d_none_ = add("$none_");
   }
   
   //

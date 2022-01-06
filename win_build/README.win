@@ -1,0 +1,16 @@
+In win_build
+cp -r * /home/pjr/vbox_shared/qp_win
+
+cd /home/pjr/vbox_shared/qp_win
+
+./init_port version_num
+
+In vbox_shared under windows (qp_win) double click on cp2win
+
+Then run mysys2 terminal and in there
+   cd to /home/pjr/qpversion_num
+   sh prepare_rel
+
+NOTE: at some point qc.exe needs to be copied into bin
+
+Now double click on qpwin - installer in Output

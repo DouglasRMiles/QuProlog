@@ -268,7 +268,7 @@ protected:
   //
   // Write the stack to a stream.
   //
-  void		saveStack(std::ostream& ostrm, const u_long magic) const;
+  void		saveStack(std::ostream& ostrm, const wordlong magic) const;
   
   //
   // Load a file segment into the stack.
@@ -346,7 +346,7 @@ PrologStack<StoredType>::~PrologStack(void)
 //
 template <class StoredType>
 void
-PrologStack<StoredType>::saveStack(ostream& ostrm, const u_long magic) const
+PrologStack<StoredType>::saveStack(ostream& ostrm, const wordlong magic) const
 {
   this->saveArea(ostrm, magic, 0, top);
   //

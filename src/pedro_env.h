@@ -80,7 +80,7 @@ class PedroMessageChannel : public MessageChannel
   
   ~PedroMessageChannel() { delete [] thread_subs; }
 
-  bool connect(int port, u_long ip);
+  bool connect(int port, wordlong ip);
   void disconnect();
 
   int subscribe(Object* t);

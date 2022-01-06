@@ -1,6 +1,6 @@
 %{
 /*
- * Copyright (C) 2000-Wednesday 16 May  13:50:25 AEST 2018 
+ * Copyright (C) 2000-Thu 25 Jun 09:36:43 AEST 2020 
  * Department of Computer Science and Electrical Engineering, 
  * The University of Queensland
  */
@@ -35,7 +35,7 @@ LabelTable *labels = NULL;
 
 %}
 %union {
-  long int_value;
+  qint64 int_value;
   double double_value;
 
   string *label_name;
@@ -47,7 +47,7 @@ LabelTable *labels = NULL;
   ASMInt<Code::InstructionSizedType> *instruction;
   ASMInt<Code::ConstantSizedType> *constant;
   ASMDouble<double> *double_num;
-  ASMInt<long> *int_num;
+  ASMInt<qint64> *int_num;
   ASMInt<Code::RegisterSizedType> *reg;
   ASMInt<Code::NumberSizedType> *number;
   ASMInt<Code::AddressSizedType> *address;
@@ -1083,7 +1083,7 @@ atom_arity_label: ATOM_TOKEN '/' number ':' switch_label
 		  ASMInt<Code::ConstantSizedType> *atom = 
 		    new ASMInt<Code::ConstantSizedType>(loc, ConstEntry::ATOM_TYPE);
 
-		  long arity = $3->Value();
+		  qint64 arity = $3->Value();
 		  ASMInt<Code::NumberSizedType> *carity = new ASMInt<Code::NumberSizedType>(arity);
 		  $$ = new AtomArityLabel(atom, carity, $5);
 
@@ -1124,7 +1124,7 @@ quantifier_label: ATOM_TOKEN '/' number ':' switch_label
 		  ASMInt<Code::ConstantSizedType> *atom = 
 		    new ASMInt<Code::ConstantSizedType>(loc, ConstEntry::ATOM_TYPE);
 
-		  long arity = $3->Value();
+		  qint64 arity = $3->Value();
 		  ASMInt<Code::NumberSizedType> *carity = new ASMInt<Code::NumberSizedType>(arity);
 		  $$ = new AtomArityLabel(atom, carity, $5);
 		}
@@ -1174,17 +1174,17 @@ number: INTEGER_TOKEN
 
 int_num: INTEGER_TOKEN
 		{
-		  $$ = new ASMInt<long>((long)($1), ConstEntry::INTEGER_TYPE);
+		  $$ = new ASMInt<qint64>((qint64)($1), ConstEntry::INTEGER_TYPE);
 
 		}
 	| '+' INTEGER_TOKEN
 		{
-		  $$ = new ASMInt<long>((long)($2), ConstEntry::INTEGER_TYPE);
+		  $$ = new ASMInt<qint64>((qint64)($2), ConstEntry::INTEGER_TYPE);
 
 		}
 	| '-' INTEGER_TOKEN
 		{
-		  $$ = new ASMInt<long>(-(long)($2), ConstEntry::INTEGER_TYPE);
+		  $$ = new ASMInt<qint64>(-(qint64)($2), ConstEntry::INTEGER_TYPE);
 
 		}
 	;

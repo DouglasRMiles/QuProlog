@@ -1,0 +1,120 @@
+export QP_LIBRARIES = \
+	heap \
+	ipc \
+	library \
+	psi \
+	thread 
+
+export BIG_LIBRARY=qp.a
+export LIBRARIES=$(addsuffix .a,$(QP_LIBRARIES))
+export ALL_LIBRARIES=$(addprefix all.,$(QP_LIBRARIES))
+
+export QP_COMMANDS = \
+	qa \
+	qdeal \
+	qem \
+	ql 
+
+export ALL_COMMANDS=$(addprefix all.,$(QP_COMMANDS))
+
+export TARGETS = $(QP_LIBRARIES) $(QP_COMMANDS)
+
+export INSTALL = $(addprefix install.,$(TARGETS))
+export CLEAN = $(addprefix clean.,$(TARGETS))
+##BLOCK##
+export CLOBBER = $(addprefix clobber.,$(TARGETS))
+export DISTCLEAN = $(addprefix distclean.,$(TARGETS))
+##ENDBLOCK##
+
+export DEPEND_TARGETS = $(QP_LIBRARIES) $(QP_COMMANDS)
+export DEPEND = $(addprefix depend.,$(DEPEND_TARGETS))
+export GENERATED = $(addprefix GENERATED.,$(DEPEND_TARGETS))
+
+# Optimisation level of compilation
+export OPTIMISATION=-O2
+
+# Debugging options:
+#	QP_DEBUG	: General debugging of system
+#	DEBUG_SCHED	: Debugging information about scheduler
+#	DEBUG_BLOCK	: Debugging information about blocking behaviour
+#	DEBUG_IO	: Debugging information about IO behaviour
+#	DEBUG_TIMEOUT	: Debugging information about timeouts
+#	DEBUG_RETRY	: Debugging information about retries
+#	DEBUG_MT	: Debugging information about multi-threading
+
+#export DEBUGGING=
+##BLOCK##
+#export DEBUGGING=-DQP_DEBUG
+##ENDBLOCK##
+
+export CXXFLAGS = -static -fno-strict-aliasing -Wall -D_GNU_SOURCE=1 $(OPTIMISATION)  -DNDEBUG   -Wno-uninitialized 
+export QACXXFLAGS = -Wall -D_GNU_SOURCE=1  -DNDEBUG   -Wno-uninitialized
+
+.PHONY: all
+all: commands
+
+# Libraries
+include Makefile.heap
+include Makefile.ipc
+include Makefile.library
+include Makefile.psi
+include Makefile.thread
+
+export LIBRARY_OBJECTS = \
+	$(OBJECTS.heap) \
+	$(OBJECTS.ipc) \
+	$(OBJECTS.library) \
+	$(OBJECTS.psi) \
+	$(OBJECTS.thread)
+
+# Commands
+include Makefile.qa
+include Makefile.qdeal
+include Makefile.qem
+include Makefile.ql
+
+export GENERATED = \
+	$(GENERATED.heap) \
+	$(GENERATED.ipc) \
+	$(GENERATED.library) \
+	$(GENERATED.psi) \
+	$(GENERATED.thread) \
+	$(GENERATED.qa) \
+	$(GENERATED.qdeal) \
+	$(GENERATED.qem) \
+	$(GENERATED.ql)
+
+# Targets
+
+.PHONY: commands
+commands: $(GENERATED) $(LIBRARIES) $(BIG_LIBRARY)
+	@$(MAKE) $(ALL_COMMANDS)
+
+$(BIG_LIBRARY): $(LIBRARY_OBJECTS)
+	$(AR) $(ARFLAGS) $@ $(LIBRARY_OBJECTS)
+	ranlib $@
+
+.PHONY: install
+install: $(INSTALL)
+
+.PHONY:	clean
+clean: $(CLEAN)
+
+##BLOCK##
+.PHONY:	clobber
+clobber: clean $(CLOBBER)
+	$(RM) $(LIBRARIES) $(BIG_LIBRARY) $(ALL_COMMANDS)
+
+.PHONY: distclean
+distclean: clobber $(DISTCLEAN)
+
+.PHONY: depend
+depend: $(GENERATED) $(DEPEND)
+
+
+
+.DEFAULT:
+	@echo "*** unknown target $@ (ignored)"
+##ENDBLOCK##
+
+

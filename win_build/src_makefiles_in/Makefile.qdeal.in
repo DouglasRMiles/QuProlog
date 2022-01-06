@@ -1,0 +1,28 @@
+export COMMAND.qdeal = qdeal
+
+export SOURCES.qdeal	= \
+	delink.cc \
+	qdeal.cc \
+	qdeal_options.cc
+
+export BASES.qdeal	= $(basename $(SOURCES.qdeal))
+export OBJECTS.qdeal	= $(addsuffix .o,$(BASES.qdeal))
+
+.PHONY:	all.qdeal
+all.qdeal: $(COMMAND.qdeal) 
+
+$(COMMAND.qdeal): $(OBJECTS.qdeal) $(BIG_LIBRARY)
+	$(CXX) $(LDFLAGS) -o $(COMMAND.qdeal) $(OBJECTS.qdeal) @LIBS@ $(BIG_LIBRARY)
+
+.PHONY: install.qdeal
+install.qdeal: @QPHOME@/bin/$(COMMAND.qdeal)
+
+@QPHOME@/bin/$(COMMAND.qdeal): $(COMMAND.qdeal)
+	@INSTALL@ $(COMMAND.qdeal) @QPHOME@/bin
+
+.PHONY:	clean.qdeal
+clean.qdeal:
+	$(RM) $(OBJECTS.qdeal) $(COMMAND.qdeal) Makefile.qdeal
+
+
+

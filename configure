@@ -5100,25 +5100,20 @@ done
 
 
 #----------------------------------------------------------------------------
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for GCC version" >&5
-$as_echo_n "checking for GCC version... " >&6; }
-qp_cpp_ver=`gcc --version 2>/dev/null | head -1 | sed -e 's/^[^[:digit:]]*\([[:digit:]][^[:space:]]*\).*$/\1/'`
-if test -n "$qp_cpp_ver"; then
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $qp_cpp_ver" >&5
-$as_echo "$qp_cpp_ver" >&6; }
-    case "$qp_cpp_ver" in
-      2.*)
-
-$as_echo "#define GCC_VERSION_2 1" >>confdefs.h
-
-        ;;
-    esac
-else
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: not found" >&5
-$as_echo "not found" >&6; }
-    as_fn_error $? "Could not determine GCC version" "$LINENO" 5
-fi
-
+#AC_MSG_CHECKING([for GCC version])
+#qp_cpp_ver=[`gcc --version 2>/dev/null | head -1 | sed -e 's/^[^[:digit:]]*\([[:digit:]][^[:space:]]*\).*$/\1/'`]
+#if test -n "$qp_cpp_ver"; then
+#    AC_MSG_RESULT($qp_cpp_ver)
+#    case "$qp_cpp_ver" in
+#      2.*)
+#        AC_DEFINE(GCC_VERSION_2, 1, [Whether or not the GCC is gcc 2])
+#        ;;
+#    esac
+#else
+#    AC_MSG_RESULT(not found)
+#    AC_MSG_ERROR(Could not determine GCC version)
+#fi
+#
 #-----------------------------------------------------------------------------
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for -fno-strict-aliasing" >&5
 $as_echo_n "checking for -fno-strict-aliasing... " >&6; }
@@ -5488,7 +5483,7 @@ if test "$qp_cv_gcc_labels" = yes; then
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether pkg-config finds the PCRE library" >&5
 $as_echo_n "checking whether pkg-config finds the PCRE library... " >&6; }
-if test x`pkg-config --cflags libpcre` != x; then
+if pkg-config --exists libpcre; then
       $as_echo "#define PCRE 1" >>confdefs.h
 
 else

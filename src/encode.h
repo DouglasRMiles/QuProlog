@@ -180,7 +180,7 @@ private:
   //
   // Encode write a number
   //
-  bool writeEncodeNumber(QPStream&, const long);
+  bool writeEncodeNumber(QPStream&, const qint64);
   //
   // Encode write a double
   //
@@ -242,7 +242,7 @@ private:
   //
   // Read a number.
   //
-  bool encodeReadNumber(QPStream&, long&);
+  bool encodeReadNumber(QPStream&, qint64&);
   //
   // Read a double.
   //

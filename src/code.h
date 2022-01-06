@@ -85,11 +85,11 @@ inline wordptr	getPtrBytes(CodeLoc& loc)
   return get4Bytes(loc);
 #endif
 }
-inline long  getLongBytes(CodeLoc& loc)
+inline qint64  getLongBytes(CodeLoc& loc)
 {
 #if BITS_PER_WORD == 64
-  long data = static_cast<long>(get4Bytes(loc));
-  return (data << 32) | static_cast<long>(get4Bytes(loc));
+  qint64 data = static_cast<qint64>(get4Bytes(loc));
+  return (data << 32) | static_cast<qint64>(get4Bytes(loc));
 #else
   return get4Bytes(loc);
 #endif
@@ -119,16 +119,16 @@ inline void	updatePtrBytes(CodeLoc loc, wordptr data)
 {
 #if BITS_PER_WORD == 64
   update4Bytes(loc, static_cast<word32>(data >> 32));
-  update4Bytes(loc + 4, static_cast<word32>(data));
+  update4Bytes(loc + 4, static_cast<word32>(data & 0xffffffff));
 #else
   update4Bytes(loc, static_cast<word32>(data));
 #endif
 }
-inline void     updateLongBytes(CodeLoc loc, long data)
+inline void     updateLongBytes(CodeLoc loc, qint64 data)
 {
 #if BITS_PER_WORD == 64
   update4Bytes(loc, static_cast<word32>(data >> 32));
-  update4Bytes(loc + 4, static_cast<word32>(data));
+  update4Bytes(loc + 4, static_cast<word32>(data & 0xffffffff));
 #else
   update4Bytes(loc, static_cast<word32>(data));
 #endif
@@ -147,7 +147,7 @@ inline Object* getConstant(CodeLoc& loc)
 inline word8 getRegister(CodeLoc& loc) { return(get1Byte(loc)); }
 inline word8 getNumber(CodeLoc& loc)  { return(get1Byte(loc)); }
 inline wordptr getAddress(CodeLoc& loc)  { return(getPtrBytes(loc)); }
-inline long getInteger(CodeLoc& loc)  { return(getLongBytes(loc)); }
+inline qint64 getInteger(CodeLoc& loc)  { return(getLongBytes(loc)); }
 inline double getDouble(CodeLoc& loc)
 {
   double d;
@@ -173,7 +173,7 @@ inline void	updateInstruction(const CodeLoc loc, const word8 data)
 { update1Byte(loc, data); }
 inline void	updateConstant(const CodeLoc loc, Object* data)
 { updatePtrBytes(loc, reinterpret_cast<wordptr>(data)); }
-inline void	updateInteger(const CodeLoc loc, long data)
+inline void	updateInteger(const CodeLoc loc, qint64 data)
 { updateLongBytes(loc, data); }
 inline void     updateDouble(const CodeLoc loc, double data)
 {
@@ -231,7 +231,7 @@ public:
       return(currtop);
     }
   }
-  void saveArea(ostream& ostrm, const u_long magic) const;
+  void saveArea(ostream& ostrm, const wordlong magic) const;
 
   void readData(istream& istrm, const word32 readSize);
 
@@ -298,8 +298,8 @@ public:
   static const	size_t	SIZE_OF_CONSTANT	= sizeof(wordptr);
   typedef wordptr ConstantSizedType;
 
-  static const	size_t	SIZE_OF_INTEGER	        = sizeof(long);
-  typedef long IntegerSizedType;
+  static const	size_t	SIZE_OF_INTEGER	        = sizeof(qint64);
+  typedef qint64 IntegerSizedType;
 
   static const	size_t	SIZE_OF_DOUBLE	        = sizeof(double);
   typedef double DoubleSizedType;

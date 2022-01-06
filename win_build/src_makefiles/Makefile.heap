@@ -1,0 +1,60 @@
+export LIBRARY.heap = heap.a
+
+export SOURCES.heap = \
+	bind.cc \
+	check.cc \
+	collect.cc \
+	copy_term.cc \
+	delay.cc \
+	dereference.cc \
+	display_term.cc \
+	distinction.cc \
+	equal.cc \
+	freeness.cc \
+	heap.cc \
+	heap_buffer.cc \
+	objects.cc \
+	occurs_check.cc \
+	regalloc.cc \
+	substitution.cc \
+	timeout.cc \
+	unify.cc \
+	unravel.cc \
+	user_hash_table.cc \
+	yield.cc \
+        WinXGetopt.cc
+
+export BASES.heap	= $(basename $(SOURCES.heap))
+export OBJECTS.heap = $(addsuffix .o,$(BASES.heap))
+
+.PHONY: all.heap
+all.heap: $(LIBRARY.heap)
+
+$(LIBRARY.heap): $(OBJECTS.heap)
+	$(AR) $(ARFLAGS) $@ $(OBJECTS.heap)
+	ranlib $@
+
+.PHONY: install.heap
+install.heap: all.heap
+
+.PHONY:	clean.heap
+clean.heap:
+	$(RM) Makefile.heap $(LIBRARY.heap) $(OBJECTS.heap)
+
+##BLOCK##
+.PHONY:	clobber.heap
+clobber.heap: clean.heap
+	$(RM) $(LIBRARY.heap) $(GENERATED.heap)
+
+.PHONY: distclean.heap
+distclean.heap: clobber.heap
+	$(RM) Makefile.heap
+
+.PHONY: depend.heap
+depend.heap: $(SOURCES.heap) $(GENERATED.heap)
+	$(CXX) $(CPPFLAGS) -MM $(SOURCES.heap) > Dependencies.heap
+
+include Dependencies.heap
+
+##ENDBLOCK##
+

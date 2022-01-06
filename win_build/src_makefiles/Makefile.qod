@@ -1,0 +1,43 @@
+#
+# Makefile for "qod"
+#
+export COMMAND.qod = qod
+
+export SOURCES.qod = qod.cc
+
+BASES.qod	= $(basename $(SOURCES.qod))
+OBJECTS.qod	= $(addsuffix .o,$(BASES.qod))
+
+export GENERATED.qod =
+
+.PHONY:	all.qod
+all.qod:	$(COMMAND.qod)
+
+$(COMMAND.qod): $(OBJECTS.qod) $(LIBRARY.library) $(LIBRARY.thread)
+	$(CXX) $(LDFLAGS) -o $(COMMAND.qod) $(OBJECTS.qod)  $(LIBRARY.library) $(LIBRARY.thread)
+
+.PHONY: install.qod
+install.qod: /home/pjr/qp10.1/bin/$(COMMAND.qod)
+
+/home/pjr/qp10.1/bin/$(COMMAND.qod): $(COMMAND.qod)
+	/bin/install -c $(COMMAND.qod) /home/pjr/qp10.1/bin
+
+.PHONY: clean.qod
+clean.qod:
+	$(RM) $(OBJECTS.qod) $(COMMAND.qod) Makefile.qod
+
+##BLOCK##
+.PHONY: clobber.qod
+clobber.qod: clean.qod
+	$(RM) $(GENERATED.qod) /home/pjr/qp10.1/bin/$(COMMAND.qod)
+
+.PHONY: distclean.qod
+distclean.qod: clobber.qod
+
+.PHONY: depend.qod
+depend.qod: $(SOURCES.qod) $(GENERATED.qod)
+	$(CXX) $(CPPFLAGS) -MM $(SOURCES.qod) > Dependencies.qod
+
+include Dependencies.qod
+##ENDBLOCK##
+

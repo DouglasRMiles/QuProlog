@@ -820,45 +820,41 @@ end('get_line'/2):
 
 
 $1:
-	get_x_variable(3, 0)
-	get_x_variable(2, 1)
-	pseudo_instr2(93, 3, 0)
-	put_x_value(3, 1)
-	execute_predicate('$get_line2', 3)
+	get_x_variable(2, 0)
+	get_x_variable(0, 1)
+	pseudo_instr2(93, 2, 1)
+	get_x_value(0, 1)
+	put_x_value(2, 1)
+	execute_predicate('$get_line2', 2)
 end('$get_line1'/2):
 
 
 
-'$get_line2'/3:
+'$get_line2'/2:
 
-	switch_on_term(0, $5, $2, $2, $2, $2, $3)
-
-$3:
-	switch_on_constant(0, 4, ['$default':$2, -1:$4])
-
-$4:
-	try(3, $1)
-	trust($2)
-
-$5:
-	try(3, $1)
+	try(2, $1)
 	trust($2)
 
 $1:
-	get_integer(-1, 0)
-	get_integer(-1, 2)
+	get_x_variable(2, 0)
+	allocate(1)
+	get_y_level(0)
+	put_x_variable(0, 0)
+	put_string("
+", 1)
+	call_predicate('string_concat', 3, 1)
+	cut(0)
+	deallocate
+	proceed
+
+$2:
 	pseudo_instr2(101, 1, 0)
 	get_structure('$prop', 7, 0)
 	unify_void(4)
 	unify_x_variable(0)
 	unify_void(2)
-	neck_cut
 	execute_predicate('$eof_action', 2)
-
-$2:
-	get_x_value(0, 2)
-	proceed
-end('$get_line2'/3):
+end('$get_line2'/2):
 
 
 

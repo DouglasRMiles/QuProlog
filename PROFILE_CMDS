@@ -1,6 +1,6 @@
 # Add this file to your ~/.profile
 
-QPHOME=/opt/logicmoo_workspace/taupl/qulog0.4/QuProlog
+QPHOME=/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog
 QPPATH=$QPHOME/bin
 PATH=$QPPATH:$PATH
 MANPATH=$QPHOME/doc/man:$MANPATH

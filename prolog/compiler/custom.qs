@@ -540,15 +540,15 @@ end('$customize'/2):
 	trust($2)
 
 $1:
-	pseudo_instr1(2, 0)
+	pseudo_instr1(3, 0)
 	neck_cut
-	get_structure('put_constant', 2, 1)
+	get_structure('put_integer', 2, 1)
 	unify_x_value(0)
 	unify_x_value(2)
 	proceed
 
 $2:
-	get_structure('put_integer', 2, 1)
+	get_structure('put_constant', 2, 1)
 	unify_x_value(0)
 	unify_x_value(2)
 	proceed
@@ -558,45 +558,46 @@ end('$customize_put/4$0'/3):
 
 '$customize_put'/4:
 
-	switch_on_term(0, $24, 'fail', 'fail', $18, 'fail', $21)
-
-$18:
-	switch_on_structure(0, 4, ['$default':'fail', '$'/0:$19, ':'/2:$20])
+	switch_on_term(0, $25, 'fail', 'fail', $19, 'fail', $22)
 
 $19:
-	try(4, $1)
-	retry($2)
-	retry($3)
-	retry($4)
-	retry($8)
-	retry($9)
-	retry($10)
-	trust($11)
+	switch_on_structure(0, 4, ['$default':'fail', '$'/0:$20, ':'/2:$21])
 
 $20:
 	try(4, $1)
 	retry($2)
 	retry($3)
 	retry($4)
-	retry($8)
 	retry($9)
 	retry($10)
-	trust($11)
+	retry($11)
+	trust($12)
 
 $21:
-	switch_on_constant(0, 16, ['$default':'fail', 'constant':$5, 'structure':$22, 'apply_structure':$12, 'quantifier':$13, 'substitution':$23])
+	try(4, $1)
+	retry($2)
+	retry($3)
+	retry($4)
+	retry($9)
+	retry($10)
+	retry($11)
+	trust($12)
 
 $22:
-	try(4, $6)
-	trust($7)
+	switch_on_constant(0, 16, ['$default':'fail', 'constant':$5, 'structure':$23, 'apply_structure':$13, 'quantifier':$14, 'substitution':$24])
 
 $23:
-	try(4, $14)
-	retry($15)
-	retry($16)
-	trust($17)
+	try(4, $6)
+	retry($7)
+	trust($8)
 
 $24:
+	try(4, $15)
+	retry($16)
+	retry($17)
+	trust($18)
+
+$25:
 	try(4, $1)
 	retry($2)
 	retry($3)
@@ -613,7 +614,8 @@ $24:
 	retry($14)
 	retry($15)
 	retry($16)
-	trust($17)
+	retry($17)
+	trust($18)
 
 $1:
 	get_structure(':', 2, 0)
@@ -678,7 +680,7 @@ $5:
 $6:
 	get_constant('structure', 0)
 	get_structure('/', 2, 1)
-	unify_constant('.')
+	unify_constant('[|]')
 	unify_integer(2)
 	get_structure('$xreg', 1, 2)
 	unify_x_variable(0)
@@ -688,6 +690,17 @@ $6:
 
 $7:
 	get_constant('structure', 0)
+	get_structure('/', 2, 1)
+	unify_constant('.')
+	unify_integer(2)
+	get_structure('$xreg', 1, 2)
+	unify_x_variable(0)
+	get_structure('put_list', 1, 3)
+	unify_x_value(0)
+	proceed
+
+$8:
+	get_constant('structure', 0)
 	get_structure('$xreg', 1, 2)
 	unify_x_variable(0)
 	get_structure('put_structure', 2, 3)
@@ -695,7 +708,7 @@ $7:
 	unify_x_value(0)
 	proceed
 
-$8:
+$9:
 	get_structure(':', 2, 0)
 	unify_constant('object')
 	unify_constant('variable')
@@ -708,7 +721,7 @@ $8:
 	unify_x_value(1)
 	proceed
 
-$9:
+$10:
 	get_structure(':', 2, 0)
 	unify_constant('object')
 	unify_constant('variable')
@@ -721,7 +734,7 @@ $9:
 	unify_x_value(1)
 	proceed
 
-$10:
+$11:
 	get_structure(':', 2, 0)
 	unify_constant('object')
 	unify_constant('value')
@@ -734,7 +747,7 @@ $10:
 	unify_x_value(1)
 	proceed
 
-$11:
+$12:
 	get_structure(':', 2, 0)
 	unify_constant('object')
 	unify_constant('value')
@@ -747,7 +760,7 @@ $11:
 	unify_x_value(1)
 	proceed
 
-$12:
+$13:
 	get_constant('apply_structure', 0)
 	get_structure('$xreg', 1, 2)
 	unify_x_variable(0)
@@ -756,7 +769,7 @@ $12:
 	unify_x_value(0)
 	proceed
 
-$13:
+$14:
 	get_constant('quantifier', 0)
 	get_structure('$xreg', 1, 2)
 	unify_x_variable(0)
@@ -764,7 +777,7 @@ $13:
 	unify_x_value(0)
 	proceed
 
-$14:
+$15:
 	get_constant('substitution', 0)
 	get_constant('zero', 1)
 	get_structure('$xreg', 1, 2)
@@ -773,7 +786,7 @@ $14:
 	unify_x_value(0)
 	proceed
 
-$15:
+$16:
 	get_constant('substitution', 0)
 	get_structure('$xreg', 1, 1)
 	unify_x_variable(0)
@@ -784,7 +797,7 @@ $15:
 	unify_x_value(1)
 	proceed
 
-$16:
+$17:
 	get_constant('substitution', 0)
 	get_structure('$yreg', 1, 1)
 	unify_x_variable(0)
@@ -795,7 +808,7 @@ $16:
 	unify_x_value(1)
 	proceed
 
-$17:
+$18:
 	get_constant('substitution', 0)
 	get_structure('$xreg', 1, 2)
 	unify_x_variable(0)
@@ -813,15 +826,15 @@ end('$customize_put'/4):
 	trust($2)
 
 $1:
-	pseudo_instr1(2, 0)
+	pseudo_instr1(3, 0)
 	neck_cut
-	get_structure('get_constant', 2, 1)
+	get_structure('get_integer', 2, 1)
 	unify_x_value(0)
 	unify_x_value(2)
 	proceed
 
 $2:
-	get_structure('get_integer', 2, 1)
+	get_structure('get_constant', 2, 1)
 	unify_x_value(0)
 	unify_x_value(2)
 	proceed
@@ -831,39 +844,40 @@ end('$customize_get/4$0'/3):
 
 '$customize_get'/4:
 
-	switch_on_term(0, $19, 'fail', 'fail', $14, 'fail', $17)
-
-$14:
-	switch_on_structure(0, 4, ['$default':'fail', '$'/0:$15, ':'/2:$16])
+	switch_on_term(0, $20, 'fail', 'fail', $15, 'fail', $18)
 
 $15:
-	try(4, $1)
-	retry($2)
-	retry($3)
-	retry($4)
-	retry($9)
-	retry($10)
-	retry($11)
-	trust($12)
+	switch_on_structure(0, 4, ['$default':'fail', '$'/0:$16, ':'/2:$17])
 
 $16:
 	try(4, $1)
 	retry($2)
 	retry($3)
 	retry($4)
-	retry($9)
 	retry($10)
 	retry($11)
-	trust($12)
+	retry($12)
+	trust($13)
 
 $17:
-	switch_on_constant(0, 8, ['$default':'fail', 'constant':$5, 'structure':$18, 'structure_frame':$8, 'apply_structure':$13])
+	try(4, $1)
+	retry($2)
+	retry($3)
+	retry($4)
+	retry($10)
+	retry($11)
+	retry($12)
+	trust($13)
 
 $18:
-	try(4, $6)
-	trust($7)
+	switch_on_constant(0, 8, ['$default':'fail', 'constant':$5, 'structure':$19, 'structure_frame':$9, 'apply_structure':$14])
 
 $19:
+	try(4, $6)
+	retry($7)
+	trust($8)
+
+$20:
 	try(4, $1)
 	retry($2)
 	retry($3)
@@ -876,7 +890,8 @@ $19:
 	retry($10)
 	retry($11)
 	retry($12)
-	trust($13)
+	retry($13)
+	trust($14)
 
 $1:
 	get_structure(':', 2, 0)
@@ -941,7 +956,7 @@ $5:
 $6:
 	get_constant('structure', 0)
 	get_structure('/', 2, 1)
-	unify_constant('.')
+	unify_constant('[|]')
 	unify_integer(2)
 	get_structure('$xreg', 1, 2)
 	unify_x_variable(0)
@@ -950,6 +965,17 @@ $6:
 	proceed
 
 $7:
+	get_constant('structure', 0)
+	get_structure('/', 2, 1)
+	unify_constant('.')
+	unify_integer(2)
+	get_structure('$xreg', 1, 2)
+	unify_x_variable(0)
+	get_structure('get_list', 1, 3)
+	unify_x_value(0)
+	proceed
+
+$8:
 	get_constant('structure', 0)
 	get_structure('/', 2, 1)
 	unify_x_variable(0)
@@ -962,7 +988,7 @@ $7:
 	unify_x_value(2)
 	proceed
 
-$8:
+$9:
 	get_constant('structure_frame', 0)
 	get_structure('$xreg', 1, 2)
 	unify_x_variable(0)
@@ -971,7 +997,7 @@ $8:
 	unify_x_value(0)
 	proceed
 
-$9:
+$10:
 	get_structure(':', 2, 0)
 	unify_constant('object')
 	unify_constant('variable')
@@ -984,7 +1010,7 @@ $9:
 	unify_x_value(1)
 	proceed
 
-$10:
+$11:
 	get_structure(':', 2, 0)
 	unify_constant('object')
 	unify_constant('variable')
@@ -997,7 +1023,7 @@ $10:
 	unify_x_value(1)
 	proceed
 
-$11:
+$12:
 	get_structure(':', 2, 0)
 	unify_constant('object')
 	unify_constant('value')
@@ -1010,7 +1036,7 @@ $11:
 	unify_x_value(1)
 	proceed
 
-$12:
+$13:
 	get_structure(':', 2, 0)
 	unify_constant('object')
 	unify_constant('value')
@@ -1023,7 +1049,7 @@ $12:
 	unify_x_value(1)
 	proceed
 
-$13:
+$14:
 	get_constant('apply_structure', 0)
 	get_structure('$xreg', 1, 2)
 	unify_x_variable(0)
@@ -1041,14 +1067,14 @@ end('$customize_get'/4):
 	trust($2)
 
 $1:
-	pseudo_instr1(2, 0)
+	pseudo_instr1(3, 0)
 	neck_cut
-	get_structure('unify_constant', 1, 1)
+	get_structure('unify_integer', 1, 1)
 	unify_x_value(0)
 	proceed
 
 $2:
-	get_structure('unify_integer', 1, 1)
+	get_structure('unify_constant', 1, 1)
 	unify_x_value(0)
 	proceed
 end('$customize_unify/3$0'/2):
@@ -1147,14 +1173,14 @@ end('$customize_unify'/3):
 	trust($2)
 
 $1:
-	pseudo_instr1(2, 0)
+	pseudo_instr1(3, 0)
 	neck_cut
-	get_structure('set_constant', 1, 1)
+	get_structure('set_integer', 1, 1)
 	unify_x_value(0)
 	proceed
 
 $2:
-	get_structure('set_integer', 1, 1)
+	get_structure('set_constant', 1, 1)
 	unify_x_value(0)
 	proceed
 end('$customize_set/3$0'/2):

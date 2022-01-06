@@ -25,17 +25,18 @@
 
 #include <sys/types.h>
 #include <string>
+#include "defs.h"
 
 //#include "string_qp.h"
 
 //
 // Convert from ip address to network order number for the IP
 //
-extern int ip_to_ipnum(char* ip, u_long& ipnum);
+extern int ip_to_ipnum(char* ip, wordlong& ipnum);
 //
 // Inverse of above
 //
-extern int ipnum_to_ip(u_long ipnum, char* ip);
+extern int ipnum_to_ip(wordlong ipnum, char* ip);
 //
 // Opens and binds a socket and returns it, as well as the port that
 // the socket was bound to. The port is chosen by the operating system.
@@ -64,19 +65,19 @@ extern void close_socket(const int);
 // Given a machine's name, try to find its IP address.
 // (The result is in network byte order.)
 //
-extern u_long LookupMachineIPAddress(const std::string&);
-extern u_long LookupMachineIPAddress(const char *);
+extern wordlong LookupMachineIPAddress(const std::string&);
+extern wordlong LookupMachineIPAddress(const char *);
 //
 // Find the IP address of this machine. 
 // (The result is in network byte order.)
 //
-extern u_long LookupMachineIPAddress(void);
+extern wordlong LookupMachineIPAddress(void);
 */
 
 //
 // Do a connection to a socket
 //
-bool do_connection(int sockfd, int port, u_long ip_address);
+bool do_connection(int sockfd, int port, wordlong ip_address);
 
 
 void getIPfromifconfig(char* ip);

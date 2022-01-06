@@ -126,5 +126,8 @@ ReturnValue psi_strerror(Object *&, Object *&);
 
 ReturnValue psi_stat(Object *&, Object *&);
 
+ReturnValue psi_file_directory_name(Object *&, Object *& );
+ReturnValue psi_file_base_name(Object *&, Object *& );
+
 #endif // SYSTEM_QP_H
 

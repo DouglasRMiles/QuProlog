@@ -1,0 +1,21 @@
+Welcome to Qu-Prolog 11.9.
+
+Qu-Prolog 11.9 is an extended Prolog with built-in support for quantifiers, 
+object-variables and substitutions. It is designed as an implementation
+language for systems such as interactive theorem provers.
+
+This version of Qu-Prolog also has support for multi-threading and high-level
+symbolic communication using Pedro.
+
+The doc/user directory contains a user manual and the doc/manual directory
+contains a reference manual both as a .pdf document and as a HTML document.
+For the HTML document point your web browser at 
+doc/manual/MAIN.html
+
+The examples directory contains some example programs that use the extensions
+of Qu-Prolog. These examples are referred to from the user manual.
+
+If you have any comments or problems please email to
+
+pjr@itee.uq.edu.au
+

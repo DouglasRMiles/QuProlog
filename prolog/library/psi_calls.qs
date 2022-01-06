@@ -2861,6 +2861,28 @@ end('$re_compile'/2):
 
 
 
+'file_directory_name'/2:
+
+
+$1:
+	pseudo_instr2(138, 0, 2)
+	get_x_value(1, 2)
+	proceed
+end('file_directory_name'/2):
+
+
+
+'file_base_name'/2:
+
+
+$1:
+	pseudo_instr2(139, 0, 2)
+	get_x_value(1, 2)
+	proceed
+end('file_base_name'/2):
+
+
+
 'functor'/3:
 
 

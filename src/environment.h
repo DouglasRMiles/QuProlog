@@ -45,7 +45,7 @@ private:
   class	Environment
   {
   private:
-    static const word32 GC_Mark =    0x80000000UL;
+    static const word32 GC_Mark =    0x80000000ULL;
   public:
     EnvLoc	previousEnvironment;
     CodeLoc	continuationInstruction;

@@ -202,7 +202,7 @@ UnsignedMax(const IntType)
       break;
 #if BITS_PER_WORD == 64
     case 8:
-      return (IntType)ULONG_MAX;
+      return (IntType)ULLONG_MAX;
       break;
 #endif
     default:
@@ -228,7 +228,7 @@ SignedMax(const IntType)
       break;
 #if BITS_PER_WORD == 64
     case 8:
-      return (IntType)LONG_MAX;
+      return (IntType)LLONG_MAX;
       break;
 #endif
     }
@@ -251,7 +251,7 @@ SignedMin(const IntType)
       break;
 #if BITS_PER_WORD == 64
     case 8:
-      return (IntType)LONG_MIN;
+      return (IntType)LLONG_MIN;
       break;
 #endif
     }

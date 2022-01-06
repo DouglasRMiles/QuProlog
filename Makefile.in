@@ -18,8 +18,10 @@ export QPBIN	= @QPHOME@/bin
 
 
 export QC		= qc
+export QC_RELEASE	= qc
 export QCFLAGS		= 
-export COMPILE.qc	= $(QPBIN)/$(QC) $(QCFLAGS)
+export BOOTSTRAP.qc	= $(QPBIN)/$(QC) $(QCFLAGS)
+export COMPILE.qc	= $(QPBIN)/qc $(QCFLAGS)
 
 export PROLOG		= prolog
 

@@ -39,7 +39,7 @@ void Heap::outOfSpace(void)
 {
     
       cerr << "Out of " << heapname << " space ("
-           << static_cast<long>((top - data) * sizeof (heapobject) / K)
+           << static_cast<qint64>((top - data) * sizeof (heapobject) / K)
            << ")" << endl;
 }
 

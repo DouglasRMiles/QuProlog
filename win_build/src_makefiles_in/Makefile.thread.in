@@ -1,0 +1,42 @@
+export LIBRARY.thread = thread.a
+
+export SOURCES.thread	= \
+	c_to_prolog.cc \
+	choice.cc \
+	environment.cc \
+	esc_init.cc \
+	execute.cc \
+	foreign_interface.cc \
+	generate_var_names.cc \
+	instructions.cc \
+	interrupt.cc \
+	io.cc \
+	pseudo_instr.cc \
+	thread.cc \
+	thread_condition.cc \
+	thread_info.cc \
+	trace.cc \
+	trail.cc
+
+export BASES.thread = $(basename $(SOURCES.thread))
+export OBJECTS.thread = $(addsuffix .o,$(BASES.thread))
+
+export GENERATED.thread = instructions.h instructions.cc
+
+.PHONY: all.thread
+all.thread:  $(LIBRARY.thread)
+
+$(LIBRARY.thread): $(OBJECTS.thread)
+	$(AR) $(ARFLAGS) $@ $(OBJECTS.thread)
+	@RANLIB@ $@
+
+
+
+.PHONY: install.thread
+install.thread: all.thread
+
+.PHONY:	clean.thread
+clean.thread:
+	$(RM) $(OBJECTS.thread) $(LIBRARY.thread) Makefile.thread
+
+

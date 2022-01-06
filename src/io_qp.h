@@ -277,7 +277,7 @@ class QPStream
   virtual bool msgReady(void) { abort(); return true; }
 
   IODirection getDirection(void) const
-    { return (isInput()? INPUT : OUTPUT); }
+    { return (isInput()? QP_INPUT : QP_OUTPUT); }
 
   virtual void pushString(string*) { abort(); }
 
@@ -362,7 +362,7 @@ class QPStream
       abort();
     }
 
-  virtual void operator<<(const long n)
+  virtual void operator<<(const qint64 n)
     {
       assert(isOutput());
       abort();
@@ -681,7 +681,7 @@ class QPostream: public QPStream
       (*stream) << s;
     }
 
-  void operator<<(const long n)
+  void operator<<(const qint64 n)
     {
       (*stream) << n;
     }
@@ -754,7 +754,7 @@ class QPostringstream: public QPStream
       stream << s;
     }
 
-  void operator<<(const long n)
+  void operator<<(const qint64 n)
     {
       stream << n;
     }
@@ -825,7 +825,7 @@ class QPofdstream: public QPStream
 
   void operator<<(const char* s);
 
-  void operator<<(const long n);
+  void operator<<(const qint64 n);
 
   void operator<<(const double n);
 
@@ -885,7 +885,7 @@ class QPomstream: public QPStream
 
   void operator<<(const char* s);
 
-  void operator<<(const long n);
+  void operator<<(const qint64 n);
 
   void operator<<(const double n);
 

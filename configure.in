@@ -211,20 +211,20 @@ AC_CHECK_FUNCS( \
 
 #----------------------------------------------------------------------------
 dnl Check for CPP version
-AC_MSG_CHECKING([for GCC version])
-qp_cpp_ver=[`gcc --version 2>/dev/null | head -1 | sed -e 's/^[^[:digit:]]*\([[:digit:]][^[:space:]]*\).*$/\1/'`]
-if test -n "$qp_cpp_ver"; then
-    AC_MSG_RESULT($qp_cpp_ver)
-    case "$qp_cpp_ver" in
-      2.*)
-        AC_DEFINE(GCC_VERSION_2, 1, [Whether or not the GCC is gcc 2])
-        ;;
-    esac
-else
-    AC_MSG_RESULT(not found)
-    AC_MSG_ERROR(Could not determine GCC version)
-fi
-
+#AC_MSG_CHECKING([for GCC version])
+#qp_cpp_ver=[`gcc --version 2>/dev/null | head -1 | sed -e 's/^[^[:digit:]]*\([[:digit:]][^[:space:]]*\).*$/\1/'`]
+#if test -n "$qp_cpp_ver"; then
+#    AC_MSG_RESULT($qp_cpp_ver)
+#    case "$qp_cpp_ver" in
+#      2.*)
+#        AC_DEFINE(GCC_VERSION_2, 1, [Whether or not the GCC is gcc 2])
+#        ;;
+#    esac
+#else
+#    AC_MSG_RESULT(not found)
+#    AC_MSG_ERROR(Could not determine GCC version)
+#fi
+#
 #-----------------------------------------------------------------------------
 dnl Check for -fno-strict-aliasing
 AC_MSG_CHECKING([for -fno-strict-aliasing])
@@ -462,7 +462,7 @@ if test "$qp_cv_gcc_labels" = yes; then
 	AC_DEFINE(HAVE_GCC_LABELS)
 fi
 AC_MSG_CHECKING(whether pkg-config finds the PCRE library)
-if test x`pkg-config --cflags libpcre` != x; then
+if pkg-config --exists libpcre; then
       AC_DEFINE(PCRE)
 else
      AC_MSG_WARN(The PCRE library was not found using pkg-config)   

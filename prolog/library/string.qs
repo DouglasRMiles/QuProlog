@@ -832,3 +832,45 @@ end('$re_match_top'/4):
 
 
 
+'$query_string1593041821_898/0$0'/0:
+
+
+$1:
+	allocate(1)
+	get_y_level(0)
+	put_integer(200, 0)
+	put_constant('fy', 1)
+	put_constant('?', 2)
+	call_predicate('op', 3, 1)
+	cut(0)
+	deallocate
+	proceed
+end('$query_string1593041821_898/0$0'/0):
+
+
+
+'$query_string1593041821_898'/0:
+
+	try(0, $1)
+	trust($2)
+
+$1:
+	allocate(0)
+	call_predicate('$query_string1593041821_898/0$0', 0, 0)
+	fail
+
+$2:
+	proceed
+end('$query_string1593041821_898'/0):
+
+
+
+'$query'/0:
+
+
+$1:
+	execute_predicate('$query_string1593041821_898', 0)
+end('$query'/0):
+
+
+

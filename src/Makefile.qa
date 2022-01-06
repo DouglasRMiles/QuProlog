@@ -28,10 +28,10 @@ lexer.o: lexer.cc
 	$(CXX) $(QACXXFLAGS) -c -o lexer.o lexer.cc
 
 .PHONY: install.qa
-install.qa: /opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/$(COMMAND.qa)
+install.qa: /opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/bin/$(COMMAND.qa)
 
-/opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/$(COMMAND.qa): $(COMMAND.qa)
-	/usr/bin/install -c $(COMMAND.qa) /opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin
+/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/bin/$(COMMAND.qa): $(COMMAND.qa)
+	/usr/bin/install -c $(COMMAND.qa) /opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/bin
 
 .PHONY:	clean.qa
 clean.qa:

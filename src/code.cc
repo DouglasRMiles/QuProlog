@@ -69,7 +69,7 @@ StaticCodeArea::~StaticCodeArea(void)
 //
 
 void
-StaticCodeArea::saveArea(ostream& ostrm, const u_long magic) const
+StaticCodeArea::saveArea(ostream& ostrm, const wordlong magic) const
 {
   const size_t size = top - base;
 

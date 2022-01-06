@@ -236,7 +236,7 @@ Thread::psi_sub_table_size(Object *& object1, Object *& object2)
   //
   // Get the size and return it.
   //
-  object2 = heap.newInteger(static_cast<long>(sub_block->getSize()));
+  object2 = heap.newInteger(static_cast<qint64>(sub_block->getSize()));
   
   return RV_SUCCESS;
 }

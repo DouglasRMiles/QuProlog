@@ -231,6 +231,8 @@ Atom *AtomTable::trace_all;
 Atom *AtomTable::code;
 Atom *AtomTable::record_db;
 
+Atom *AtomTable::a_d_none_;
+
 //
 // Using the string to hash into the atom table.
 // No idea of this algorithm.  It is from Ross.
@@ -296,7 +298,7 @@ AtomTable::atomToBool(Object* c)
 void 
 AtomTable::shiftStringPtrs(char* old_string_base)
 {
-  long offset = stringTable.getString(0) - old_string_base;
+  qint64 offset = stringTable.getString(0) - old_string_base;
 
   for (u_int i = 0; i < size(); i++)
     {

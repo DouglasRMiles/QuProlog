@@ -22,8 +22,8 @@
 
 #include <math.h>
 #ifdef WIN32
-        #define M_PI       3.14159265358979323846
-        #define M_E        2.71828182845904523536
+//#define M_PI       3.14159265358979323846
+//#define M_E        2.71828182845904523536
         //We'll have to use our own function
         double round(double number)
         {
@@ -43,7 +43,7 @@ extern AtomTable *atoms;
 typedef struct
 { int   type;                           /* type of number */
   union { 
-          long  i;                      /* integer */
+          qint64  i;                      /* integer */
           double d;                     /* double */
         } value;
 } number;
@@ -295,7 +295,7 @@ arithEvaluate(PrologValue& val, Heap& heap, ErrorValue& error_value)
            else
             {
 	      number res;
-              MAKE_INT(res, (long)round(GET_DOUBLE_VAL(res1)));
+              MAKE_INT(res, (qint64)round(GET_DOUBLE_VAL(res1)));
 	      return res;
             }
         }
@@ -313,7 +313,7 @@ arithEvaluate(PrologValue& val, Heap& heap, ErrorValue& error_value)
            else
             {
 	      number res;
-              MAKE_INT(res, (long)floor(GET_DOUBLE_VAL(res1)));
+              MAKE_INT(res, (qint64)floor(GET_DOUBLE_VAL(res1)));
 	      return res;
             }
         }
@@ -333,10 +333,10 @@ arithEvaluate(PrologValue& val, Heap& heap, ErrorValue& error_value)
 	      number res;
               double num = GET_DOUBLE_VAL(res1);
               if (num > 0) {
-                MAKE_INT(res, (long)floor(num));
+                MAKE_INT(res, (qint64)floor(num));
               }
               else {
-                MAKE_INT(res, (long)ceil(num));
+                MAKE_INT(res, (qint64)ceil(num));
               }
 	      return res;
             }
@@ -355,7 +355,7 @@ arithEvaluate(PrologValue& val, Heap& heap, ErrorValue& error_value)
            else
             {
 	      number res;
-              MAKE_INT(res, (long)ceil(GET_DOUBLE_VAL(res1)));
+              MAKE_INT(res, (qint64)ceil(GET_DOUBLE_VAL(res1)));
 	      return res;
             }
         }
@@ -367,7 +367,13 @@ arithEvaluate(PrologValue& val, Heap& heap, ErrorValue& error_value)
 	      return zero;
 	    }
 	  number res;
+	  errno = 0;
 	  MAKE_DOUBLE(res, sqrt(GET_DOUBLE_VAL(res1)));
+	  if (errno != 0)
+	    {
+	      error_value = EV_RANGE;
+	      return zero;
+	    }
 	  return res;
         }
       else if (op == AtomTable::sin)
@@ -558,7 +564,7 @@ arithEvaluate(PrologValue& val, Heap& heap, ErrorValue& error_value)
 	  if (BOTH_INTS(res1, res2) && (GET_INT_VAL(res2) >= 0))
             {
 	      number res;
-              MAKE_INT(res, (long)::pow(GET_INT_VAL(res1), GET_INT_VAL(res2)));
+              MAKE_INT(res, (qint64)::pow(GET_INT_VAL(res1), GET_INT_VAL(res2)));
 	      return res;
             }
           else

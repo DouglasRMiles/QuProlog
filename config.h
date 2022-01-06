@@ -56,7 +56,7 @@
 /* #undef ELVIN_DEF */
 
 #define MULTIPLE_THREADS 1
-/* #undef PCRE */
+#define PCRE 1
 
 #define BITS_PER_WORD 64
 #define BYTES_PER_WORD 8

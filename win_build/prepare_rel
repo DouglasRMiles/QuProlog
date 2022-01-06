@@ -1,0 +1,55 @@
+echo "**** configure *****"
+./configure
+echo "**** make ****"
+make
+
+echo "**** rm ******"
+yes | rm -r src
+yes | rm -r sys_bin
+yes | rm -r win32
+yes | rm -r prolog
+yes | rm -r autom4te.cache
+yes | rm -r bootstrap
+cd doc
+yes | rm -r auto-doc 
+yes | rm -r copyright
+yes | rm -r man
+rm Makefile*
+cd manual
+rm *2tex
+rm main.tex
+mv main.pdf manual.pdf
+rm Make*
+cd ..
+cd user
+rm Make*
+rm main.tex
+mv main.pdf user_manual.pdf
+cd ..
+
+cd ..
+yes | rm -r include
+rm Make*
+rm *CMD*
+rm *.h
+rm all_files.ql
+rm config*
+#rm cross*
+rm INSTALL
+rm install-sh 
+cd bin
+rm Make*
+rm kq*
+rm qc
+rm *boot*
+#rm qc1.qup
+#rm qc1.qup.qx
+rm qcc
+rm qcc.in
+#rm qc.in
+rm qppp*
+rm xqp*
+cd ..
+
+mv README README.txt
+mv examples/README examples/README.txt

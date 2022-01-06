@@ -95,9 +95,15 @@ public:
       return (int)(fst_hash ^ snd_hash);
     }
 
+  
+    
     bool operator==(const UserHashEntry entry) const
-      { return ((fst_entry == entry.fst_entry) &&
-                (snd_entry == entry.snd_entry) ); }
+    { return (fst_entry->equalUninterp(entry.fst_entry) &&
+              snd_entry->equalUninterp(entry.snd_entry)); }
+    //    { return ((fst_entry == entry.fst_entry) &&
+    //            (snd_entry == entry.snd_entry) ); }
+
+    
     void operator=(const UserHashEntry entry)
       { fst_entry = entry.fst_entry; snd_entry = entry.snd_entry;
         value = entry.value;

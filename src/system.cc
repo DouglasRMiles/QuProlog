@@ -253,7 +253,7 @@ Thread::psi_mktemp(Object *& object1, Object *& object2)
 Thread::ReturnValue
 Thread::psi_realtime(Object *& time_arg)
 {
-  time_arg = heap.newInteger(static_cast<long>(time((time_t *) NULL)));
+  time_arg = heap.newInteger(static_cast<qint64>(time((time_t *) NULL)));
   return RV_SUCCESS;
 }
 
@@ -357,7 +357,7 @@ Thread::psi_gmtime(Object *& time_obj, Object *& time_struct)
         {
           PSI_ERROR_RETURN(EV_TYPE, 2);
         }
-      Object* timet = heap.newInteger(static_cast<long>(etime));
+      Object* timet = heap.newInteger(static_cast<qint64>(etime));
 
       return BOOL_TO_RV(unify(time_arg, timet));
     }
@@ -453,7 +453,7 @@ Thread::psi_localtime(Object *& time_obj, Object *& time_struct)
 	{
 	  PSI_ERROR_RETURN(EV_TYPE, 2);
 	}
-      Object* timet = heap.newInteger(static_cast<long>(etime));
+      Object* timet = heap.newInteger(static_cast<qint64>(etime));
       return BOOL_TO_RV(unify(time_arg, timet));
     }
   PSI_ERROR_RETURN(EV_INST, 1);
@@ -639,6 +639,44 @@ Thread::psi_stat(Object *& object1, Object *& object2)
 
 
 
+Thread::ReturnValue
+Thread::psi_file_directory_name(Object *& object1, Object *& object2)
+{
+  Object* val1 = heap.dereference(object1);
+  assert(val1->isAtom());
+
+  string filename = OBJECT_CAST(Atom*, val1)->getName();
+  wordexp(filename);
+  size_t found = filename.find_last_of("/\\");
+  string path = filename.substr(0,found);
+  char tmpstr[1024];
+  strcpy(tmpstr, path.c_str());
+  object2 = atoms->add(tmpstr); 
+
+  return RV_SUCCESS;
+
+}
+
+
+Thread::ReturnValue
+Thread::psi_file_base_name(Object *& object1, Object *& object2)
+{
+  Object* val1 = heap.dereference(object1);
+  assert(val1->isAtom());
+
+  string filename = OBJECT_CAST(Atom*, val1)->getName();
+  wordexp(filename);
+  size_t found = filename.find_last_of("/\\");
+  string file = filename.substr(found+1);
+  char tmpstr[1024];
+  strcpy(tmpstr, file.c_str());
+  object2 = atoms->add(tmpstr); 
+
+  return RV_SUCCESS;
+
+}
+
+  
 
 
 

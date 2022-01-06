@@ -1,0 +1,115 @@
+
+DIR=`pwd | sed s%.*/%%`
+RELEASE=`echo $DIR | sed s%qp%%`
+sed -e"s%(.*)%('$RELEASE')%" prolog/library/version.ql > tmp
+mv tmp prolog/library/version.ql
+
+sed -e"s%#QPVER#%$RELEASE%" README > tmp
+mv tmp README
+
+autoconf
+./configure
+make win32
+
+
+current_dir=`pwd`
+echo "************************** $current_dir **************************"
+
+win32/cat_ql_files
+sed -i -e"s/:- compile_time_only/%:- compile_time_only/" all_files.ql
+qc -DQuAM -h2000 -s200 -S all_files.ql
+mv all_files.qs bin/all_files.qs
+cd prolog/library
+mv low_level.qs ../../bin
+cd ..
+cd qp
+qc -S qp.ql
+cp qp.qs ../../bin
+cd ../qg
+qc -S qg.ql
+cp qg.qs ../../bin
+cd ../qecat
+qc -S qecat.ql
+cp qecat.qs ../../bin
+cd ../qc1
+qc -S qc1.ql
+cp qc1.qs ../../bin
+cd ../../bin
+cat low_level.qs all_files.qs > prolog_lib.qs
+rm low_level.qs
+rm all_files.qs
+touch prolog_lib.qo
+touch qc1.qo
+touch qecat.qo
+touch qg.qo
+touch qp.qo
+touch qc1.qx
+touch qecat.qx
+touch qg.qx
+touch qp.qx
+echo -e "@echo off\r\nqem -Q \"%QPHOME%\\\\bin\\qp.qx\" %*" > qp.bat
+echo -e "@echo off\r\nqem -Q \"%QPHOME%\\\\bin\\qg.qx\" %*" > qg.bat
+echo -e "@echo off\r\nqem -Q \"%QPHOME%\\\\bin\\qecat.qx\" %*" > qecat.bat
+echo -e "@echo off\r\nqem -Q \"%QPHOME%\\\\bin\\qc1.qx\" %*" > qc1.bat
+cd ..
+echo "**** doc *****"
+sed -e"s%#QPVER#%$RELEASE%" doc/manual/COVER.html > tmp
+mv tmp doc/manual/COVER.html
+sed -e"s%#QPVER#%$RELEASE%" doc/manual/INDEX.html > tmp
+mv tmp doc/manual/INDEX.html
+sed -e"s%#QPVER#%$RELEASE%" doc/manual/MAIN.html > tmp
+mv tmp doc/manual/MAIN.html
+sed -e"s%#QPVER#%$RELEASE%" doc/manual/SEC1.html > tmp
+mv tmp doc/manual/SEC1.html
+sed -e"s%#QPVER#%$RELEASE%" doc/manual/SEC2.html > tmp
+mv tmp doc/manual/SEC2.html
+sed -e"s%#QPVER#%$RELEASE%" doc/manual/SEC3.html > tmp
+mv tmp doc/manual/SEC3.html
+sed -e"s%#QPVER#%$RELEASE%" doc/manual/SEC4.html > tmp
+mv tmp doc/manual/SEC4.html
+sed -e"s%#QPVER#%$RELEASE%" doc/manual/SEC5.html > tmp
+mv tmp doc/manual/SEC5.html
+sed -e"s%#QPVER#%$RELEASE%" doc/manual/TOC.html > tmp
+mv tmp doc/manual/TOC.html
+sed -e"s%#QPVER#%$RELEASE%" doc/user/main.tex > tmp
+mv tmp doc/user/main.tex
+cd doc/manual
+echo "**** build manual pdf ***"
+make
+ls
+cd ../user
+make
+cd ../..
+echo "**** build exe files ****"
+cp win32/make_executables.bat bin
+cp win32/qcc.bat bin
+cp win32/rm.bat bin
+cp win32/qc.exe bin
+
+cp win32/include/regex.h src
+cp win32/include/pcre.h src
+cp win32/include/pcreposix.h src
+
+todos README
+todos examples/README
+
+cp ../config.h .
+cp ../configure .
+cp ../src_makefiles_in/* src
+cp ../Makefile.in .
+cp ../pcre3.dll bin
+cp ../libwinpthread-1.dll bin
+cp ../libpcre-1.dll bin
+cp ../pcre.lib src
+cp ../pcreposix.lib src
+
+cp ../modpath.iss .
+cp ../win_install.iss qpwin.iss
+sed -e"s%#QPVER#%$RELEASE%" qpwin.iss > tmp
+mv tmp qpwin.iss
+cp ../prepare_rel .
+cd ..
+#echo -e "set safety off & robocopy /E $DIR C:\msys64\home\pjr\'$DIR' & set safety on" > cp2win.bat
+
+sed -e"s%XXXX%$DIR%g" cp2win.bat > tmp
+mv tmp cp2win.bat

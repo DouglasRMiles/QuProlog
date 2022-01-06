@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 ## qc - a compiler for Qu-Prolog
-## Copyright (C) 2000-Wednesday 16 May  13:50:25 AEST 2018 
+## Copyright (C) 2000-Thu 25 Jun 09:36:43 AEST 2020 
 ##
 ## This program is free software; you can redistribute it and/or
 ## modify it under the terms of the GNU General Public License
@@ -27,14 +27,14 @@ import stat
 
 ##############################
 
-preprocess='/opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/qppp'
-expand='/opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/qg'
-qpcompile='/opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/qc1'
+preprocess='/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/bin/qppp'
+expand='/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/bin/qg'
+qpcompile='/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/bin/qc1'
 compversion='qup'
-assemble='/opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/qa'
-link='/opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/ql'
-execute='/opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/qem'
-libqofiles="/opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/prolog/compiler/*.qo /opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/prolog/library/*.qo"
+assemble='/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/bin/qa'
+link='/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/bin/ql'
+execute='/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/bin/qem'
+libqofiles="/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/prolog/compiler/*.qo /opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/prolog/library/*.qo"
 
 ##############################
 

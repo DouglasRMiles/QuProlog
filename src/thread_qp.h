@@ -199,7 +199,7 @@ private:
   void RestoreXRegisters(void);
 
 public:
-  
+
   word32 getCleanupMinCP() const { return minCleanupCP; }
 
   void resetCleanupMinCP() { minCleanupCP = 0xFFFF; }

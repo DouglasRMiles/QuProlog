@@ -60,10 +60,10 @@ enum BoundVarState { MISMATCH, DELAY, MATCH };
 // (NB. These are encoding-imposed limits, not arbitary ones, and are
 // included merely for convenience and to avoid magic numbers)
 //
-static const u_long MaxArity = 0x008FFFFF; // 2**23 - 1
-static const u_long MaxSubstBlock = 0x00008FFF; // 2**15 - 1
+static const wordlong MaxArity = 0x008FFFFFLL; // 2**23 - 1
+static const wordlong MaxSubstBlock = 0x00008FFFLL; // 2**15 - 1
 
-static const long MaxShort = 1L << (BITS_PER_WORD - 10);
+static const qint64 MaxShort = 1LL << (BITS_PER_WORD - 10);
 //////////////////////////////////////////////////////////////////////
 // The Heap class specification
 
@@ -83,7 +83,7 @@ public:
   //
   // Constructor and destructor
   //
-  inline Heap(const char *name, u_long size, bool GC = false);
+  inline Heap(const char *name, wordlong size, bool GC = false);
   inline ~Heap(void);
 
 private:
@@ -158,9 +158,9 @@ public:
   inline Cons *newSubstitutionBlockList(SubstitutionBlock *,
 					Object *);
 
-  inline Short *newShort(long val);
-  inline Long *newLong(long val);
-  inline Object *newInteger(long val);
+  inline Short *newShort(qint64 val);
+  inline Long *newLong(qint64 val);
+  inline Object *newInteger(qint64 val);
   inline Double *newDouble(double d);
   inline StringObject *newStringObject(const char* s);
   inline QuantifiedTerm *newQuantifiedTerm(void);
@@ -242,7 +242,7 @@ truth3 fastEqual(PrologValue&, PrologValue&);
 //
 // Default constructor
 //
-inline Heap::Heap(const char* name, u_long size, bool GC)
+inline Heap::Heap(const char* name, wordlong size, bool GC)
   : data( new heapobject[size] )
 {
   //
@@ -501,7 +501,7 @@ Heap::newSubstitutionBlockList(SubstitutionBlock *head,
 // Create a new Short on the heap with value `val'
 //
 inline Short *
-Heap::newShort(long val)
+Heap::newShort(qint64 val)
 {
   //
   // Value out of range?  Try Long.
@@ -519,14 +519,14 @@ Heap::newShort(long val)
 // create a new long in the heap.
 //
 inline Long *
-Heap::newLong(long val)
+Heap::newLong(qint64 val)
 {
-  assert(sizeof(long) == sizeof(heapobject));
+  assert(sizeof(qint64) == sizeof(heapobject));
 
   //
   // Value out of range?  Try using smaller numbers
   //
-  assert(LONG_MIN <= val && val <= LONG_MAX);
+  assert(LLONG_MIN <= val && val <= LLONG_MAX);
 
   heapobject *x = allocateHeapSpace(Long::size());
   x[0] = Object::LongTag; 
@@ -548,7 +548,7 @@ Heap::newStringObject(const char* s)
 }
 
 inline Object *
-Heap::newInteger(long val)
+Heap::newInteger(qint64 val)
 {
   if (-MaxShort <= val && val < MaxShort)
     {

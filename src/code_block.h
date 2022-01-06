@@ -28,9 +28,9 @@
 #include "int.h"
 #include "code.h"
 
-typedef u_long CodeBlockLoc;
+typedef wordlong CodeBlockLoc;
 
-const u_long INIT_CODE_SIZE = 1000;
+const wordlong INIT_CODE_SIZE = 1000;
 
 enum CodeBlockType { QUERY_BLOCK, PREDICATE_BLOCK };
 
@@ -39,17 +39,17 @@ class CodeBlock
 private:
   CodeBlockType type;		// Type of code block
 
-  u_long atom;		// Name and arity of code block (predicates only)
-  u_long arity;
+  wordlong atom;		// Name and arity of code block (predicates only)
+  wordlong arity;
 
   char *code;		// Code area, dynamically expanded
 
-  u_long size;		// Current storage allocated for code area
-  u_long current;	// Current fullness of code area
+  wordlong size;		// Current storage allocated for code area
+  wordlong current;	// Current fullness of code area
 
   void Expand(void)
     {
-      u_long new_size = size * 2;
+      wordlong new_size = size * 2;
       char *tmp = new char[new_size];
       
       memcpy(tmp, code, size);
@@ -62,8 +62,8 @@ private:
 
 public:
   CodeBlock(const CodeBlockType t,
-	    const u_long at,
-	    const u_long ar)
+	    const wordlong at,
+	    const wordlong ar)
     : type(t),
       atom(at),
       arity(ar),
@@ -86,13 +86,13 @@ public:
   }
 
   CodeBlockType Type(void) const { return type; }
-  u_long Atom(void) const { return atom; }
-  u_long Arity(void) const { return arity; }
+  wordlong Atom(void) const { return atom; }
+  wordlong Arity(void) const { return arity; }
 
-  u_long Current(void) const { return current; }
-  u_long Size(void) const { return size; }
+  wordlong Current(void) const { return current; }
+  wordlong Size(void) const { return size; }
 
-  void Advance(u_long n)
+  void Advance(wordlong n)
     {
       while (current + n > size)
 	{
@@ -121,7 +121,7 @@ public:
   // we've just encountered.
   // Since this use only makes sense when the p <= current,
   // we abort if p > current.
-  void Put(u_long p, char c)
+  void Put(wordlong p, char c)
     {
       assert(p <= current);
 

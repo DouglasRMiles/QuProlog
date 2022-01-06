@@ -69,7 +69,7 @@ PageTable<StoredType>::~PageTable(void)
 //
 template <class StoredType>
 void
-PageTable<StoredType>::saveArea(ostream& ostrm, const u_long magic,
+PageTable<StoredType>::saveArea(ostream& ostrm, const wordlong magic,
 				const PageLoc begin, const PageLoc end) const
 {
   assert(end >= begin);

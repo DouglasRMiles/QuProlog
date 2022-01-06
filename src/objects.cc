@@ -28,11 +28,11 @@ using namespace std;
 
 size_t Object::size_dispatch(void)
 {
-  if (this == NULL)
-    {
-      cerr << "Warning - size of NULL" << endl;
-      return(0);
-    }
+  // if (this == NULL)
+  //   {
+  //     cerr << "Warning - size of NULL" << endl;
+  //     return(0);
+  //   }
   switch (tTag())
     {
     case tVar:

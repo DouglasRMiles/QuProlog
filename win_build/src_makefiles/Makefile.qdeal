@@ -1,0 +1,41 @@
+export COMMAND.qdeal = qdeal
+
+export SOURCES.qdeal	= \
+	delink.cc \
+	qdeal.cc \
+	qdeal_options.cc
+
+export BASES.qdeal	= $(basename $(SOURCES.qdeal))
+export OBJECTS.qdeal	= $(addsuffix .o,$(BASES.qdeal))
+
+.PHONY:	all.qdeal
+all.qdeal: $(COMMAND.qdeal) 
+
+$(COMMAND.qdeal): $(OBJECTS.qdeal) $(BIG_LIBRARY)
+	$(CXX) $(LDFLAGS) -o $(COMMAND.qdeal) $(OBJECTS.qdeal)  $(BIG_LIBRARY)
+
+.PHONY: install.qdeal
+install.qdeal: /home/pjr/qp10.1/bin/$(COMMAND.qdeal)
+
+/home/pjr/qp10.1/bin/$(COMMAND.qdeal): $(COMMAND.qdeal)
+	/bin/install -c $(COMMAND.qdeal) /home/pjr/qp10.1/bin
+
+.PHONY:	clean.qdeal
+clean.qdeal:
+	$(RM) $(OBJECTS.qdeal) $(COMMAND.qdeal) Makefile.qdeal
+
+##BLOCK##
+.PHONY:	clobber.qdeal
+clobber.qdeal: clean.qdeal
+	$(RM) $(GENERATED.qdeal) /home/pjr/qp10.1/bin/$(COMMAND.qdeal)
+
+.PHONY: distclean.qdeal
+distclean.qdeal: clobber.qdeal
+
+.PHONY: depend.qdeal
+depend.qdeal: $(SOURCES.qdeal) $(GENERATED.qdeal)
+	$(CXX) $(CPPFLAGS) -MM $(SOURCES.qdeal) > Dependencies.qdeal
+
+include Dependencies.qdeal
+##ENDBLOCK##
+

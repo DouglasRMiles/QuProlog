@@ -89,7 +89,6 @@ DynamicHashTable<HashType>::insert(const HashType item, int &hashValue)
 {
   int	increment;
   HashType* entry;
-  
   for (hashValue = hashFunction(item) & tableSizeMask, 
 	 increment = 1, entry = &table[hashValue];
        ! (entry->isEmpty() || entry->isRemoved()); )
@@ -100,7 +99,7 @@ DynamicHashTable<HashType>::insert(const HashType item, int &hashValue)
 	}
       else if (increment  == tableSize)
 	{
-	  // cerr << "Table cycled through" << endl;
+	  cerr << "Insert: Table cycled through" << endl;
 	  abort();
 	}
       hashValue = (hashValue + increment++) & tableSizeMask;

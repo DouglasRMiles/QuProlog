@@ -55,7 +55,7 @@ const	char    *ErrArea = NULL;
 void
 Fatal(const char *where, const char *message)
 {
-   cerr << Program << "(" << (long)(getpid()) << ") : " 
+   cerr << Program << "(" << (qint64)(getpid()) << ") : " 
 	<< where << ": Fatal : " << message << endl;
    exit(EXIT_FAILURE);
 }
@@ -63,7 +63,7 @@ Fatal(const char *where, const char *message)
 void
 FatalS(const char *where, const char *message, const char *extra_message)
 {
-   cerr << Program << "(" << (long)(getpid()) << ") : " 
+   cerr << Program << "(" << (qint64)(getpid()) << ") : " 
 	<< where << ": Fatal : " << message
 	<< " : " << extra_message << endl;
    exit(EXIT_FAILURE);
@@ -72,14 +72,14 @@ FatalS(const char *where, const char *message, const char *extra_message)
 void
 Warning(const char *where, const char *message)
 {
-   cerr << Program << "(" << (long)(getpid()) << ") : " 
+   cerr << Program << "(" << (qint64)(getpid()) << ") : " 
 	<< where << ": Warning : " << message << endl;
 }
 
 void
 WarningS(const char *where, const char *message, const char *extra_message)
 {
-   cerr << Program << "(" << (long)(getpid()) << ") : " 
+   cerr << Program << "(" << (qint64)(getpid()) << ") : " 
 	<< where << ": Warning : " << message 
 	<< " : " << extra_message << endl;
 }
@@ -101,7 +101,7 @@ Usage(const char *program, const char *usage)
 void
 SegmentTooLarge(const char *where, const char* which)
 {
-  cerr << Program << "(" << (long)(getpid()) << ") : " << where
+  cerr << Program << "(" << (qint64)(getpid()) << ") : " << where
        << ": Fatal : too large segment request in " << which;
   cerr << endl;
   exit(EXIT_FAILURE);
@@ -110,7 +110,7 @@ SegmentTooLarge(const char *where, const char* which)
 void
 OutOfPage(const char *where, const char *which, const word32 size)
 {
-  cerr << Program << "(" << (long)(getpid()) << ") : " << where
+  cerr << Program << "(" << (qint64)(getpid()) << ") : " << where
        << ": Fatal : out of memory in " << which
        << "(" << size << "K)";
   cerr << endl;
@@ -120,7 +120,7 @@ OutOfPage(const char *where, const char *which, const word32 size)
 void
 OutOfHashTable(const char *where, const char *which, const word32 size)
 {
-  cerr << Program << "(" << (long)(getpid()) << ") : " << where
+  cerr << Program << "(" << (qint64)(getpid()) << ") : " << where
        << ": Fatal : out of memory in " << which
        << "(" << size << " entries)";
   cerr << endl;
@@ -130,7 +130,7 @@ OutOfHashTable(const char *where, const char *which, const word32 size)
 void
 EmptyStack(const char *where, const char *which)
 {
-  cerr << Program << "(" << (long)(getpid()) << ") : " << where
+  cerr << Program << "(" << (qint64)(getpid()) << ") : " << where
        << ": Fatal : empty stack in " << which;
   cerr << endl;
   exit(EXIT_FAILURE);
@@ -139,7 +139,7 @@ EmptyStack(const char *where, const char *which)
 void
 BadReset(const char *where, const char *which, const StackLoc loc)
 {
-  cerr << Program << "(" << (long)(getpid()) << ") : " << where
+  cerr << Program << "(" << (qint64)(getpid()) << ") : " << where
        << ": Fatal : bad reset to location " 
        << hex << loc << dec
        << " in " << which;
@@ -150,7 +150,7 @@ BadReset(const char *where, const char *which, const StackLoc loc)
 void
 BadReference(const char *where, const char *which, const StackLoc loc)
 {
-  cerr << Program << "(" << (long)(getpid()) << ") : " << where
+  cerr << Program << "(" << (qint64)(getpid()) << ") : " << where
        << ": Fatal : bad reference to location " 
        << hex << loc << dec
        << " in " << which;
@@ -161,7 +161,7 @@ BadReference(const char *where, const char *which, const StackLoc loc)
 void
 WrongFileFormat(const char *where, const char *which)
 {
-  cerr << Program << "(" << (long)(getpid()) << ") : " << where
+  cerr << Program << "(" << (qint64)(getpid()) << ") : " << where
        << ": Fatal : wrong format for file " << which;
   cerr << endl;
   exit(EXIT_FAILURE);
@@ -172,14 +172,14 @@ SaveFailure(const char *where, const char *data, const char *which)
 {
   if (which == NULL)
     {
-      cerr << Program << "(" << (long)(getpid()) << ") : " << where
+      cerr << Program << "(" << (qint64)(getpid()) << ") : " << where
 	   << ": Fatal : failed to save " << which;
       cerr << endl;
       exit(EXIT_FAILURE);
     }
   else
     {
-      cerr << Program << "(" << (long)(getpid()) << ") : " << where
+      cerr << Program << "(" << (qint64)(getpid()) << ") : " << where
 	   << ": Fatal : failed to save " << data << " (" << which << ")";
       cerr << endl;
       exit(EXIT_FAILURE);
@@ -191,14 +191,14 @@ ReadFailure(const char *where, const char *data, const char *which)
 {
   if (which == NULL)
     {
-      cerr << Program << "(" << (long)(getpid()) << ") : " << where
+      cerr << Program << "(" << (qint64)(getpid()) << ") : " << where
 	   << ": Fatal : failed to read " << which;
       cerr << endl;
       exit(EXIT_FAILURE);
     }
   else
     {
-      cerr << Program << "(" << (long)(getpid()) << ") : " << where
+      cerr << Program << "(" << (qint64)(getpid()) << ") : " << where
 	   << ": Fatal : failed to read " << data << " (" << which << ")";
       cerr << endl;
       exit(EXIT_FAILURE);
@@ -206,7 +206,7 @@ ReadFailure(const char *where, const char *data, const char *which)
 }
 void OutOfHeapSpace(const char *where, char *which, const word32 size)
 {
-  cerr << Program << "(" << (long)(getpid()) << ") : " << where
+  cerr << Program << "(" << (qint64)(getpid()) << ") : " << where
        << ": Fatal : out of heap space in  " << which
        << "(" << size << "K)";
   cerr << endl;

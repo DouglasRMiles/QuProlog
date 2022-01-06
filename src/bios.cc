@@ -284,11 +284,11 @@ Thread::psi_get_line(Object *& stream_arg,
   int c;
   c = stream->get();
   // EOF ?
-  if (c == -1)
-    {
-      *strPtr = heap.newInteger((int8)(-1));
-      return RV_SUCCESS;
-    }
+  // if (c == -1)
+  //   {
+  //     *strPtr = heap.newInteger((int8)(-1));
+  //     return RV_SUCCESS;
+  //   }
 
   while (true)
     {
@@ -299,20 +299,21 @@ Thread::psi_get_line(Object *& stream_arg,
       if (c == '\n')
 	{
 	  stream->newline();
+          chars.push_back(c);
 	  break;
 	}
       else
 	{
 	  chars.push_back(c);
 	}
-      if (stream->eof())
-	{
-	  c = -1;
-	}
-      else
-	{
+      // if (stream->eof())
+      //   {
+      //     c = -1;
+      //   }
+      // else
+      //   {
           c = stream->get();
-	}
+          //}
     }
   //  if (chars.length() == 0)
   //  *strPtr = heap.newStringObject(;

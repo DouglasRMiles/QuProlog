@@ -27,16 +27,16 @@
 
 class IPAddress {
  private:
-  const u_long ip_address;		// Network order.
+  const wordlong ip_address;		// Network order.
  public:
-  IPAddress(const u_long ip,		// Address
+  IPAddress(const wordlong ip,		// Address
 	    const bool ho = true)	// In host order?
     : ip_address(ho ? htonl(ip) : ip)
     { }
 
-  const u_long HostOrder(void) const { return ntohl(ip_address); }
+  const wordlong HostOrder(void) const { return ntohl(ip_address); }
 
-  const u_long NetworkOrder(void) const { return ip_address; }
+  const wordlong NetworkOrder(void) const { return ip_address; }
 };
 
 #endif	// IP_ADDRESS_H

@@ -14,10 +14,10 @@ $(COMMAND.ql): $(OBJECTS.ql) $(BIG_LIBRARY)
 	$(CXX) $(LDFLAGS) -o $(COMMAND.ql) $(OBJECTS.ql) -lnsl -ldl  $(BIG_LIBRARY)
 
 .PHONY: install.ql
-install.ql: /opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/$(COMMAND.ql)
+install.ql: /opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/bin/$(COMMAND.ql)
 
-/opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/$(COMMAND.ql): $(COMMAND.ql)
-	/usr/bin/install -c $(COMMAND.ql) /opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin
+/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/bin/$(COMMAND.ql): $(COMMAND.ql)
+	/usr/bin/install -c $(COMMAND.ql) /opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/bin
 
 .PHONY:	clean.ql
 clean.ql:

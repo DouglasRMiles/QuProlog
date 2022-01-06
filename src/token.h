@@ -42,7 +42,7 @@ inline bool IsLayout(const signed char c);
 // 
 // Output messages for detected syntax errors. 
 //
-inline void SyntaxError(long& Integer, const int32 err);
+inline void SyntaxError(qint64& Integer, const int32 err);
 
 //
 // Peek ahead one character
@@ -81,9 +81,9 @@ inline int Get(QPStream *InStrm);
 //
 inline void Putback(QPStream *InStrm, const int c);
 
-int32 base_num(QPStream *InStrm, long& Integer, int base);
+int32 base_num(QPStream *InStrm, qint64& Integer, int base);
 
-int32 get_number_token(QPStream *InStrm, char c, long& Integer, double& Double);
+int32 get_number_token(QPStream *InStrm, char c, qint64& Integer, double& Double);
 
 //
 // ReadCharacter(Stream *InStrm, int8 q)
@@ -97,14 +97,14 @@ int32 get_number_token(QPStream *InStrm, char c, long& Integer, double& Double);
 //      has to be continued over \c
 //      several lines.\n".
 //
-int32 ReadCharacter(QPStream *InStrm, const signed char q, long& Integer);
+int32 ReadCharacter(QPStream *InStrm, const signed char q, qint64& Integer);
 
 //
 // GetToken() reads a single token from the input stream and returns the
 // token type.  The value of the token is stored in one of the
 // variables: Integer, Simple, String.
 //
-int32 GetToken(QPStream *InStrm, long& Integer, double& Double, char *Simple, Object*& String);
+int32 GetToken(QPStream *InStrm, qint64& Integer, double& Double, char *Simple, Object*& String);
 
 public:
 //

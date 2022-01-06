@@ -274,7 +274,7 @@ Thread::psi_global_state_increment(Object *& object1, Object *& object2)
   
   if (name->hasAssociatedInteger())
     {
-      const long intval = name->getAssociatedInteger() + 1;
+      const qint64 intval = name->getAssociatedInteger() + 1;
       name->associateInteger(intval);
       
       object2 = heap.newInteger(intval);      
@@ -313,7 +313,7 @@ Thread::psi_global_state_decrement(Object *& object1, Object *& object2)
   Atom* name = OBJECT_CAST(Atom*, val1);
   if (name->hasAssociatedInteger())
     {
-      const long intval = name->getAssociatedInteger() - 1;
+      const qint64 intval = name->getAssociatedInteger() - 1;
       
       name->associateInteger(intval);
       object2 = heap.newInteger(intval);

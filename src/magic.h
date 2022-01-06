@@ -34,7 +34,7 @@ const	word32	MAGIC_SIZE			= sizeof(word32);
 // Convert an ASCII string of length 4 to a magic number.
 //
 //
-#define Magic(s) ((u_long)((s[0]<<24)|(s[1]<<16)|(s[2]<<8)|(s[3])))
+#define Magic(s) ((wordlong)((s[0]<<24)|(s[1]<<16)|(s[2]<<8)|(s[3])))
 
 //
 // Magic strings for different areas.

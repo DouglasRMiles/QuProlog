@@ -1,7 +1,7 @@
 #
 # Makefile for "qc1.qup"
 #
-PROGRAM		= /opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/qc1.qup
+PROGRAM		= /opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/bin/qc1.qup
 
 SOURCES		= qc1.ql
 
@@ -20,5 +20,5 @@ clean:
 	$(RM) Makefile $(OBJECTS) 
 
 %.qo: %.qs
-	$(COMPILE.qc) -c -o $@ $<
+	$(BOOTSTRAP.qc) -c -o $@ $<
 

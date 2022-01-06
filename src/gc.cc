@@ -120,7 +120,7 @@ bool checkVarExtendedSize(Object* term, int size)
     {
       cerr << size << endl;
       heapobject* ptr = reinterpret_cast<heapobject*>(term);
-      cerr << hex << (u_long)(ptr) << " : " << *ptr << " " << *(ptr+1) << dec << endl;
+      cerr << hex << (wordlong)(ptr) << " : " << *ptr << " " << *(ptr+1) << dec << endl;
       return false;
     }
   return true;

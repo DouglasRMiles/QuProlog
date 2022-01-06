@@ -188,7 +188,7 @@ EncodeWrite::encodeWriteSub(Thread& th,
 // Encode write a number
 //
 bool
-EncodeWrite::writeEncodeNumber(QPStream& stream, const long val)
+EncodeWrite::writeEncodeNumber(QPStream& stream, const qint64 val)
 {
 // #if BITS_PER_WORD == 64
 //   return(
@@ -359,7 +359,7 @@ EncodeWrite::encodeWriteTerm(Thread& th,
     case Object::tShort:
     case Object::tLong:
       {
-	long val = term->getInteger();
+	qint64 val = term->getInteger();
 	if ((val < INT_MIN) || (val > INT_MAX))
 	  {
 	    bool result = writeEncodeChar(stream, EncodeMap::ENCODE_STRUCTURE) &&
@@ -449,7 +449,7 @@ EncodeRead::encodeReadChar(QPStream& stream, word8& c)
 // Read a number.
 //
 bool
-EncodeRead::encodeReadNumber(QPStream& stream, long& num)
+EncodeRead::encodeReadNumber(QPStream& stream, qint64& num)
 {
   word8 c;
   bool result;
@@ -547,7 +547,7 @@ EncodeRead::encodeReadSub(Thread& th,
   bool result = encodeReadChar(stream, c);
   do {
 //    word32 tag = c;
-    long size;
+    qint64 size;
     result &= encodeReadNumber(stream, size);
     SubstitutionBlock* subblock = heap.newSubstitutionBlock(size);
 //    *(reinterpret_cast<word32*>(subblock)) |= tag;
@@ -723,12 +723,12 @@ EncodeRead::encodeReadTerm(Thread& th,
       break;
     case EncodeMap::ENCODE_STRUCTURE:
       {
-	long length;
+	qint64 length;
 	if (! encodeReadNumber(stream, length))
           {
             return false;
           }
-	assert((ulong)length <= MaxArity);
+	assert((wordlong)length <= MaxArity);
 	Object* temp;
 	if (! encodeReadTerm(th, heap, stream, temp,
 			      atoms, remember, names))
@@ -737,7 +737,7 @@ EncodeRead::encodeReadTerm(Thread& th,
           }
 	if ((length == 2) && (temp == AtomTable::int64))
 	  {
-	    long part1, part2;
+	    qint64 part1, part2;
 	    if (!encodeReadChar(stream, c)) return false;
 	    assert(c ==  EncodeMap::ENCODE_INTEGER);
 	    if (! encodeReadNumber(stream, part1))
@@ -750,7 +750,7 @@ EncodeRead::encodeReadTerm(Thread& th,
               {
                 return false;
               }
-	    long result = (part1 << 32) | part2;
+	    qint64 result = (part1 << 32) | part2;
 	    term = heap.newInteger(result);
 	    return true;
 	  }
@@ -803,7 +803,7 @@ EncodeRead::encodeReadTerm(Thread& th,
       break;
     case EncodeMap::ENCODE_INTEGER:
       {
-	long integer;
+	qint64 integer;
 	result = encodeReadNumber(stream, integer);
 	term = heap.newInteger(integer);
 	return result;

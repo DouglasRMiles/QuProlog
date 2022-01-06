@@ -185,18 +185,18 @@ decode_port(Heap& heap,
 // (The returned value is in network byte order.)
 // On failure, a value of 0 (which is an invalid address) is returned.
 //
-static u_long
+static wordlong
 machine_ip_address(Heap& heap,
 		   AtomTable& atoms,
 		   Object * addr)
 {
   if (addr->isInteger())
     {
-      return(htonl((u_long)(addr->getInteger())));
+      return(htonl((wordlong)(addr->getInteger())));
     }
   else if (addr->isAtom())
     {
-      u_long ip_address;
+      wordlong ip_address;
       char hostname[1000];
       (void)strcpy(hostname, OBJECT_CAST(Atom*, addr)->getName());
       if (ip_to_ipnum(hostname, ip_address) == -1) {
@@ -254,7 +254,7 @@ machine_ip_address(Heap& heap,
 static ErrorValue
 decode_ip_address(Heap& heap, AtomTable& atoms,
 		  Object * ip_address_cell,
-		  u_long& ip_address)
+		  wordlong& ip_address)
 {
   ip_address = INADDR_NONE;
 
@@ -718,7 +718,7 @@ Thread::psi_tcp_bind(Object *& socket_arg,
   u_short port = 0;
   DECODE_PORT_ARG(heap, argP, 2, port);
 
-  u_long ip_address = 0;
+  wordlong ip_address = 0;
   DECODE_IP_ADDRESS_ARG(heap, *atoms, argA, 3, ip_address);
 
   if (!socket->isBindAllowed())
@@ -729,9 +729,9 @@ Thread::psi_tcp_bind(Object *& socket_arg,
   struct sockaddr_in server;
   
   server.sin_family = AF_INET;
-  //server.sin_addr.s_addr = htonl((u_long)ip_address);
+  //server.sin_addr.s_addr = htonl((wordlong)ip_address);
   //server.sin_port = htons((u_short)port);
-  server.sin_addr.s_addr = ((u_long)ip_address);
+  server.sin_addr.s_addr = ((wordlong)ip_address);
   server.sin_port = ((u_short)port);
 
   const int ret = ::bind(socket->getFD(),
@@ -859,7 +859,7 @@ Thread::psi_tcp_connect1(
   u_short port = 0;
   DECODE_PORT_ARG(heap, argP, 2, port);
 
-  u_long ip_address = 0;
+  wordlong ip_address = 0;
   DECODE_IP_ADDRESS_ARG(heap, *atoms, argA, 3, ip_address);
 
   if (!socket->isConnectAllowed())
@@ -1006,7 +1006,7 @@ Thread::psi_tcp_getsockname(
     {
       PSI_ERROR_RETURN(EV_SYSTEM, errno);
     }
-  u_long ip_address;
+  wordlong ip_address;
 
   if (ip_to_ipnum(io_buf, ip_address) == -1)
     {
@@ -1115,7 +1115,7 @@ Thread::psi_tcp_host_to_ip_address(Object *& host_arg,
 #endif
  ip_address_arg =  heap.newInteger(ntohl(*(int *)hp->h_addr_list[0]));
   */
-  u_long ip_num;
+  wordlong ip_num;
   ip_to_ipnum(hostname, ip_num);
   ip_address_arg =  heap.newInteger(ntohl((int)ip_num));
   return RV_SUCCESS;
@@ -1141,7 +1141,7 @@ Thread::psi_tcp_host_from_ip_address(Object *& host_arg,
   if (!argA->isInteger()) {
     PSI_ERROR_RETURN(EV_TYPE, 2);
   }
-  u_long ip_address = htonl((u_long)(argA->getInteger()));
+  wordlong ip_address = htonl((wordlong)(argA->getInteger()));
   char ip[200];
   if (ipnum_to_ip(ip_address, ip) == -1) {
     PSI_ERROR_RETURN(EV_SYSTEM, errno);
@@ -1160,7 +1160,7 @@ Thread::psi_tcp_host_from_ip_address(Object *& host_arg,
       PSI_ERROR_RETURN(EV_SYSTEM, errno);
     }
   hostent *hp2 = gethostbyname(hp->h_name);
-  //if ((hp2 == NULL) or (ip_address != (u_long)(*(int *)hp->h_addr_list[0])))
+  //if ((hp2 == NULL) or (ip_address != (wordlong)(*(int *)hp->h_addr_list[0])))
   if ((hp2 == NULL) or !streq(hp->h_name, hp2->h_name))
     {
       char ip_name[50];

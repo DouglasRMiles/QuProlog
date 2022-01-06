@@ -42,7 +42,7 @@ PrologStack<StoredType>::~PrologStack(void)
 //
 template <class StoredType>
 void
-PrologStack<StoredType>::saveStack(ostream& ostrm, const u_long magic) const
+PrologStack<StoredType>::saveStack(ostream& ostrm, const wordlong magic) const
 {
   this->saveArea(ostrm, magic, 0, top);
   //

@@ -1,0 +1,78 @@
+export LIBRARY.psi = psi.a
+
+export SOURCES.psi = \
+	arithmetic.cc \
+	atoms.cc \
+	bios.cc \
+	buffers.cc \
+	compare.cc \
+	compile.cc \
+	cut.cc \
+	decompile.cc \
+	delay_escape.cc \
+	dyn_code.cc \
+	encode_stream.cc \
+	env.cc \
+	env_var.cc \
+	equal_escape.cc \
+	examine_term.cc \
+	exception.cc \
+	foreign.cc \
+	free_in.cc \
+        gc_escapes.cc \
+	get_args.cc \
+	pedro_escapes.cc \
+	ip.cc \
+	ipc_escapes.cc \
+	load.cc \
+	name.cc \
+	object_variable.cc \
+	pipe.cc \
+	process.cc \
+	quantifier.cc \
+	pseudo_instr_arrays.cc \
+	random.cc \
+	read.cc \
+	signal_escapes.cc \
+	state.cc \
+	statistics.cc \
+	stream_escapes.cc \
+	string_escapes.cc \
+	structure.cc \
+	sub_escape.cc \
+	symbols.cc \
+	system.cc \
+	tcp_escapes.cc \
+	temperature.cc \
+	thread_decode.cc \
+	thread_escapes.cc \
+	timer_escapes.cc \
+	token.cc \
+	trace_escapes.cc \
+	user_hash_table_escapes.cc \
+	varname.cc \
+	write.cc
+
+export BASES.psi	= $(basename $(SOURCES.psi))
+export OBJECTS.psi	= $(addsuffix .o,$(BASES.psi))
+
+export GENERATED.psi = 
+
+.PHONY:	all.psi
+all.psi: $(LIBRARY.psi)
+
+$(LIBRARY.psi): $(OBJECTS.psi)
+	$(AR) $(ARFLAGS) $@ $(OBJECTS.psi)
+	@RANLIB@ $@
+
+
+.PHONY: install.psi
+install.psi: all.psi
+
+.PHONY:	clean.psi
+clean.psi:
+	$(RM) $(OBJECTS.psi) $(LIBRARY.psi)
+
+
+
+

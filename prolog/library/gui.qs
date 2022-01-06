@@ -267,27 +267,20 @@ end('write_debug_msg_term'/2):
 
 
 $1:
-	allocate(4)
+	allocate(3)
 	get_y_variable(1, 0)
 	pseudo_instr1(68, 0)
-	put_y_variable(2, 19)
 	put_y_variable(0, 19)
-	put_y_variable(3, 1)
+	put_y_variable(2, 1)
 	put_x_variable(2, 2)
-	call_predicate('$thread_debug_set', 3, 4)
-	put_y_value(3, 0)
-	put_y_value(2, 1)
-	call_predicate('get_line', 2, 3)
+	call_predicate('$thread_debug_set', 3, 3)
 	put_y_value(2, 0)
 	put_y_value(0, 1)
-	call_predicate('string_to_list', 2, 2)
+	call_predicate('get_line', 2, 2)
 	put_y_value(0, 0)
-	put_list(1)
-	set_integer(10)
-	set_constant('[]')
-	put_y_value(1, 2)
+	put_y_value(1, 1)
 	deallocate
-	execute_predicate('append', 3)
+	execute_predicate('string_to_list', 2)
 end('read_debug_msg_codes'/1):
 
 

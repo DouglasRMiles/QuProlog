@@ -1,0 +1,54 @@
+export COMMAND.qa = qa
+
+export SOURCES.qa	= \
+	code_block.cc \
+	qa.cc \
+	qa_options.cc 
+
+export BASES.qa	 = $(basename $(SOURCES.qa))
+export OBJECTS.qa= $(addsuffix .o,$(BASES.qa))
+
+export GENERATED.qa = qa.cc lexer.cc
+
+.PHONY: all.qa
+all.qa: $(COMMAND.qa)
+
+$(COMMAND.qa): $(OBJECTS.qa) $(BIG_LIBRARY)
+	$(CXX) $(LDFLAGS) -o $(COMMAND.qa) $(OBJECTS.qa)  $(BIG_LIBRARY)	
+
+qa.cc: lexer.cc qa.y
+	bison -y -oqa.cc qa.y
+
+lexer.cc: qa.l
+	flex -olexer.cc qa.l
+
+qa.o: qa.cc
+	$(CXX) $(QACXXFLAGS) -c -o qa.o qa.cc
+lexer.o: lexer.cc
+	$(CXX) $(QACXXFLAGS) -c -o lexer.o lexer.cc
+
+.PHONY: install.qa
+install.qa: /home/pjr/qp10.1/bin/$(COMMAND.qa)
+
+/home/pjr/qp10.1/bin/$(COMMAND.qa): $(COMMAND.qa)
+	/bin/install -c $(COMMAND.qa) /home/pjr/qp10.1/bin
+
+.PHONY:	clean.qa
+clean.qa:
+	$(RM) $(OBJECTS.qa) $(COMMAND.qa) Makefile.qa
+
+##BLOCK##
+.PHONY:	clobber.qa
+clobber.qa: clean.qa
+	$(RM)  $(GENERATED.qa) /home/pjr/qp10.1/bin/$(COMMAND.qa)
+
+.PHONY: distclean.qa
+distclean.qa: clobber.qa
+
+.PHONY: depend.qa
+depend.qa: $(SOURCES.qa) $(GENERATED.qa)
+	$(CXX) $(CPPFLAGS) -MM $(SOURCES.qa) > Dependencies.qa
+
+include Dependencies.qa
+##ENDBLOCK##
+

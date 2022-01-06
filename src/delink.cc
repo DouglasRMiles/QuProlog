@@ -28,7 +28,7 @@
 
 extern AtomTable *atoms;
 
-const int NUM_OF_OFFSETS = 500;
+const int NUM_OF_OFFSETS = 5000;
 
 //
 //  Constants is used exclusively by deassembler() and simply prints out the
@@ -55,7 +55,7 @@ constants(Object* cell, AtomTable& atoms)
 // This procedure is used for instructions that have a hash table.
 //
 static void
-hashInstruct(CodeLoc & pc, word32 instruct,long array[],
+hashInstruct(CodeLoc & pc, word32 instruct,qint64 array[],
 	     int & arr_index,AtomTable& atoms,Code& code)
   
 {
@@ -85,7 +85,7 @@ hashInstruct(CodeLoc & pc, word32 instruct,long array[],
           if ((instruct == SWITCH_ON_CONSTANT) && 
               (val_arity == ConstEntry::INTEGER_TYPE))
             {
-              cout << (long)val_addr;
+              cout << (qint64)val_addr;
             }
           else
             {
@@ -109,7 +109,7 @@ hashInstruct(CodeLoc & pc, word32 instruct,long array[],
 	  const CodeLoc address = offset + startofhash;
 	  int i;
 	  for (i = 0;
-	       (signed long) address != array[i] && i <= arr_index;
+	       (qint64)address != array[i] && i <= arr_index;
 	       i++)
 	    ;
 
@@ -120,7 +120,7 @@ hashInstruct(CodeLoc & pc, word32 instruct,long array[],
 		{
 		  Fatal(__FUNCTION__, "too many labels");
 		}
-	      array[arr_index] = (signed long) address;
+	      array[arr_index] = (qint64)address;
 	    }
 	  cout << ":$" << i;
 	}
@@ -133,7 +133,7 @@ hashInstruct(CodeLoc & pc, word32 instruct,long array[],
 static void
 outputParams(int length, int commaflag, char coded_array[],
 	     CodeLoc & pc,
-	     AtomTable& atoms,long array[],int & arr_index,
+	     AtomTable& atoms,qint64 array[],int & arr_index,
 	     CodeLoc end_of_inst, Code& code)	
 {
   int 	i;
@@ -197,12 +197,12 @@ outputParams(int length, int commaflag, char coded_array[],
 	    {	
 	      i=0;
 	      address = end_of_inst + offset;
-	      while( ((signed long) address != array[i]) && 
+	      while( ((qint64)address != array[i]) && 
 		     (i <= arr_index)) i++;
 	      if (i >  arr_index) 
 		{
 		  arr_index++;
-		  array[arr_index] = (signed long) address;
+		  array[arr_index] = (qint64)address;
 		}
 	      cout << "$" << i;
 	    }
@@ -239,7 +239,7 @@ void deassembler(Code& code, AtomTable& atoms, PredTab& predicates,
 	word32 	arity,
 		instruct,
 		size;
-	long 	array[NUM_OF_OFFSETS];
+	qint64 	array[NUM_OF_OFFSETS];
 	int 	arr_index,
 		i,
 		paramflag,
@@ -299,7 +299,7 @@ void deassembler(Code& code, AtomTable& atoms, PredTab& predicates,
 		//
 		// Initialize offset array.
 		//
-		for (i=0; i< NUM_OF_OFFSETS; i++) array[i] = -1L; 
+		for (i=0; i< NUM_OF_OFFSETS; i++) array[i] = WORDPTR_MAX; 
 		arr_index = 0;
 		start_of_pred = pc;
 		while ( pc < (start_of_pred+size) ) // for each instruction do:
@@ -309,7 +309,7 @@ void deassembler(Code& code, AtomTable& atoms, PredTab& predicates,
 			//
 			//	Check for any labels to be printed.
 			//
-			while (((signed long) pc != array[i]) &&
+			while (((qint64)pc != array[i]) &&
 			       (i <= arr_index)) i++;
 			if (i <= arr_index)
 			{

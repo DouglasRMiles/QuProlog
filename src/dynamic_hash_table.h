@@ -100,7 +100,8 @@ public:
                         { 
 			   if ((loc < 0) || (loc >= tableSize))
 			   {
-			     // cerr << "Out of bounds " << loc << endl;
+			     cerr
+                               << "Out of bounds " << loc << endl;
 			     abort();
 			   }
 			   return(table[loc]); 
@@ -199,7 +200,7 @@ DynamicHashTable<HashType>::insert(const HashType item, int &hashValue)
 {
   int	increment;
   HashType* entry;
-  
+
   for (hashValue = hashFunction(item) & tableSizeMask, 
 	 increment = 1, entry = &table[hashValue];
        ! (entry->isEmpty() || entry->isRemoved()); )
@@ -210,7 +211,8 @@ DynamicHashTable<HashType>::insert(const HashType item, int &hashValue)
 	}
       else if (increment  == tableSize)
 	{
-	  // cerr << "Table cycled through" << endl;
+
+          cerr << "DynamicHashTable: Insert: Table cycled through" << endl;
 	  abort();
 	}
       hashValue = (hashValue + increment++) & tableSizeMask;
@@ -287,7 +289,11 @@ DynamicHashTable<HashType>::resize(const int newsize)
   table = new HashType[tableSize]; 
   tableSizeMask = tableSize-1;
   used = 0;
-  
+
+  for (int j = 0; j < newsize; j++) {
+    table[j].clearEntry();
+  }
+
   for (int j = 0; j < oldtableSize; j++)
     {
       if (!oldtable[j].isEmpty())

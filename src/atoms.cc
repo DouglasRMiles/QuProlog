@@ -291,7 +291,7 @@ Thread::psi_atom_search(Object *& object1, Object *& object2,
 	}
       else
 	{
-	  object4 = heap.newInteger(static_cast<long>(strlen(string1) - strlen(substring)+1));
+	  object4 = heap.newInteger(static_cast<qint64>(strlen(string1) - strlen(substring)+1));
 	  return(RV_SUCCESS);
 	}
     }

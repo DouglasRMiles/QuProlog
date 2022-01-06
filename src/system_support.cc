@@ -64,7 +64,7 @@ void wordexp(string& str)
   pos = str.find("/");
   if (pos == 0)
     {
-      str.replace(0, 1, "C:\\");
+      str.replace(0, 1, "c:\\");
     }
   // replace /   
   pos = str.find("/");
@@ -79,6 +79,23 @@ void wordexp(string& str)
       char path[256];
       if (_getcwd(path, 255) != NULL)
         str.replace(0,1,path);
+    }
+    // add full path if path doesn't start with C:\\ or c:\\
+  pos = str.find("C:\\");
+  if (pos != 0)
+    {
+      // doesn't start with C:
+      pos = str.find("c:\\");
+      if (pos != 0)
+        {
+          //doesn't start with c:
+          char path[256];
+          if (_getcwd(path, 255) != NULL)
+            {
+              str.insert(0, "\\");
+              str.insert(0, path);
+            }
+        }
     }
   // process ".."
   pos = str.find("..");

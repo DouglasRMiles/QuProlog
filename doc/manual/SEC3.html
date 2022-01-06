@@ -4,7 +4,7 @@
 <!-- Edited by Michael Walters on 30 November 1999 -->
 
 <TITLE>
-Qu-Prolog 10.1 Reference Manual - Built-in Predicates
+Qu-Prolog 10.6 Reference Manual - Built-in Predicates
 </TITLE>
 </HEAD>
 
@@ -9258,6 +9258,28 @@ Expand <KBD>File</KBD> (file or directory) to its full path (<KBD>Path</KBD>). E
 <BR><KBD>mode absolute_file_name(+atom, -atom)</KBD>
 
 </BLOCKQUOTE>
+
+<P><KBD><a name="file_directory_name"></a>file_directory_name(File, Path)</KBD>
+
+<BLOCKQUOTE>
+Expand <KBD>File</KBD> (file or directory) to its full path and return the directory (<KBD>Path</KBD>). Enviroment variables,
+<KBD>~</KBD>,  <KBD>.</KBD> and <KBD>..</KBD> are expanded.  
+
+<BR><KBD>mode file_directory_name(+atom, -atom)</KBD>
+
+</BLOCKQUOTE>
+
+<P><KBD><a name="file_base_name"></a>file_base_name(File, FileBase)</KBD>
+
+<BLOCKQUOTE>
+Expand <KBD>File</KBD> (file or directory) to its full path and return the file base name (<KBD>FileBase</KBD>). Enviroment variables,
+<KBD>~</KBD>,  <KBD>.</KBD> and <KBD>..</KBD> are expanded.  
+
+<BR><KBD>mode file_directory_name(+atom, -atom)</KBD>
+
+</BLOCKQUOTE>
+
+
 
 <P><KBD><a name="getenv"></a>getenv(EnvVar, Value)</KBD>
 

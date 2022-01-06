@@ -294,7 +294,7 @@ Thread::psi_write_var(Object *& object1, Object *& object2)
       // No name.
       //
      *(stream) << "_";
-     *(stream) << (long)(reinterpret_cast<heapobject*>(var) - heap.getBase());
+     *(stream) << (qint64)(reinterpret_cast<heapobject*>(var) - heap.getBase());
     }
   return(RV_SUCCESS);
 }

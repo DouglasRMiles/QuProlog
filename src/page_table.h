@@ -105,7 +105,7 @@ protected:
   //
   // Write the area bounded by "begin" and "end" to a stream.
   //
-  void		saveArea(std::ostream& ostrm, const u_long magic,
+  void		saveArea(std::ostream& ostrm, const wordlong magic,
 			 const PageLoc begin, const PageLoc end) const;
   
   //
@@ -167,7 +167,7 @@ PageTable<StoredType>::~PageTable(void)
 //
 template <class StoredType>
 void
-PageTable<StoredType>::saveArea(ostream& ostrm, const u_long magic,
+PageTable<StoredType>::saveArea(ostream& ostrm, const wordlong magic,
 				const PageLoc begin, const PageLoc end) const
 {
   assert(end >= begin);

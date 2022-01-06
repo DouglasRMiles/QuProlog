@@ -657,7 +657,7 @@ Thread::Execute(void)
 
 	case OPCODE(GET_INTEGER, ARGS(integer, register)):
 	  {
-	    long n = getInteger(PC);
+	    qint64 n = getInteger(PC);
 	    const word32 i = getRegister(PC);
 	    // 
 	    // Dereference register Xi.
@@ -2340,7 +2340,7 @@ Thread::Execute(void)
 	      }
             else if (val->isString())
               {
-                constant.assign((long)(Hash(OBJECT_CAST(StringObject*, val)->getChars())),
+                constant.assign((qint64)(Hash(OBJECT_CAST(StringObject*, val)->getChars())),
                                 ConstEntry::INTEGER_TYPE);
               }
 	    else
@@ -2348,7 +2348,7 @@ Thread::Execute(void)
 		assert(val->isNumber());
                 if (val->isInteger())
                   {
-		    constant.assign((long)(val->getInteger()),
+		    constant.assign((qint64)(val->getInteger()),
 				    ConstEntry::INTEGER_TYPE);
                   }
                 else

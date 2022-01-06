@@ -2291,8 +2291,52 @@ end('$collect_chains'/4):
 
 '$struct_to_atom'/4:
 
+	switch_on_term(0, $5, $2, $2, $2, $2, $3)
+
+$3:
+	switch_on_constant(0, 4, ['$default':$2, 'const':$4])
+
+$4:
+	try(4, $1)
+	trust($2)
+
+$5:
+	try(4, $1)
+	trust($2)
 
 $1:
+	get_constant('const', 0)
+	get_constant('[]', 1)
+	get_integer(0, 2)
+	allocate(2)
+	get_y_variable(0, 3)
+	neck_cut
+	put_x_variable(1, 0)
+	get_list(0)
+	unify_integer(47)
+	unify_x_ref(0)
+	get_list(0)
+	unify_integer(48)
+	unify_constant('[]')
+	put_y_variable(1, 0)
+	call_predicate('name', 2, 2)
+	put_x_variable(1, 2)
+	get_list(2)
+	unify_constant('const')
+	unify_x_ref(2)
+	get_list(2)
+	unify_constant('[]')
+	unify_x_ref(2)
+	get_list(2)
+	unify_y_value(1)
+	unify_constant('[]')
+	put_constant('/', 2)
+	pseudo_instr3(28, 1, 2, 0)
+	get_y_value(0, 0)
+	deallocate
+	proceed
+
+$2:
 	allocate(6)
 	get_y_variable(3, 0)
 	get_y_variable(2, 1)

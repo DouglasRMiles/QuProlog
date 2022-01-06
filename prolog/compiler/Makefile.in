@@ -33,5 +33,5 @@ clean:
 
 
 %.qo: %.qs
-	$(COMPILE.qc) -c -o $@ $<
+	$(BOOTSTRAP.qc) -c -o $@ $<
 

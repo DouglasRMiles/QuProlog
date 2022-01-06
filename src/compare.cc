@@ -402,6 +402,7 @@ Thread::compareTerms(PrologValue * term1, PrologValue * term2)
       }
 
     }
+  return 1;
 }
 
 // object1 @< object2

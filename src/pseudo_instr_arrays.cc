@@ -306,7 +306,9 @@ pseudo_instr2_data pseudo_instr2_array[] =
 	{&Thread::psi_string_to_list,	1,	"psi_string_to_list"}, 
 	{&Thread::psi_peek,	1,	"psi_peek"}, 
 	{&Thread::psi_hash_string,	1,	"psi_hash_string"}, 
-	{&Thread::psi_re_compile,	1,	"psi_re_compile"}
+	{&Thread::psi_re_compile,	1,	"psi_re_compile"}, 
+	{&Thread::psi_file_directory_name,	1,	"psi_file_directory_name"}, 
+	{&Thread::psi_file_base_name,	1,	"psi_file_base_name"}
 };
 pseudo_instr3_data pseudo_instr3_array[] =
 {

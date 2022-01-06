@@ -3,14 +3,16 @@
 
 UserHashTable::UserHashTable(const int size) :
   DynamicHashTable<UserHashEntry> (size)
-{ }
+{   for (int j = 0; j < size; j++) {
+    getEntry(j).clearEntry();
+  }
+}
 
 UserHashTable::~UserHashTable(void) {}
 
 void UserHashState::addEntry(Object* h1, Object* h2, Object* term, Heap& heap)
 {
   int index;
-
   // Garbage Collect?
   if (userhashheap->doGarbageCollection())
   {
@@ -33,7 +35,7 @@ void UserHashState::addEntry(Object* h1, Object* h2, Object* term, Heap& heap)
       new_entry->setSize(size);
       if (userhashheap->isHeapPtr((heapobject*)copy))
 	new_entry->setPtr((heapobject*)copy);
-      hash_table.insert(*new_entry, index);
+      hash_table.insert(*new_entry, index); 
     }
   else
     {

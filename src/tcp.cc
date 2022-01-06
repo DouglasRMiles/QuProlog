@@ -28,7 +28,7 @@
         #define _WINSOCKAPI_
         #include <windows.h>
         #include <winsock2.h>
-        #define _WIN32_WINNT 0x501
+#define _WIN32_WINNT 0x501
         #include <ws2tcpip.h>
         typedef int socklen_t;
 #else
@@ -50,7 +50,7 @@
 #include "netinet_in.h"
 #include "tcp_qp.h"
 #include "errors.h"
-#include "error_value.h"
+
 
 extern const char *Program;
 
@@ -58,7 +58,7 @@ extern const char *Program;
 // Convert from ip address to network order number for the IP
 //
 int
-ip_to_ipnum(char* ip, u_long& ipnum)
+ip_to_ipnum(char* ip, wordlong& ipnum)
 {
   struct addrinfo *ailist;
   struct addrinfo hint;
@@ -83,7 +83,7 @@ ip_to_ipnum(char* ip, u_long& ipnum)
     {
       if (res->ai_family == AF_INET) {
         sinp = (struct sockaddr_in *)res->ai_addr;
-        u_long a = (u_long)(sinp->sin_addr.s_addr);
+        wordlong a = (wordlong)(sinp->sin_addr.s_addr);
         freeaddrinfo(ailist);
         ipnum = a;
         return 0;
@@ -97,7 +97,7 @@ ip_to_ipnum(char* ip, u_long& ipnum)
 // Inverse of above
 //
 int 
-ipnum_to_ip(u_long ipnum, char* ip)
+ipnum_to_ip(wordlong ipnum, char* ip)
 {
   struct sockaddr_in addr;    
   addr.sin_family = AF_INET;
@@ -208,13 +208,13 @@ close_socket(const int s)
 // Given a machine's name, try to find its internet address.
 // (Result is in network byte order.)
 //
-u_long
+wordlong
 LookupMachineIPAddress(const std::string& name)
 {
   return LookupMachineIPAddress(name.c_str());
 }
 
-u_long
+wordlong
 LookupMachineIPAddress(const char *name)
 {
   //
@@ -288,7 +288,7 @@ LookupMachineIPAddress(const char *name)
 // Try to find the IP address of this machine.
 // (Result is in network byte order.)
 //
-u_long
+wordlong
 LookupMachineIPAddress(void)
 {
 #ifdef WIN32
@@ -308,7 +308,7 @@ LookupMachineIPAddress(void)
 //
 
 
-bool do_connection(int sockfd, int port, u_long ip_address)
+bool do_connection(int sockfd, int port, wordlong ip_address)
 {
   struct sockaddr_in add;
   memset((char *)&add, 0, sizeof(add));
@@ -352,7 +352,7 @@ bool do_connection(int sockfd, int port, u_long ip_address)
 void getIPfromifconfig(char* ip)
 {
     SOCKET sd = WSASocket(AF_INET, SOCK_DGRAM, 0, 0, 0, 0);
-    if (sd == SOCKET_ERROR) {
+    if ((int)sd == SOCKET_ERROR) {
       fprintf(stderr, "Failed to get a socket. Error %d\n",WSAGetLastError()); 
       return;
     }
@@ -367,7 +367,7 @@ void getIPfromifconfig(char* ip)
 
     int nNumInterfaces = nBytesReturned / sizeof(INTERFACE_INFO);
     for (int i = 0; i < nNumInterfaces; ++i) {
-        u_long nFlags = InterfaceList[i].iiFlags;
+        wordlong nFlags = InterfaceList[i].iiFlags;
         if ((nFlags & IFF_UP) && !(nFlags & IFF_LOOPBACK)) {
           sockaddr_in *pAddress;
           pAddress = (sockaddr_in *) & (InterfaceList[i].iiAddress);

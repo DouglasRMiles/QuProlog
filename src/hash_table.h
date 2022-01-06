@@ -135,7 +135,7 @@ protected:
   //
   // Write the table to a stream.
   //
-  void saveTable(std::ostream& ostrm, const u_long magic) const;
+  void saveTable(std::ostream& ostrm, const wordlong magic) const;
   
   //
   // Load the table from a stream.
@@ -285,7 +285,7 @@ HashTable<HashType, HashKey>::sizeOfTable(void) const
 //
 template <class HashType, class HashKey>
 void
-HashTable<HashType, HashKey>::saveTable(ostream& ostrm, const u_long magic) const
+HashTable<HashType, HashKey>::saveTable(ostream& ostrm, const wordlong magic) const
 {
   IntSave<word32>(ostrm, magic);
   IntSave<word32>(ostrm, tableSize);

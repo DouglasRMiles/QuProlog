@@ -31,39 +31,8 @@ extern AtomTable *atoms;
 // C-level implementation of ==
 // Assumes terms have been dereferenced
 //
-// 
-
 bool 
 Thread::equalEqual(PrologValue& term1, PrologValue& term2, int& counter)
-
-#ifdef OBJECT_OVERRIDES
-{
-  Object* o1 = term1.getTerm();
-  Object* o2 = term2.getTerm();
-  
-  bool* result = new bool();
-  if(o1->StrictEquals(o2, this, *result)) {
-    return *result;
-  }
-  if(o2->StrictEquals(o1, this, *result)) {
-    return *result;
-  }
-
-  return equalEqual_Original(term1, term2, counter);
-}
-
-bool
-Object::OverridesStrictEquals(Object* o2, Thread* ctx, bool &result) 
-{
-  result = false;
-  return false;
-}
-
-
-bool 
-Thread::equalEqual_Original(PrologValue& term1, PrologValue& term2, int& counter)
-#endif
-
 {
   assert(quick_tidy_check);
   if (term1.getTerm()->tTag() != term2.getTerm()->tTag())

@@ -485,55 +485,72 @@ end('$warg'/4):
 
 '$warg'/2:
 
-	switch_on_term(0, $18, $17, $9, $10, $17, $17)
-
-$9:
-	try(2, $6)
-	retry($7)
-	trust($8)
-
-$10:
-	switch_on_structure(0, 16, ['$default':$17, '$'/0:$11, 'label'/1:$12, '$default'/1:$13, '/'/2:$14, '$xreg'/1:$15, '$yreg'/1:$16])
+	switch_on_term(0, $22, $21, $11, $12, $21, $19)
 
 $11:
+	try(2, $7)
+	retry($8)
+	retry($9)
+	trust($10)
+
+$12:
+	switch_on_structure(0, 16, ['$default':$21, '$'/0:$13, 'label'/1:$14, '$default'/1:$15, '/'/2:$16, '$xreg'/1:$17, '$yreg'/1:$18])
+
+$13:
 	try(2, $1)
 	retry($2)
 	retry($3)
 	retry($4)
 	retry($5)
-	retry($6)
-	trust($7)
-
-$12:
-	try(2, $1)
-	retry($6)
-	trust($7)
-
-$13:
-	try(2, $2)
-	retry($6)
-	trust($7)
+	retry($7)
+	retry($8)
+	trust($9)
 
 $14:
-	try(2, $3)
-	retry($6)
-	trust($7)
+	try(2, $1)
+	retry($7)
+	retry($8)
+	trust($9)
 
 $15:
-	try(2, $4)
-	retry($6)
-	trust($7)
+	try(2, $2)
+	retry($7)
+	retry($8)
+	trust($9)
 
 $16:
-	try(2, $5)
-	retry($6)
-	trust($7)
+	try(2, $3)
+	retry($7)
+	retry($8)
+	trust($9)
 
 $17:
-	try(2, $6)
-	trust($7)
+	try(2, $4)
+	retry($7)
+	retry($8)
+	trust($9)
 
 $18:
+	try(2, $5)
+	retry($7)
+	retry($8)
+	trust($9)
+
+$19:
+	switch_on_constant(0, 4, ['$default':$21, '[]':$20])
+
+$20:
+	try(2, $6)
+	retry($7)
+	retry($8)
+	trust($9)
+
+$21:
+	try(2, $7)
+	retry($8)
+	trust($9)
+
+$22:
 	try(2, $1)
 	retry($2)
 	retry($3)
@@ -541,7 +558,9 @@ $18:
 	retry($5)
 	retry($6)
 	retry($7)
-	trust($8)
+	retry($8)
+	retry($9)
+	trust($10)
 
 $1:
 	get_structure('label', 1, 0)
@@ -604,11 +623,28 @@ $5:
 	execute_predicate('write_term', 3)
 
 $6:
+	get_constant('[]', 0)
+	allocate(1)
+	get_y_variable(0, 1)
+	neck_cut
+	put_y_value(0, 0)
+	put_integer(39, 1)
+	call_predicate('put', 2, 1)
+	put_y_value(0, 0)
+	put_constant('[]', 1)
+	put_constant('[]', 2)
+	call_predicate('write_term', 3, 1)
+	put_y_value(0, 0)
+	put_integer(39, 1)
+	deallocate
+	execute_predicate('put', 2)
+
+$7:
 	pseudo_instr1(2, 0)
 	neck_cut
 	execute_predicate('$wname', 2)
 
-$7:
+$8:
 	get_x_variable(2, 0)
 	get_x_variable(0, 1)
 	pseudo_instr1(3, 2)
@@ -617,7 +653,21 @@ $7:
 	put_constant('[]', 2)
 	execute_predicate('write_term', 3)
 
-$8:
+$9:
+	get_x_variable(2, 0)
+	get_x_variable(0, 1)
+	pseudo_instr1(108, 2)
+	neck_cut
+	put_x_value(2, 1)
+	put_structure(1, 3)
+	set_constant('quoted')
+	set_constant('true')
+	put_list(2)
+	set_x_value(3)
+	set_constant('[]')
+	execute_predicate('write_term', 3)
+
+$10:
 	allocate(2)
 	get_y_variable(1, 0)
 	get_y_variable(0, 1)

@@ -183,8 +183,8 @@ Thread::psi_ip_setA(Object *& object1, Object *& object2, Object *& object3)
       array_size = OBJECT_CAST(Structure *, current_value)->getArity();
     }
   
-  const long offset = 1 +
-    static_cast<long>((hash_val->isNumber() ?
+  const qint64 offset = 1 +
+    static_cast<qint64>((hash_val->isNumber() ?
       (hash_val->getInteger() & (array_size-1))
     : ((reinterpret_cast<wordptr>(hash_val) >> 2) & (array_size-1))));
 

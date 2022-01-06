@@ -79,7 +79,6 @@ bool
 BlockingTimeoutObject::unblock(Timeval& tout)
 {
   Timeval now;
-
   if (timeout.isForever())
     {
       return false;

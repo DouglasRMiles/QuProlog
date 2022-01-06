@@ -15,10 +15,10 @@ $(COMMAND.qdeal): $(OBJECTS.qdeal) $(BIG_LIBRARY)
 	$(CXX) $(LDFLAGS) -o $(COMMAND.qdeal) $(OBJECTS.qdeal) -lnsl -ldl  $(BIG_LIBRARY)
 
 .PHONY: install.qdeal
-install.qdeal: /opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/$(COMMAND.qdeal)
+install.qdeal: /opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/bin/$(COMMAND.qdeal)
 
-/opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin/$(COMMAND.qdeal): $(COMMAND.qdeal)
-	/usr/bin/install -c $(COMMAND.qdeal) /opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/bin
+/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/bin/$(COMMAND.qdeal): $(COMMAND.qdeal)
+	/usr/bin/install -c $(COMMAND.qdeal) /opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/bin
 
 .PHONY:	clean.qdeal
 clean.qdeal:

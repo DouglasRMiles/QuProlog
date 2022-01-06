@@ -245,7 +245,7 @@ Thread::psi_thread_symbol(Object *& thread_arg, Object *& name_arg)
 	}
       else
 	{
-	  return BOOL_TO_RV(unify(argT, heap.newInteger((u_long) loc)));
+	  return BOOL_TO_RV(unify(argT, heap.newInteger((wordlong) loc)));
 	}
     }
   else
@@ -506,7 +506,7 @@ Thread::psi_thread_is_suspended(Object *& thread_id_cell)
 Thread::ReturnValue
 Thread::psi_thread_tid(Object *& thread_arg)
 {
-  thread_arg = heap.newInteger((u_long) TInfo().ID());
+  thread_arg = heap.newInteger((wordlong) TInfo().ID());
   
   return RV_SUCCESS;
 }
@@ -764,7 +764,7 @@ Thread::psi_thread_setup_wait(Object *& preds, Object *& until_time,
   Object* argE = heap.dereference(every_time);
    BlockingWaitObject* bwo =
     new BlockingWaitObject(this, code, argP, argU, argE, predicates);
-   wait_ptr = heap.newInteger((long)(reinterpret_cast<heapobject*>(bwo)));
+   wait_ptr = heap.newInteger((qint64)(reinterpret_cast<heapobject*>(bwo)));
    //bwo->dump();
    return RV_SUCCESS;
 }
@@ -774,7 +774,7 @@ Thread::psi_thread_wait_free_ptr(Object *& wait_ptr)
 {
   Object* argW = heap.dereference(wait_ptr);
   assert(argW->isInteger());
-  long iptr = argW->getInteger();
+  qint64 iptr = argW->getInteger();
   BlockingWaitObject* bwo = reinterpret_cast<BlockingWaitObject*>(iptr);
   delete bwo;
   return RV_SUCCESS;
@@ -785,7 +785,7 @@ Thread::psi_thread_wait_ptr(Object *& wait_ptr)
 {
   Object* argW = heap.dereference(wait_ptr);
   assert(argW->isInteger());
-  long iptr = argW->getInteger();
+  qint64 iptr = argW->getInteger();
   BlockingWaitObject* bwo = reinterpret_cast<BlockingWaitObject*>(iptr);
   // the wait has timedout and has not become unblocked in the meantime
   if (bwo->is_unblocked()) return RV_SUCCESS;
@@ -806,7 +806,7 @@ Thread::psi_thread_wait_update(Object *& wait_ptr)
 {
   Object* argW = heap.dereference(wait_ptr);
   assert(argW->isInteger());
-  long iptr = argW->getInteger();
+  qint64 iptr = argW->getInteger();
   BlockingWaitObject* bwo = reinterpret_cast<BlockingWaitObject*>(iptr);
   //bwo->dump();
   bwo->update();
@@ -819,7 +819,7 @@ Thread::psi_thread_wait_extract_preds(Object *& wait_ptr, Object *& preds)
   
   Object* argW = heap.dereference(wait_ptr);
   assert(argW->isInteger());
-  long iptr = argW->getInteger();
+  qint64 iptr = argW->getInteger();
   BlockingWaitObject* bwo = reinterpret_cast<BlockingWaitObject*>(iptr);
   //bwo->dump();
   preds = bwo->extract_changed_preds();
@@ -894,14 +894,14 @@ Thread::psi_thread_set_defaults(Object *& sizes_arg)
 		      ip_table_size);
 
   // At this point, all the sizes are >= 0
-  thread_options->HeapSize((u_long) heap_size);  
-  thread_options->ScratchpadSize((u_long) scratchpad_size);
-  thread_options->BindingTrailSize((u_long) binding_trail_size);
-  thread_options->OtherTrailSize((u_long) other_trail_size);
-  thread_options->EnvironmentStackSize((u_long) env_size);
-  thread_options->ChoiceStackSize((u_long) choice_size);
-  thread_options->NameTableSize((u_long) name_table_size);
-  thread_options->IPTableSize((u_long) ip_table_size);
+  thread_options->HeapSize((wordlong) heap_size);  
+  thread_options->ScratchpadSize((wordlong) scratchpad_size);
+  thread_options->BindingTrailSize((wordlong) binding_trail_size);
+  thread_options->OtherTrailSize((wordlong) other_trail_size);
+  thread_options->EnvironmentStackSize((wordlong) env_size);
+  thread_options->ChoiceStackSize((wordlong) choice_size);
+  thread_options->NameTableSize((wordlong) name_table_size);
+  thread_options->IPTableSize((wordlong) ip_table_size);
   
   return RV_SUCCESS;
 }
@@ -998,6 +998,10 @@ Thread::psi_thread_exit(Object *& thread_id_cell)
 
   assert(thread->Condition() == ThreadCondition::RUNNABLE);
 
+  if (TInfo().ID() == thread->TInfo().ID()) {
+      return psi_thread_exit();
+  }  
+
   thread->otherTrail.backtrackTo(thread->otherTrail.getHigh());
   //
   // If the thread is the initial thread then exit the application.
@@ -1010,9 +1014,9 @@ Thread::psi_thread_exit(Object *& thread_id_cell)
   if (pedro_channel != NULL) 
     pedro_channel->delete_subscriptions(thread->TInfo().ID());
   timerStack.delete_all_timers(thread);
-#ifdef DEBUG_MT
+ #ifdef DEBUG_MT
   cerr <<  __FUNCTION__ << " " << thread->TInfo().ID() << endl;
-#endif
+ #endif
 
   if (thread->TInfo().SymbolSet())
     {
@@ -1020,7 +1024,6 @@ Thread::psi_thread_exit(Object *& thread_id_cell)
       thread_table->RemoveName(thread->TInfo().Symbol());
     }
   scheduler->deleteThread(thread);
-
   return RV_SUCCESS;
 }
 

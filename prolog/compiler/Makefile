@@ -1,7 +1,7 @@
 #
 # Makefile for "qu-prolog/compiler"
 #
-QPOBJDIR =/opt/logicmoo_workspace/taupl/qulog0.4/QuProlog/prolog_object/compiler
+QPOBJDIR =/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/QuProlog/prolog_object/compiler
 
 SOURCES	= \
 	compile.ql \
@@ -33,5 +33,5 @@ clean:
 
 
 %.qo: %.qs
-	$(COMPILE.qc) -c -o $@ $<
+	$(BOOTSTRAP.qc) -c -o $@ $<
 

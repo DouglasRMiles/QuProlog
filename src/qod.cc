@@ -47,11 +47,11 @@ void noMoreMemory()
    abort();
 }
 
-static void dump_instruction(istream&, u_long&, u_long&,
+static void dump_instruction(istream&, wordlong&, wordlong&,
 			     char *[], const size_t);
-static void dump_predicate(istream&, u_long&,
+static void dump_predicate(istream&, wordlong&,
 			   char *[], const size_t);
-static void advance(const u_long, u_long&, u_long&); 
+static void advance(const wordlong, wordlong&, wordlong&); 
 static void dump_constant(const Code::ConstantSizedType,
 			  char *[], const size_t);
 static void dump_table_constant(const Code::ConstantSizedType,
@@ -59,7 +59,7 @@ static void dump_table_constant(const Code::ConstantSizedType,
 static void dump_table_atom_arity(const Code::ConstantSizedType,
 				  const Code::NumberSizedType,
 				  char *[], const size_t);
-static void dump_table_label(const Code::OffsetSizedType, const u_long);
+static void dump_table_label(const Code::OffsetSizedType, const wordlong);
 
 int
 main(int argc, char **argv)
@@ -83,11 +83,11 @@ main(int argc, char **argv)
     }
 
   // Initialise
-  u_long byte_count = 0;
+  wordlong byte_count = 0;
 
   // Read the string table
   char *strings[1024];
-  u_long string_count = 0;
+  wordlong string_count = 0;
 
   printf("% 8lx: ", byte_count);
 
@@ -99,7 +99,7 @@ main(int argc, char **argv)
 
   while (string_table_size > 0)
     {
-      u_long len = 0;
+      wordlong len = 0;
 
       printf("% 8lx: ", byte_count);
 
@@ -132,7 +132,7 @@ main(int argc, char **argv)
 
   if (query_block_size > 0)
     {
-      u_long size = query_block_size;
+      wordlong size = query_block_size;
 
       cout << '' << endl;
       printf("% 8lx: ", byte_count);
@@ -164,9 +164,9 @@ main(int argc, char **argv)
 }
 
 void
-advance(const u_long bytes,
-	u_long& byte_count,
-	u_long& size)
+advance(const wordlong bytes,
+	wordlong& byte_count,
+	wordlong& size)
 {
   byte_count += bytes;
   size -= bytes;
@@ -187,7 +187,7 @@ dump_table_constant(const Code::ConstantSizedType constant,
 }
 
 void
-dump_table_label(const Code::OffsetSizedType label, const u_long end_addr)
+dump_table_label(const Code::OffsetSizedType label, const wordlong end_addr)
 {
   if (label == (Code::OffsetSizedType) -1)
     {
@@ -216,7 +216,7 @@ dump_table_atom_arity(const Code::ConstantSizedType atom,
 
       if (cell.isAtom())
 	{
-	  const u_long atom_loc = cell.restOfAtomic();
+	  const wordlong atom_loc = cell.restOfAtomic();
 
 	  printf("%ld=%s/%ld", atom_loc, strings[atom_loc], arity);
 	}
@@ -244,7 +244,7 @@ dump_constant(const Code::ConstantSizedType constant,
     }
   else if (cell.isAtom())
     {
-      const u_long atom_loc = cell.restOfAtomic();
+      const wordlong atom_loc = cell.restOfAtomic();
 
       if (atom_loc < string_count)
 	{
@@ -263,12 +263,12 @@ dump_constant(const Code::ConstantSizedType constant,
 
 void
 dump_instruction(istream& istrm,
-		 u_long& byte_count,
-		 u_long& size,
+		 wordlong& byte_count,
+		 wordlong& size,
 		 char *strings[],
 		 const size_t string_count)
 {
-  const u_long instr_start = byte_count;
+  const wordlong instr_start = byte_count;
 
   printf("% 8lx: ", byte_count);
 
@@ -384,8 +384,8 @@ dump_instruction(istream& istrm,
       cout << ')';
     }
   
-  const u_long instr_size = byte_count - instr_start;
-  const u_long instr_end = byte_count;
+  const wordlong instr_size = byte_count - instr_start;
+  const wordlong instr_end = byte_count;
 
   printf(" (%ld bytes)", instr_size);
   if (instr_size != opsizes[instruction])
@@ -404,12 +404,12 @@ dump_instruction(istream& istrm,
 	  {
 	    const char *branch = "VOLSQC";
 
-	    const u_long table_bytes = 6 * Code::SIZE_OF_OFFSET;
-            const u_long table_end = instr_end + table_bytes;
+	    const wordlong table_bytes = 6 * Code::SIZE_OF_OFFSET;
+            const wordlong table_end = instr_end + table_bytes;
 
 	    cout << endl;
 	    printf("% 8lx: ", byte_count);
-	    for (u_long i = 0; i < 6; i++)
+	    for (wordlong i = 0; i < 6; i++)
 	      {
 		const Code::OffsetSizedType label =
 		  IntLoad<Code::OffsetSizedType>(istrm);
@@ -424,7 +424,7 @@ dump_instruction(istream& istrm,
 		  }
 	      }
 	    
-	    const u_long bytes = byte_count - instr_end;
+	    const wordlong bytes = byte_count - instr_end;
 	    printf(" (%ld bytes)", bytes);
 	    if (bytes != table_bytes)
 	      {
@@ -435,7 +435,7 @@ dump_instruction(istream& istrm,
 	  break;
 	case SWITCH_ON_CONSTANT:
 	  {
-	    const u_long table_bytes = table_size * (Code::SIZE_OF_CONSTANT +
+	    const wordlong table_bytes = table_size * (Code::SIZE_OF_CONSTANT +
 						     Code::SIZE_OF_OFFSET);
 
 	    for (size_t entry = 0; entry < table_size; entry++)
@@ -464,7 +464,7 @@ dump_instruction(istream& istrm,
 		  }
 	      }
 
-	    const u_long bytes = byte_count - instr_end;
+	    const wordlong bytes = byte_count - instr_end;
 	    printf(" (%ld bytes)", bytes);
 	    if (bytes != table_bytes)
 	      {
@@ -475,11 +475,11 @@ dump_instruction(istream& istrm,
 	  break;
 	case SWITCH_ON_STRUCTURE:
 	  {
-	    const u_long table_bytes = table_size * (Code::SIZE_OF_CONSTANT +
+	    const wordlong table_bytes = table_size * (Code::SIZE_OF_CONSTANT +
 						     Code::SIZE_OF_NUMBER +
 						     Code::SIZE_OF_OFFSET);
 	    
-	    for (u_long entry = 0; entry < table_size; entry++)
+	    for (wordlong entry = 0; entry < table_size; entry++)
 	      {
 		if (entry % 4 == 0)
 		  {
@@ -509,7 +509,7 @@ dump_instruction(istream& istrm,
 		  }
 	      }
 
-	    const u_long bytes = byte_count - instr_end;
+	    const wordlong bytes = byte_count - instr_end;
 	    printf(" (%ld bytes)", bytes);
 	    if (bytes != table_bytes)
 	      {
@@ -520,10 +520,10 @@ dump_instruction(istream& istrm,
 	  break;
 	case SWITCH_ON_QUANTIFIER:
 	  {
-	    const u_long table_bytes = table_size * (Code::SIZE_OF_CONSTANT +
+	    const wordlong table_bytes = table_size * (Code::SIZE_OF_CONSTANT +
 						     Code::SIZE_OF_OFFSET);
 
-	    for (u_long entry = 0; entry < table_size; entry++)
+	    for (wordlong entry = 0; entry < table_size; entry++)
 	      {
 		if (entry % 4 == 0)
 		  {
@@ -548,7 +548,7 @@ dump_instruction(istream& istrm,
 		  }
 	      }
 
-	    const u_long bytes = byte_count - instr_end;
+	    const wordlong bytes = byte_count - instr_end;
 	    printf(" (%ld bytes)", bytes);
 	    if (bytes != table_bytes)
 	      {
@@ -565,7 +565,7 @@ dump_instruction(istream& istrm,
 
 void
 dump_predicate(istream& istrm,
-	       u_long& byte_count,
+	       wordlong& byte_count,
 	       char *strings[],
 	       const size_t string_count)
 {
@@ -581,11 +581,11 @@ dump_predicate(istream& istrm,
 
   const Code::OffsetSizedType pred_size =
     IntLoad<Code::OffsetSizedType>(istrm);
-  u_long bytes = pred_size;
+  wordlong bytes = pred_size;
 
   byte_count += Code::SIZE_OF_OFFSET;
 
-  const u_long pred_start = byte_count;
+  const wordlong pred_start = byte_count;
 
   printf("%ld=%s/%ld (%ld bytes, next pred=%lx)\n",
 	    string_num, strings[string_num],
@@ -596,7 +596,7 @@ dump_predicate(istream& istrm,
       dump_instruction(istrm, byte_count, bytes, strings, string_count);
     }
 
-  const u_long size = byte_count - pred_start;
+  const wordlong size = byte_count - pred_start;
   if (pred_size != size)
     {
       Fatal(__FUNCTION__, "Predicate size: computed=%ld != actual=%ld",

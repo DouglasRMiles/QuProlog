@@ -178,15 +178,21 @@ $6:
 
 $7:
 	get_integer(120, 0)
-	allocate(2)
+	allocate(3)
+	put_y_variable(2, 19)
 	put_y_variable(1, 19)
 	put_y_variable(0, 19)
 	put_constant('Enter thread id to exit', 0)
-	call_predicate('error', 1, 2)
+	call_predicate('error', 1, 3)
 	put_constant('stderr', 0)
 	pseudo_instr1(31, 0)
+	put_y_value(2, 0)
+	call_predicate('get_line', 1, 3)
 	put_y_value(1, 0)
-	call_predicate('get_line', 1, 2)
+	put_y_value(2, 2)
+	put_string("
+", 1)
+	call_predicate('string_concat', 3, 2)
 	put_y_value(1, 0)
 	put_y_value(0, 1)
 	call_predicate('string_to_atom', 2, 1)
@@ -1306,7 +1312,7 @@ end('$psi5_resume'/7):
 
 
 
-'$query_handlers1526442633_502/0$0'/0:
+'$query_handlers1593041820_486/0$0'/0:
 
 
 $1:
@@ -1320,11 +1326,11 @@ $1:
 	cut(0)
 	deallocate
 	proceed
-end('$query_handlers1526442633_502/0$0'/0):
+end('$query_handlers1593041820_486/0$0'/0):
 
 
 
-'$query_handlers1526442633_502/0$1'/0:
+'$query_handlers1593041820_486/0$1'/0:
 
 
 $1:
@@ -1338,11 +1344,11 @@ $1:
 	cut(0)
 	deallocate
 	proceed
-end('$query_handlers1526442633_502/0$1'/0):
+end('$query_handlers1593041820_486/0$1'/0):
 
 
 
-'$query_handlers1526442633_502/0$2'/0:
+'$query_handlers1593041820_486/0$2'/0:
 
 
 $1:
@@ -1356,11 +1362,11 @@ $1:
 	cut(0)
 	deallocate
 	proceed
-end('$query_handlers1526442633_502/0$2'/0):
+end('$query_handlers1593041820_486/0$2'/0):
 
 
 
-'$query_handlers1526442633_502/0$3'/0:
+'$query_handlers1593041820_486/0$3'/0:
 
 
 $1:
@@ -1374,11 +1380,11 @@ $1:
 	cut(0)
 	deallocate
 	proceed
-end('$query_handlers1526442633_502/0$3'/0):
+end('$query_handlers1593041820_486/0$3'/0):
 
 
 
-'$query_handlers1526442633_502/0$4'/0:
+'$query_handlers1593041820_486/0$4'/0:
 
 
 $1:
@@ -1392,11 +1398,11 @@ $1:
 	cut(0)
 	deallocate
 	proceed
-end('$query_handlers1526442633_502/0$4'/0):
+end('$query_handlers1593041820_486/0$4'/0):
 
 
 
-'$query_handlers1526442633_502/0$5'/0:
+'$query_handlers1593041820_486/0$5'/0:
 
 
 $1:
@@ -1410,11 +1416,11 @@ $1:
 	cut(0)
 	deallocate
 	proceed
-end('$query_handlers1526442633_502/0$5'/0):
+end('$query_handlers1593041820_486/0$5'/0):
 
 
 
-'$query_handlers1526442633_502'/0:
+'$query_handlers1593041820_486'/0:
 
 	try(0, $1)
 	retry($2)
@@ -1426,37 +1432,37 @@ end('$query_handlers1526442633_502/0$5'/0):
 
 $1:
 	allocate(0)
-	call_predicate('$query_handlers1526442633_502/0$0', 0, 0)
+	call_predicate('$query_handlers1593041820_486/0$0', 0, 0)
 	fail
 
 $2:
 	allocate(0)
-	call_predicate('$query_handlers1526442633_502/0$1', 0, 0)
+	call_predicate('$query_handlers1593041820_486/0$1', 0, 0)
 	fail
 
 $3:
 	allocate(0)
-	call_predicate('$query_handlers1526442633_502/0$2', 0, 0)
+	call_predicate('$query_handlers1593041820_486/0$2', 0, 0)
 	fail
 
 $4:
 	allocate(0)
-	call_predicate('$query_handlers1526442633_502/0$3', 0, 0)
+	call_predicate('$query_handlers1593041820_486/0$3', 0, 0)
 	fail
 
 $5:
 	allocate(0)
-	call_predicate('$query_handlers1526442633_502/0$4', 0, 0)
+	call_predicate('$query_handlers1593041820_486/0$4', 0, 0)
 	fail
 
 $6:
 	allocate(0)
-	call_predicate('$query_handlers1526442633_502/0$5', 0, 0)
+	call_predicate('$query_handlers1593041820_486/0$5', 0, 0)
 	fail
 
 $7:
 	proceed
-end('$query_handlers1526442633_502'/0):
+end('$query_handlers1593041820_486'/0):
 
 
 
@@ -1464,7 +1470,7 @@ end('$query_handlers1526442633_502'/0):
 
 
 $1:
-	execute_predicate('$query_handlers1526442633_502', 0)
+	execute_predicate('$query_handlers1593041820_486', 0)
 end('$query'/0):
 
 

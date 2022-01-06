@@ -34,7 +34,12 @@ end('map'/3):
 
 $1:
 	get_x_variable(0, 1)
-	execute_predicate('$all_empty', 1)
+	allocate(1)
+	get_y_level(0)
+	call_predicate('$all_empty', 1, 1)
+	cut(0)
+	deallocate
+	proceed
 
 $2:
 	allocate(4)

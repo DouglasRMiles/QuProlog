@@ -1,6 +1,6 @@
 #ifdef WIN32
         #include <winsock2.h>
-        #define _WIN32_WINNT 0x501
+#define _WIN32_WINNT 0x501
         #include <ws2tcpip.h>
         #define _WINSOCKAPI_
         #include <windows.h>
@@ -23,7 +23,7 @@
             srcaddr.sin_family = af;
             if (WSAAddressToString((struct sockaddr*) &srcaddr, sizeof(struct sockaddr_in), 0, dst, (LPDWORD) &cnt) != 0) {
             DWORD rv = WSAGetLastError();
-            printf("WSAAddressToString() : %d\n",rv);
+            printf("WSAAddressToString() : %ld\n",rv);
             return NULL;
          }
         return dst;
@@ -138,6 +138,9 @@ void next_token(Thread* th, AtomTable& atoms, VarMap& vmap, bool remember)
 int parseargs(Thread* th, AtomTable& atoms, VarMap& vmap, 
 	      ObjectsStack& stk, bool remember)
 {
+  if (curr_token_type == CBRA_TOKEN) {
+    return 0;
+  }
   int num = 0;
   Object* t = parse_prec700(th, atoms, vmap, stk, remember);
   assert(t != NULL);
@@ -219,6 +222,13 @@ Object* parse_basic(Thread* th, AtomTable& atoms, VarMap& vmap,
 	{
 	  next_token(th, atoms, vmap, remember);
 	  int arity = parseargs(th, atoms, vmap, stk, remember);
+          if (arity == 0) {
+            next_token(th, atoms, vmap, remember);
+            Structure* compound = th->TheHeap().newStructure(1);
+            compound->setFunctor(t);
+            compound->setArgument(1, AtomTable::a_d_none_);
+            return compound;
+          }
 	  assert((arity != 0) && (curr_token_type == CBRA_TOKEN));
 	  next_token(th, atoms, vmap, remember);
 	  Structure* compound = th->TheHeap().newStructure(arity);
@@ -246,9 +256,11 @@ Object* parse_prec50(Thread* th, AtomTable& atoms, VarMap& vmap,
 		      ObjectsStack& stk, bool remember)
 {
   Object* t1 = parse_basic(th, atoms, vmap, stk, remember);
+  if (t1 == NULL) return NULL;
   if (curr_token == AtomTable::colon) {
     next_token(th, atoms, vmap, remember);
     Object* t2 = parse_basic(th, atoms, vmap, stk, remember);
+    if (t2 == NULL) return NULL;
     Structure* sterm = th->TheHeap().newStructure(2);
     sterm->setFunctor(AtomTable::colon);
     sterm->setArgument(1, t1);
@@ -262,9 +274,11 @@ Object* parse_prec100(Thread* th, AtomTable& atoms, VarMap& vmap,
 		      ObjectsStack& stk, bool remember)
 {
   Object* t1 = parse_prec50(th, atoms, vmap, stk, remember);
+  if (t1 == NULL) return NULL;
   if (curr_token == AtomTable::at) {
     next_token(th, atoms, vmap, remember);
     Object* t2 = parse_prec50(th, atoms, vmap, stk, remember);
+    if (t2 == NULL) return NULL;
     Structure* sterm = th->TheHeap().newStructure(2);
     sterm->setFunctor(AtomTable::at);
     sterm->setArgument(1, t1);
@@ -283,15 +297,18 @@ Object* parse_prec200(Thread* th, AtomTable& atoms, VarMap& vmap,
   if (curr_token == AtomTable::minus) {
     next_token(th, atoms, vmap, remember);
     Object* arg = parse_prec100(th, atoms, vmap, stk, remember);
+    if (arg == NULL) return NULL;
     Structure* sterm = th->TheHeap().newStructure(1);
     sterm->setFunctor(AtomTable::minus);
     sterm->setArgument(1, arg);
     return sterm;
   }
   Object* t1 = parse_prec100(th, atoms, vmap, stk, remember);
+  if (t1 == NULL) return NULL;
   if (curr_token == AtomTable::power) {
     next_token(th, atoms, vmap, remember);
     Object* t2 = parse_prec100(th, atoms, vmap, stk, remember);
+    if (t2 == NULL) return NULL;
     Structure* sterm = th->TheHeap().newStructure(2);
     sterm->setFunctor(AtomTable::power);
     sterm->setArgument(1, t1);
@@ -305,6 +322,7 @@ Object* parse_prec400(Thread* th, AtomTable& atoms, VarMap& vmap,
 		      ObjectsStack& stk, bool remember)
 {
   Object* t1 = parse_prec200(th, atoms, vmap, stk, remember);
+  if (t1 == NULL) return NULL;
   while ((curr_token == AtomTable::multiply) ||
          (curr_token == AtomTable::divide) ||
          (curr_token == AtomTable::intdivide) ||
@@ -314,6 +332,7 @@ Object* parse_prec400(Thread* th, AtomTable& atoms, VarMap& vmap,
     Object* op = curr_token;
     next_token(th, atoms, vmap, remember);
     Object* t2 = parse_prec200(th, atoms, vmap, stk, remember);
+    if (t2 == NULL) return NULL;
     Structure* sterm = th->TheHeap().newStructure(2);
     sterm->setFunctor(op);
     sterm->setArgument(1, t1);
@@ -327,6 +346,7 @@ Object* parse_prec500(Thread* th, AtomTable& atoms, VarMap& vmap,
 		      ObjectsStack& stk, bool remember)
 {
   Object* t1 = parse_prec400(th, atoms, vmap, stk, remember);
+  if (t1 == NULL) return NULL;
   while ((curr_token == AtomTable::plus) ||
          (curr_token == AtomTable::minus) ||
          (curr_token == AtomTable::bitwiseand) ||
@@ -334,6 +354,7 @@ Object* parse_prec500(Thread* th, AtomTable& atoms, VarMap& vmap,
     Object* op = curr_token;
     next_token(th, atoms, vmap, remember);
     Object* t2 = parse_prec400(th, atoms, vmap, stk, remember);
+    if (t2 == NULL) return NULL;
     Structure* sterm = th->TheHeap().newStructure(2);
     sterm->setFunctor(op);
     sterm->setArgument(1, t1);
@@ -347,12 +368,14 @@ Object* parse_prec700(Thread* th, AtomTable& atoms, VarMap& vmap,
 		      ObjectsStack& stk, bool remember)
 {
   Object* t1 = parse_prec500(th, atoms, vmap, stk, remember);
+  if (t1 == NULL) return NULL;
   if ((curr_token == AtomTable::equal) || (curr_token == AtomTable::is) ||
       (curr_token == AtomTable::lt) || (curr_token == AtomTable::gt) ||
       (curr_token == AtomTable::le) || (curr_token == AtomTable::ge)) {
     Object* op = curr_token;
     next_token(th, atoms, vmap, remember);
     Object* t2 = parse_prec500(th, atoms, vmap, stk, remember);
+    if (t2 == NULL) return NULL;
     Structure* sterm = th->TheHeap().newStructure(2);
     sterm->setFunctor(op);
     sterm->setArgument(1, t1);
@@ -366,10 +389,12 @@ Object* parse_prec1000(Thread* th, AtomTable& atoms, VarMap& vmap,
 		       ObjectsStack& stk, bool remember)
 {  
   Object* t1 = parse_prec700(th, atoms, vmap, stk, remember);
+  if (t1 == NULL) return NULL;
   if (curr_token_type == COMMA_TOKEN) {
     Object* op = AtomTable::comma;
     next_token(th, atoms, vmap, remember);
     Object* t2 = parse_prec1000(th, atoms, vmap, stk, remember);
+    if (t2 == NULL) return NULL;
     Structure* sterm = th->TheHeap().newStructure(2);
     sterm->setFunctor(op);
     sterm->setArgument(1, t1);
@@ -383,10 +408,12 @@ Object* parse_prec1050(Thread* th, AtomTable& atoms, VarMap& vmap,
 		       ObjectsStack& stk, bool remember)
 {
   Object* t1 = parse_prec1000(th, atoms, vmap, stk, remember);
+  if (t1 == NULL) return NULL;
   if (curr_token == AtomTable::arrow) {
     Object* op = curr_token;
     next_token(th, atoms, vmap, remember);
     Object* t2 = parse_prec1050(th, atoms, vmap, stk, remember);
+    if (t2 == NULL) return NULL;
     Structure* sterm = th->TheHeap().newStructure(2);
     sterm->setFunctor(op);
     sterm->setArgument(1, t1);
@@ -400,10 +427,12 @@ Object* parse_prec1100(Thread* th, AtomTable& atoms, VarMap& vmap,
 		       ObjectsStack& stk, bool remember)
 {
   Object* t1 = parse_prec1050(th, atoms, vmap, stk, remember);
+  if (t1 == NULL) return NULL;
   if (curr_token == AtomTable::semi) {
     Object* op = curr_token;
     next_token(th, atoms, vmap, remember);
     Object* t2 = parse_prec1100(th, atoms, vmap, stk, remember);
+    if (t2 == NULL) return NULL;
     Structure* sterm = th->TheHeap().newStructure(2);
     sterm->setFunctor(op);
     sterm->setArgument(1, t1);
@@ -419,6 +448,7 @@ Object* parsePedroTerm(Thread* th, AtomTable& atoms,
 {
   next_token(th, atoms, vmap, remember);
   Object* t = parse_prec1100(th, atoms, vmap, stk, remember);
+  if (t == NULL) return NULL;
   assert(curr_token_type == NEWLINE_TOKEN);
   return t;
 }
@@ -589,14 +619,19 @@ void write_infix_comma(Object* larg, Object* rarg, int prec,
 void write_structure(Structure* str, int arity, ostringstream& strm)
 {
   write_term(str->getFunctor(), 999, strm);
-  strm << '(';
-  for (int i = 1; i <arity; i++)
-    {
-      write_term(str->getArgument(i), 999, strm);
-      strm << ", ";
-    }
-  write_term(str->getArgument(arity), 999, strm);
-  strm << ')';
+  Object* arg = str->getArgument(1)->variableDereference();
+  if (arg == AtomTable::a_d_none_) {
+    strm << "()";
+  } else {
+    strm << '(';
+    for (int i = 1; i <arity; i++)
+      {
+        write_term(str->getArgument(i), 999, strm);
+        strm << ", ";
+      }
+    write_term(str->getArgument(arity), 999, strm);
+    strm << ')';
+  }
 }
 
 void write_term(Object* term, int prec, ostringstream& strm)
@@ -980,10 +1015,10 @@ PedroMessageChannel::unsubscribe(int tid, Object* t)
 bool
 PedroMessageChannel::notify(Object* t)
 {
-  char buff[32];
   #ifdef WIN32
   clear_ack();
   #else
+  char buff[32];
   recv(ack_fd, buff, 30, MSG_DONTWAIT);
   #endif
   //clear_ack();
@@ -1017,7 +1052,7 @@ PedroMessageChannel::send(string s)
   while (num_written != len)
     {
       #ifdef WIN32
-      if (num_written == SOCKET_ERROR) {
+      if ((int)num_written == SOCKET_ERROR) {
         cerr << "Socket Error in pedro send" << endl;
         return;
       }
@@ -1054,7 +1089,7 @@ PedroMessageChannel::delete_subscriptions(int tid)
 
 
 bool 
-PedroMessageChannel::connect(int pedro_port, u_long ip_address)
+PedroMessageChannel::connect(int pedro_port, wordlong ip_address)
 {
  
   // Create a socket to get info
@@ -1090,7 +1125,7 @@ PedroMessageChannel::connect(int pedro_port, u_long ip_address)
   }
   ack_port = htons((unsigned short)ack_port);
   data_port = htons((unsigned short)data_port);
-  unsigned long ipaddr = inet_addr(ipstr);
+  wordptr ipaddr = inet_addr(ipstr);
   //inet_aton(ipstr, &ipaddr);
 
   // Create a socket connection for ack
@@ -1142,49 +1177,50 @@ PedroMessageChannel::connect(int pedro_port, u_long ip_address)
   }
 
     // figure out my IP address
-  u_long ip_num;
-  char ip_name[100];
+  //wordlong ip_num;
+  //char ip_name[100];
   struct sockaddr_in add;
   memset(&add, 0, sizeof(add));
   socklen_t addr_len = sizeof(add);
   getsockname(ack_fd, (struct sockaddr *)&add, &addr_len);
   strcpy(ipstr, inet_ntoa(add.sin_addr));
-  if (ip_to_ipnum(ipstr, ip_num) == -1 ||
-      ipnum_to_ip(ip_num, ip_name) == -1)  
-    {
-      // we can't look up name given address so just use dotted IP
-      host = atoms->add(ipstr);
-    } 
-  else 
-    {
-      host = atoms->add(ip_name);
-      /*
-	// check if we can look up the same IP from hostname 
-	//hostent *hp2 = gethostbyname(hp->h_name);
-	//cerr << hp->h_name << " " << hp2->h_name << endl;
-	//if ((hp2 == NULL) or !streq(hp->h_name, hp2->h_name))
-	char *str, *token, *saveptr, *lasttoken;
-	int num;
-	// If hp->h_name does not really do a DNS lookup but
-	// succeeds then it must be the hostname which is 
-	// either hostname or hostname.local
-        char hname[100];
-        gethostname(hname, 100);
-        char hname_local[100];
-        strcpy(hname_local, hname);
-        strcat(hname_local, ".local");
-        if (streq(hp->h_name, hname) || streq(hp->h_name,hname_local))
-	  {
-	    // no - so use IP address
-	    host = atoms->add(ipstr);
-	  }
-	else
-	  {
-	    host = atoms->add(hp->h_name);
-	  }
+  host = atoms->add(ipstr);
+  // if (ip_to_ipnum(ipstr, ip_num) == -1 ||
+  //     ipnum_to_ip(ip_num, ip_name) == -1)  
+  //   {
+  //     // we can't look up name given address so just use dotted IP
+  //     host = atoms->add(ipstr);
+  //   } 
+  // else 
+  //   {
+  //     host = atoms->add(ip_name);
+  //     /*
+  //       // check if we can look up the same IP from hostname 
+  //       //hostent *hp2 = gethostbyname(hp->h_name);
+  //       //cerr << hp->h_name << " " << hp2->h_name << endl;
+  //       //if ((hp2 == NULL) or !streq(hp->h_name, hp2->h_name))
+  //       char *str, *token, *saveptr, *lasttoken;
+  //       int num;
+  //       // If hp->h_name does not really do a DNS lookup but
+  //       // succeeds then it must be the hostname which is 
+  //       // either hostname or hostname.local
+  //       char hname[100];
+  //       gethostname(hname, 100);
+  //       char hname_local[100];
+  //       strcpy(hname_local, hname);
+  //       strcat(hname_local, ".local");
+  //       if (streq(hp->h_name, hname) || streq(hp->h_name,hname_local))
+  //         {
+  //           // no - so use IP address
+  //           host = atoms->add(ipstr);
+  //         }
+  //       else
+  //         {
+  //           host = atoms->add(hp->h_name);
+  //         }
 
-      */
-      }
+  //     */
+  //     }
 
   // buff now contains flag - test if "ok\n"
   return (strcmp(buff, "ok\n") == 0);

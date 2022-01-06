@@ -40,7 +40,7 @@ export OPTIMISATION=-O2
 
 #export DEBUGGING=
 
-export CXXFLAGS = @GCC_ALIAS_FLAG@ -Wall -D_GNU_SOURCE=1 $(OPTIMISATION) @DEBUGGING@ @GCCINCLUDES@ -Wno-uninitialized `pkg-config --cflags libpcre`
+export CXXFLAGS = -std=c++11 @GCC_ALIAS_FLAG@ -Wall -D_GNU_SOURCE=1 $(OPTIMISATION) @DEBUGGING@ @GCCINCLUDES@ -Wno-uninitialized `pkg-config --cflags libpcre`
 export QACXXFLAGS = -Wall -D_GNU_SOURCE=1 @DEBUGGING@ @GCCINCLUDES@ -Wno-uninitialized
 
 .PHONY: all

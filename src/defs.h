@@ -43,10 +43,13 @@ typedef short           int16;
 typedef unsigned short  word16;
 typedef int             int32;
 typedef unsigned int    word32;
-typedef unsigned long         	wordlong;
-typedef unsigned long         	wordptr;
+typedef unsigned long long      wordlong;
+typedef unsigned long long      wordptr;
 typedef wordptr                 heapobject;
+typedef long long               qint64;
 typedef word8 	*CodeLoc;
+const wordptr WORDPTR_MAX = (wordptr) -1LL;
+
 #else
 
 typedef char			int8;
@@ -55,10 +58,12 @@ typedef SHORT_TYPE		int16;
 typedef unsigned SHORT_TYPE	word16;
 typedef INT_TYPE		int32;
 typedef unsigned INT_TYPE	word32;
-typedef unsigned long         	wordlong;
-typedef unsigned long         	wordptr;
+typedef unsigned long           wordlong;
+typedef unsigned long           wordptr;
 typedef wordptr                 heapobject;
+typedef long                    qint64;
 typedef word8 	*CodeLoc;
+const wordptr WORDPTR_MAX = (wordptr) -1L;
 #endif
 //
 // Define a K.
@@ -71,7 +76,6 @@ const	word32	NUMBER_X_REGISTERS	= 20;
 const	word32	PILE_SIZE		= 1;
 
 const word32 WORD32_MAX	= (word32) -1;
-const wordptr WORDPTR_MAX = (wordptr) -1L;
 
 const word32 NULL_LOC	= 0;
 const word32 EMPTY_LOC	= WORD32_MAX;
@@ -137,9 +141,9 @@ enum IOType {
 };
 
 enum IODirection {
-  INPUT,
-  OUTPUT,
-  INPUT_OUTPUT
+  QP_INPUT,
+  QP_OUTPUT,
+  QP_INPUT_OUTPUT
 };
 
 

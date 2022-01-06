@@ -57,7 +57,7 @@ Thread::psi_functor(Object *& object1, Object *& object2, Object *& object3)
   if (val1->isStructure())
     {
       Structure* str = OBJECT_CAST(Structure*, val1);
-      Object* arity_object = heap.newInteger(static_cast<long>(str->getArity()));
+      Object* arity_object = heap.newInteger(static_cast<qint64>(str->getArity()));
       return BOOL_TO_RV(unify(val2, str->getFunctor()) && 
 		        unify(val3, arity_object));
     }   
@@ -128,7 +128,7 @@ Thread::psi_functor(Object *& object1, Object *& object2, Object *& object3)
       if (pval.getTerm()->isStructure())
 	{     
 	  Structure* str = OBJECT_CAST(Structure*, pval.getTerm());
-	  Object* arity_object = heap.newInteger(static_cast<long>(str->getArity()));
+	  Object* arity_object = heap.newInteger(static_cast<qint64>(str->getArity()));
           assert(pval.getSubstitutionBlockList()->isCons());
 	  Object* funct 
 	    = heap.newSubstitution(pval.getSubstitutionBlockList(),
@@ -461,7 +461,7 @@ Thread::psi_setarg(Object *& object1, Object *& object2, Object *& object3)
     }
   else if (funct->isCons())
     {
-      if ((i > 0) && (i <= 2)) {
+      if ((i <= 0) && (i > 2)) {
         PSI_ERROR_RETURN(EV_RANGE, 1);
       }
       if(val3->isVariable())

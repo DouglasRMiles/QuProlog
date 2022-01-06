@@ -1,7 +1,7 @@
 %option noyywrap
 %{
 /*
- * Copyright (C) 2000-Wednesday 16 May  13:50:25 AEST 2018 
+ * Copyright (C) 2000-Thu 25 Jun 09:36:43 AEST 2020 
  *
  * Department of Computer Science,
  * University of Queensland

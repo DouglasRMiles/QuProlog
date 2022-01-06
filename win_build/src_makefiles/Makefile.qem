@@ -1,0 +1,41 @@
+export COMMAND.qem = qem
+
+export SOURCES.qem = \
+	qem.cc \
+	qem_options.cc \
+	scheduler.cc
+
+export BASES.qem	= $(basename $(SOURCES.qem))
+export OBJECTS.qem	= $(addsuffix .o,$(BASES.qem))
+
+.PHONY:	all.qem
+all.qem: $(COMMAND.qem)
+
+$(COMMAND.qem): $(OBJECTS.qem) $(BIG_LIBRARY)
+	$(CXX) $(LDFLAGS) -o $(COMMAND.qem) $(OBJECTS.qem) $(BIG_LIBRARY)  -lwsock32 -lws2_32 -lwinmm -L. -lpcre $(BIG_LIBRARY)
+
+.PHONY: install.qem
+install.qem: /home/pjr/qp10.1/bin/$(COMMAND.qem)
+
+/home/pjr/qp10.1/bin/$(COMMAND.qem): $(COMMAND.qem)
+	/bin/install -c $(COMMAND.qem) /home/pjr/qp10.1/bin
+
+.PHONY:	clean.qem
+clean.qem:
+	$(RM) $(OBJECTS.qem) $(COMMAND.qem) Makefile.qem
+
+##BLOCK##
+.PHONY:	clobber.qem
+clobber.qem: clean.qem
+	$(RM) $(GENERATED.qem) /home/pjr/qp10.1/bin/$(COMMAND.qem)
+
+.PHONY: distclean.qem
+distclean.qem: clobber.qem
+
+.PHONY: depend.qem
+depend.qem: $(SOURCES.qem) $(GENERATED.qem)
+	$(CXX) $(CPPFLAGS) -MM $(SOURCES.qem) > Dependencies.qem
+
+include Dependencies.qem
+##ENDBLOCK##
+
